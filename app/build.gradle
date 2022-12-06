@@ -1,0 +1,88 @@
+plugins {
+    id 'com.android.application'
+}
+
+android {
+    compileSdk 31
+
+    defaultConfig {
+        applicationId "com.ccaong.warehousingmanager"
+        minSdk 21
+        targetSdk 31
+        versionCode 9
+        versionName "1.2.9"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        ndk {
+            abiFilters "armeabi", "armeabi-v7a"
+        }
+
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    sourceSets {
+        main {
+            //这个配置是必须的，如果你的so文件放在了libs/armeabi/下，则下面srcDir = libs即可
+            jniLibs.srcDirs = ['src/main/jniLibs']
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    dataBinding {
+        enabled = true
+    }
+
+}
+
+dependencies {
+
+    implementation 'androidx.appcompat:appcompat:1.4.2'
+    implementation 'com.google.android.material:material:1.6.1'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
+    implementation "androidx.lifecycle:lifecycle-common-java8:2.4.0"
+    implementation "android.arch.lifecycle:common-java8:1.1.1"
+    //    RxJava
+    implementation 'io.reactivex.rxjava2:rxandroid:2.0.2'
+    implementation 'io.reactivex.rxjava2:rxjava:2.1.12'
+    //    retrofit2
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.4.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+    //下拉刷新
+    implementation 'io.github.scwang90:refresh-layout-kernel:2.0.5'      //核心必须依赖
+    implementation 'io.github.scwang90:refresh-header-classics:2.0.5'    //经典刷新头
+    implementation 'io.github.scwang90:refresh-footer-classics:2.0.5'    //经典加载
+
+    //hawk数据存储
+    implementation "com.orhanobut:hawk:2.0.1"
+
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+//    implementation files('libs/API_2.jar')
+//    implementation files('libs/classes.jar')
+//    implementation files('libs/cw-deviceapi20190214.jar')
+//    implementation files('libs/device.jar')
+//    implementation files('libs/hitownsdk.jar')
+//    implementation files('libs/jxl.jar')
+//    implementation files('libs/kaicomUHF.jar')
+//    implementation files('libs/Module_Android_Power.jar')
+//    implementation files('libs/ModuleAPI_J.jar')
+//    implementation files('libs/PosApi_X5_V1.03_20190710.jar')
+//    implementation files('libs/trinea-android-common.jar')
+//    implementation files('libs/UHFDevice.jar')
+
+}

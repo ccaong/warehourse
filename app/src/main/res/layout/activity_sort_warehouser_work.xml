@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.ccaong.warehousingmanager.ui.activity.sort.work.SortWarehouseWorkViewModel" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/background">
+
+        <EditText
+            android:id="@+id/et_fo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:textSize="@dimen/dimen_8"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent" />
+
+
+        <!--    <LinearLayout-->
+        <!--        android:layout_width="match_parent"-->
+        <!--        android:layout_height="match_parent"-->
+        <!--        android:background="@color/background"-->
+        <!--        android:orientation="vertical">-->
+
+        <LinearLayout
+            android:id="@+id/ll_1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:padding="@dimen/dimen_8"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="载具码" />
+
+            <TextView
+                android:id="@+id/zj"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="end"
+                android:text="haha" />
+
+        </LinearLayout>
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_list"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@+id/tv_submit"
+            app:layout_constraintTop_toBottomOf="@+id/ll_1" />
+
+        <!--        <androidx.cardview.widget.CardView-->
+        <!--            android:id="@+id/item"-->
+        <!--            app:layout_constraintTop_toBottomOf="@+id/ll_1"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_margin="@dimen/dimen_8">-->
+
+        <!--            <androidx.constraintlayout.widget.ConstraintLayout-->
+        <!--                android:layout_width="match_parent"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                android:padding="@dimen/dimen_8">-->
+
+        <!--                <TextView-->
+        <!--                    android:id="@+id/tv_1"-->
+        <!--                    android:layout_width="wrap_content"-->
+        <!--                    android:layout_height="wrap_content"-->
+        <!--                    android:layout_marginTop="@dimen/dimen_8"-->
+        <!--                    android:text="物料名称:"-->
+        <!--                    app:layout_constraintLeft_toLeftOf="parent"-->
+        <!--                    app:layout_constraintTop_toTopOf="parent" />-->
+
+        <!--                <TextView-->
+        <!--                    android:layout_width="wrap_content"-->
+        <!--                    android:layout_height="wrap_content"-->
+        <!--                    android:layout_marginStart="@dimen/dimen_8"-->
+        <!--                    android:layout_marginTop="@dimen/dimen_8"-->
+        <!--                    android:text="@{viewModel.data.goodsInfo.goodsTypeName}"-->
+        <!--                    app:layout_constraintLeft_toRightOf="@+id/tv_1"-->
+        <!--                    app:layout_constraintTop_toTopOf="parent" />-->
+
+
+        <!--                <TextView-->
+        <!--                    android:id="@+id/tv_2"-->
+        <!--                    android:layout_width="wrap_content"-->
+        <!--                    android:layout_height="wrap_content"-->
+        <!--                    android:layout_marginTop="@dimen/dimen_8"-->
+        <!--                    android:text="库存数量:"-->
+        <!--                    app:layout_constraintLeft_toLeftOf="parent"-->
+        <!--                    app:layout_constraintTop_toBottomOf="@+id/tv_1" />-->
+
+        <!--                <TextView-->
+        <!--                    android:layout_width="wrap_content"-->
+        <!--                    android:layout_height="wrap_content"-->
+        <!--                    android:layout_marginStart="@dimen/dimen_8"-->
+        <!--                    android:layout_marginTop="@dimen/dimen_8"-->
+        <!--                    app:int2String="@{viewModel.data.goodsInfo.realAmount}"-->
+        <!--                    app:layout_constraintLeft_toRightOf="@+id/tv_2"-->
+        <!--                    app:layout_constraintTop_toBottomOf="@+id/tv_1" />-->
+
+        <!--                <TextView-->
+        <!--                    android:id="@+id/tv_3"-->
+        <!--                    android:layout_width="wrap_content"-->
+        <!--                    android:layout_height="wrap_content"-->
+        <!--                    android:text="拣货数量:"-->
+
+        <!--                    app:layout_constraintBottom_toBottomOf="@+id/et_num"-->
+        <!--                    app:layout_constraintLeft_toLeftOf="parent"-->
+        <!--                    app:layout_constraintTop_toTopOf="@+id/et_num" />-->
+
+        <!--                <EditText-->
+        <!--                    android:id="@+id/et_num"-->
+        <!--                    android:layout_width="0dp"-->
+        <!--                    android:layout_height="wrap_content"-->
+        <!--                    android:layout_marginLeft="@dimen/dimen_8"-->
+        <!--                    android:layout_marginTop="@dimen/dimen_8"-->
+        <!--                    android:layout_marginRight="@dimen/dimen_8"-->
+        <!--                    android:background="@drawable/et_background"-->
+        <!--                    android:paddingStart="@dimen/dimen_8"-->
+        <!--                    android:paddingTop="@dimen/dimen_4"-->
+        <!--                    android:paddingBottom="@dimen/dimen_4"-->
+        <!--                    android:textSize="15sp"-->
+        <!--                    app:int2String="@{viewModel.data.goodsInfo.goodsAmount}"-->
+        <!--                    app:layout_constraintLeft_toRightOf="@+id/tv_3"-->
+        <!--                    app:layout_constraintRight_toRightOf="parent"-->
+        <!--                    app:layout_constraintTop_toBottomOf="@+id/tv_2" />-->
+
+
+        <!--            </androidx.constraintlayout.widget.ConstraintLayout>-->
+
+        <!--        </androidx.cardview.widget.CardView>-->
+
+        <TextView
+            android:id="@+id/tv_submit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/theme"
+            android:gravity="center"
+            android:padding="12dp"
+            android:text="完成"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.ccaong.warehousingmanager.ui.activity.setting.SettingViewModel" />
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin"
+            android:text="物料码规则："
+            android:textSize="18sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{viewModel.goodsRules}"
+            android:textSize="18sp" />
+
+        <Button
+            android:id="@+id/btn_set_wl"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="修改物料码规则"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="位置码规则："
+            android:textSize="18sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{viewModel.localRules}"
+            android:textSize="18sp" />
+
+        <Button
+            android:id="@+id/btn_set_wz"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="修改位置码规则" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="载具码规则："
+            android:textSize="18sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{viewModel.containerRules}"
+            android:textSize="18sp" />
+
+        <Button
+            android:id="@+id/btn_set_zj"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="修改载具码规则" />
+
+    </LinearLayout>
+
+</layout>

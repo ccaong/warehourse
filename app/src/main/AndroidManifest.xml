@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.ccaong.warehousingmanager"
+    android:sharedUserId="android.uid.system">
+
+
+    <uses-permission android:name="android.permission.READ_PRIVILEGED_PHONE_STATE" />
+    <uses-permission android:name="com.android.serial.BARCODEPORT_RECEIVEDDATA_ACTION" />
+    <uses-permission android:name="com.android.portservice.BARCODEPORT_WRITEDATA_ACTION" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" /> <!-- <uses-permission android:name="android.permission.DEVICE_POWER" /> -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+
+    <uses-permission
+        android:name="android.permission.WRITE_SETTINGS"
+        tools:ignore="ProtectedPermissions" />
+    <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
+
+
+    <application
+        android:name=".App"
+        android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:networkSecurityConfig="@xml/network_security_config"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.WareHousingManager"
+        tools:targetApi="31">
+
+        <activity
+            android:name=".ui.activity.login.LoginActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+        </activity>
+
+        <activity android:name=".ui.activity.main.MainActivity" />
+
+        <!--入库-->
+        <activity android:name=".ui.activity.save.SaveWareHouseActivity" />
+        <activity android:name=".ui.activity.save.detail.SaveDetailActivity" />
+        <activity android:name=".ui.activity.save.group.GroupProductActivity" />
+
+        <!--拣货-->
+        <activity android:name=".ui.activity.sort.SortWareHouseActivity" />
+        <activity android:name=".ui.activity.sort.detail.SortWarehouseDetailActivity" />
+        <activity android:name=".ui.activity.sort.work.SortWarehouseWorkActivity" />
+
+        <!--盘点-->
+        <activity android:name=".ui.activity.inventory.InventoryActivity" />
+        <activity android:name=".ui.activity.inventory.detail.InventoryDetailActivity" />
+        <activity android:name=".ui.activity.inventory.work.InventoryWorkActivity" />
+        <activity
+            android:name=".ui.activity.inventory.manual.SortManualActivity"
+            android:theme="@style/TranslucentTheme" />
+
+        <!--上架-->
+        <activity android:name=".ui.activity.put.PutShelvesActivity" />
+        <activity android:name=".ui.activity.put.detail.PutDetailActivity" />
+        <activity
+            android:name=".ui.activity.put.manual.PutManualActivity"
+            android:theme="@style/TranslucentTheme" />
+
+
+        <!--下架-->
+        <activity android:name=".ui.activity.lower.LowerShelvesActivity" />
+        <activity android:name=".ui.activity.lower.detail.LowerDetailActivity" />
+
+
+        <!--快速入库-->
+        <activity android:name=".ui.activity.quick.QuickWarehousingActivity" />
+
+        <!--载具查询-->
+        <activity android:name=".ui.activity.vehicle.VehicleQueryActivity" />
+
+        <!--配置服务器地址-->
+        <activity
+            android:name=".ui.activity.server.ServerSettingActivity"
+            android:theme="@style/TranslucentTheme" />
+        <activity android:name=".ui.activity.quick.select.SelectDeptActivity" />
+        <activity android:name=".ui.activity.setting.SettingActivity" />
+        <activity android:name=".ui.activity.setting.rules.ConfigureRulesActivity" />
+
+    </application>
+
+</manifest>

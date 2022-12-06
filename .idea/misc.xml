@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/02_AndroidProject/WareHousingManager/app/src/main/res/layout/activity_group_product.xml" value="0.20425724637681159" />
+        <entry key="..\:/02_AndroidProject/WareHousingManager/app/src/main/res/layout/activity_lower_detail.xml" value="0.25052083333333336" />
+        <entry key="..\:/02_AndroidProject/WareHousingManager/app/src/main/res/layout/activity_quick_warehousing.xml" value="0.13632246376811594" />
+        <entry key="..\:/02_AndroidProject/WareHousingManager/app/src/main/res/layout/activity_save_detail.xml" value="0.36302083333333335" />
+        <entry key="..\:/02_AndroidProject/WareHousingManager/app/src/main/res/layout/activity_sort_warehouse_detail.xml" value="0.2" />
+        <entry key="..\:/02_AndroidProject/WareHousingManager/app/src/main/res/layout/activity_sort_warehouser_work.xml" value="0.176" />
+        <entry key="..\:/02_AndroidProject/WareHousingManager/app/src/main/res/layout/item_put_detail.xml" value="0.25052083333333336" />
+        <entry key="..\:/02_AndroidProject/WareHousingManager/app/src/main/res/layout/item_sort.xml" value="0.4" />
+        <entry key="..\:/02_AndroidProject/WareHousingManager/app/src/main/res/layout/item_sort_product.xml" value="0.36302083333333335" />
+        <entry key="..\:/02_AndroidProject/WareHousingManager/app/src/main/res/layout/item_sort_work.xml" value="0.25052083333333336" />
+        <entry key="..\:/AndroidProject/WareHousingManager/app/src/main/res/drawable/bg_circle_blue.xml" value="0.2225" />
+        <entry key="..\:/AndroidProject/WareHousingManager/app/src/main/res/drawable/bg_edittext.xml" value="0.1425" />
+        <entry key="..\:/AndroidProject/WareHousingManager/app/src/main/res/drawable/et_background.xml" value="0.2155" />
+        <entry key="..\:/AndroidProject/WareHousingManager/app/src/main/res/drawable/ic_launcher_background.xml" value="0.1425" />
+        <entry key="..\:/AndroidProject/WareHousingManager/app/src/main/res/drawable/menu_item_bg1.xml" value="0.2" />
+        <entry key="..\:/AndroidProject/WareHousingManager/app/src/main/res/drawable/menu_item_bg2.xml" value="0.2225" />
+        <entry key="..\:/AndroidProject/WareHousingManager/app/src/main/res/drawable/menu_item_bg3.xml" value="0.2225" />
+        <entry key="..\:/AndroidProject/WareHousingManager/app/src/main/res/drawable/menu_item_bg4.xml" value="0.2225" />
+        <entry key="..\:/AndroidProject/WareHousingManager/app/src/main/res/drawable/menu_item_bg5.xml" value="0.2225" />
+        <entry key="..\:/AndroidProject/WareHousingManager/app/src/main/res/drawable/menu_item_bg6.xml" value="0.2225" />
+        <entry key="..\:/AndroidProject/WareHousingManager/app/src/main/res/drawable/menu_item_bg7.xml" value="0.2225" />
+        <entry key="..\:/AndroidProject/WareHousingManager/app/src/main/res/drawable/menu_item_bg8.xml" value="0.2225" />
+        <entry key="..\:/AndroidProject/WareHousingManager/app/src/main/res/drawable/menu_item_bg9.xml" value="0.2225" />
+        <entry key="..\:/AndroidProject/WareHousingManager/app/src/main/res/drawable/spinner_background.xml" value="0.1925" />
+        <entry key="..\:/AndroidProject/WareHousingManager/app/src/main/res/layout/activity_base.xml" value="0.25052083333333336" />
+        <entry key="..\:/AndroidProject/WareHousingManager/app/src/main/res/layout/activity_config_rules.xml" value="0.12" />
+        <entry key="..\:/AndroidProject/WareHousingManager/app/src/main/res/layout/activity_group_product.xml" value="0.264" />
+        <entry key="..\:/AndroidProject/WareHousingManager/app/src/main/res/layout/activity_inventor.xml" value="0.3619791666666667" />
+        <entry key="..\:/AndroidProject/WareHousingManager/app/src/main/res/layout/activity_inventory_detail.xml" value="0.36302083333333335" />
+        <entry key="..\:/AndroidProject/WareHousingManager/app/src/main/res/layout/activity_inventory_work.xml" value="0.36302083333333335" />
+        <entry key="..\:/AndroidProject/WareHousingManager/app/src/main/res/layout/activity_list.xml" value="0.17654508611955422" />
+        <entry key="..\:/AndroidProject/WareHousingManager/app/src/main/res/layout/activity_login.xml" value="0.23697916666666666" />
+        <entry key="..\:/AndroidProject/WareHousingManager/app/src/main/res/layout/activity_lower_detail.xml" value="0.36302083333333335" />
+        <entry key="..\:/AndroidProject/WareHousingManager/app/src/main/res/layout/activity_lower_shelves.xml" value="0.36302083333333335" />
+        <entry key="..\:/AndroidProject/WareHousingManager/app/src/main/res/layout/activity_main.xml" value="0.25052083333333336" />
+        <entry key="..\:/AndroidProject/WareHousingManager/app/src/main/res/layout/activity_put_detail.xml" value="0.36302083333333335" />
+        <entry key="..\:/AndroidProject/WareHousingManager/app/src/main/res/layout/activity_put_manual.xml" value="0.25052083333333336" />
+        <entry key="..\:/AndroidProject/WareHousingManager/app/src/main/res/layout/activity_put_shelves.xml" value="0.36302083333333335" />
+        <entry key="..\:/AndroidProject/WareHousingManager/app/src/main/res/layout/activity_quick_warehousing.xml" value="0.264" />
+        <entry key="..\:/AndroidProject/WareHousingManager/app/src/main/res/layout/activity_save_detail.xml" value="0.1" />
+        <entry key="..\:/AndroidProject/WareHousingManager/app/src/main/res/layout/activity_save_waer.xml" value="0.187890625" />
+        <entry key="..\:/AndroidProject/WareHousingManager/app/src/main/res/layout/activity_select_warehouse.xml" value="0.13489583333333333" />
+        <entry key="..\:/AndroidProject/WareHousingManager/app/src/main/res/layout/activity_server.xml" value="0.25052083333333336" />
+        <entry key="..\:/AndroidProject/WareHousingManager/app/src/main/res/layout/activity_setting.xml" value="0.14221014492753623" />
+        <entry key="..\:/AndroidProject/WareHousingManager/app/src/main/res/layout/activity_sort_manual.xml" value="0.2" />
+        <entry key="..\:/AndroidProject/WareHousingManager/app/src/main/res/layout/activity_sort_waer.xml" value="0.36302083333333335" />
+        <entry key="..\:/AndroidProject/WareHousingManager/app/src/main/res/layout/activity_sort_warehouse.xml" value="0.36302083333333335" />
+        <entry key="..\:/AndroidProject/WareHousingManager/app/src/main/res/layout/activity_sort_warehouse_detail.xml" value="0.25052083333333336" />
+        <entry key="..\:/AndroidProject/WareHousingManager/app/src/main/res/layout/activity_sort_warehouser_work.xml" value="0.24947916666666667" />
+        <entry key="..\:/AndroidProject/WareHousingManager/app/src/main/res/layout/activity_vehicle_query.xml" value="0.3619791666666667" />
+        <entry key="..\:/AndroidProject/WareHousingManager/app/src/main/res/layout/dialog_invertory_product.xml" value="0.36302083333333335" />
+        <entry key="..\:/AndroidProject/WareHousingManager/app/src/main/res/layout/dialog_loading.xml" value="0.3484375" />
+        <entry key="..\:/AndroidProject/WareHousingManager/app/src/main/res/layout/dialog_setver.xml" value="0.24947916666666667" />
+        <entry key="..\:/AndroidProject/WareHousingManager/app/src/main/res/layout/fragment_menu.xml" value="0.2" />
+        <entry key="..\:/AndroidProject/WareHousingManager/app/src/main/res/layout/fragment_mine.xml" value="0.24947916666666667" />
+        <entry key="..\:/AndroidProject/WareHousingManager/app/src/main/res/layout/item_dept.xml" value="0.25052083333333336" />
+        <entry key="..\:/AndroidProject/WareHousingManager/app/src/main/res/layout/item_group_product.xml" value="0.24947916666666667" />
+        <entry key="..\:/AndroidProject/WareHousingManager/app/src/main/res/layout/item_inventor_detail.xml" value="0.3619791666666667" />
+        <entry key="..\:/AndroidProject/WareHousingManager/app/src/main/res/layout/item_inventor_work.xml" value="0.25" />
+        <entry key="..\:/AndroidProject/WareHousingManager/app/src/main/res/layout/item_invertor.xml" value="0.25" />
+        <entry key="..\:/AndroidProject/WareHousingManager/app/src/main/res/layout/item_lower.xml" value="0.36302083333333335" />
+        <entry key="..\:/AndroidProject/WareHousingManager/app/src/main/res/layout/item_lower_detail.xml" value="0.36302083333333335" />
+        <entry key="..\:/AndroidProject/WareHousingManager/app/src/main/res/layout/item_put.xml" value="0.17654508611955422" />
+        <entry key="..\:/AndroidProject/WareHousingManager/app/src/main/res/layout/item_put_detail.xml" value="0.36302083333333335" />
+        <entry key="..\:/AndroidProject/WareHousingManager/app/src/main/res/layout/item_quick.xml" value="0.36302083333333335" />
+        <entry key="..\:/AndroidProject/WareHousingManager/app/src/main/res/layout/item_sort.xml" value="0.36302083333333335" />
+        <entry key="..\:/AndroidProject/WareHousingManager/app/src/main/res/layout/item_sort_product.xml" value="0.33" />
+        <entry key="..\:/AndroidProject/WareHousingManager/app/src/main/res/layout/item_sort_work.xml" value="0.24947916666666667" />
+        <entry key="..\:/AndroidProject/WareHousingManager/app/src/main/res/layout/item_spinner.xml" value="0.17654508611955422" />
+        <entry key="..\:/AndroidProject/WareHousingManager/app/src/main/res/layout/item_vehicle.xml" value="0.36302083333333335" />
+        <entry key="..\:/AndroidProject/WareHousingManager/app/src/main/res/layout/item_warehouse_detail.xml" value="0.36302083333333335" />
+        <entry key="..\:/AndroidProject/WareHousingManager/app/src/main/res/layout/item_warehousing.xml" value="0.36302083333333335" />
+        <entry key="..\:/AndroidProject/WareHousingManager/app/src/main/res/xml/menu.xml" value="0.25052083333333336" />
+        <entry key="..\:/AndroidProject/WareHousingManager/app/src/main/res/xml/network_security_config.xml" value="0.13489583333333333" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>
