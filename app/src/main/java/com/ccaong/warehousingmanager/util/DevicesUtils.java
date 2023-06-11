@@ -14,7 +14,7 @@ import androidx.core.content.ContextCompat;
 import java.lang.reflect.Method;
 
 /**
- * @author eyecool
+ * @author caocong
  * @date 2022/10/13
  */
 public class DevicesUtils {

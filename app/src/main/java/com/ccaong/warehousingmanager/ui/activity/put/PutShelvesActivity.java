@@ -4,7 +4,6 @@ import static com.ccaong.warehousingmanager.App.getContext;
 
 import android.content.Intent;
 import android.view.View;
-import android.widget.Toast;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 
@@ -12,29 +11,28 @@ import com.ccaong.warehousingmanager.BR;
 import com.ccaong.warehousingmanager.R;
 import com.ccaong.warehousingmanager.base.BaseActivity;
 import com.ccaong.warehousingmanager.base.adapter.CommonAdapter;
-import com.ccaong.warehousingmanager.bean.InventoryListResponse;
 import com.ccaong.warehousingmanager.bean.PutTaskListResponse;
-import com.ccaong.warehousingmanager.bean.TestBean;
 import com.ccaong.warehousingmanager.databinding.ActivityListBinding;
-import com.ccaong.warehousingmanager.databinding.ActivityPutShelvesBinding;
-import com.ccaong.warehousingmanager.http.HttpDisposable;
-import com.ccaong.warehousingmanager.http.HttpFactory;
-import com.ccaong.warehousingmanager.http.HttpRequest;
-import com.ccaong.warehousingmanager.ui.activity.inventory.InventoryActivity;
 import com.ccaong.warehousingmanager.ui.activity.put.detail.PutDetailActivity;
-import com.ccaong.warehousingmanager.ui.activity.save.detail.SaveDetailActivity;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author eyecool
+ * @author caocong
  * @date 2022/9/19
  */
 public class PutShelvesActivity extends BaseActivity<ActivityListBinding, PutShelvesViewModel> {
-    private int page = 1;
-    private List<PutTaskListResponse.RowsDTO> list = new ArrayList<>();
-    private CommonAdapter<PutTaskListResponse.RowsDTO> commonAdapter;
+
+    private List<PutTaskListResponse.RowsDTO.ListDTO> list = new ArrayList<>();
+    private CommonAdapter<PutTaskListResponse.RowsDTO.ListDTO> commonAdapter;
+
+
+    @Override
+    protected void handleIntent(Intent intent) {
+        super.handleIntent(intent);
+        list = (List<PutTaskListResponse.RowsDTO.ListDTO>) intent.getSerializableExtra("LIST");
+    }
 
     @Override
     protected int getLayoutResId() {
@@ -53,36 +51,15 @@ public class PutShelvesActivity extends BaseActivity<ActivityListBinding, PutShe
 
     @Override
     protected void init() {
-
         actionBar.setTitle("上架任务列表");
-
         initRecyclerView();
-
-        //刷新列表
-        mDataBinding.refreshLayout.setOnRefreshListener(refreshLayout -> {
-            page = 1;
-            loadData();
-        });
-
-        // 加载更多
-        mDataBinding.refreshLayout.setOnLoadMoreListener(refreshLayout -> {
-            page++;
-            loadData();
-        });
-
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        page = 1;
-        loadData();
-    }
 
     private void initRecyclerView() {
-        commonAdapter = new CommonAdapter<PutTaskListResponse.RowsDTO>(R.layout.item_put, BR.putData) {
+        commonAdapter = new CommonAdapter<PutTaskListResponse.RowsDTO.ListDTO>(R.layout.item_put, BR.putData) {
             @Override
-            public void addListener(View root, PutTaskListResponse.RowsDTO itemData, int position) {
+            public void addListener(View root, PutTaskListResponse.RowsDTO.ListDTO itemData, int position) {
                 super.addListener(root, itemData, position);
 
                 root.setOnClickListener(view -> {
@@ -95,34 +72,7 @@ public class PutShelvesActivity extends BaseActivity<ActivityListBinding, PutShe
         };
         mDataBinding.rvList.setAdapter(commonAdapter);
         mDataBinding.rvList.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        commonAdapter.onItemDatasChanged(list);
     }
-
-    private void loadData() {
-
-        HttpRequest.getInstance()
-                .getPutTaskList(page, 10)
-                .compose(HttpFactory.schedulers())
-                .subscribe(new HttpDisposable<PutTaskListResponse>() {
-                    @Override
-                    public void success(PutTaskListResponse bean) {
-                        if (bean.getCode() == 200) {
-
-                            if (page == 1) {
-                                list = bean.getRows();
-                            } else {
-                                list.addAll(bean.getRows());
-                            }
-                            mDataBinding.refreshLayout.finishRefresh();
-                            mDataBinding.refreshLayout.finishLoadMore();
-                            mDataBinding.refreshLayout.setNoMoreData(list.size() >= bean.getTotal());
-
-                            commonAdapter.onItemDatasChanged(list);
-                        } else {
-
-                            Toast.makeText(PutShelvesActivity.this, bean.getMsg(), Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
-    }
-
 }

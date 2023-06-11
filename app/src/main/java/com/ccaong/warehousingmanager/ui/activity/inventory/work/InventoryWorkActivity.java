@@ -2,15 +2,9 @@ package com.ccaong.warehousingmanager.ui.activity.inventory.work;
 
 import static com.ccaong.warehousingmanager.App.getContext;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
@@ -21,13 +15,13 @@ import com.ccaong.warehousingmanager.base.adapter.CommonAdapter;
 import com.ccaong.warehousingmanager.bean.InventoryDetailResponse;
 import com.ccaong.warehousingmanager.config.Constant;
 import com.ccaong.warehousingmanager.databinding.ActivityInventoryWorkBinding;
-import com.ccaong.warehousingmanager.ui.activity.inventory.manual.SortManualActivity;
+import com.ccaong.warehousingmanager.util.CodeParseUtils;
 import com.orhanobut.hawk.Hawk;
 
 /**
  * 盘点
  *
- * @author eyecool
+ * @author caocong
  * @date 2022/9/21
  */
 public class InventoryWorkActivity extends BaseActivity<ActivityInventoryWorkBinding, InventoryWorkViewModel> {
@@ -37,22 +31,32 @@ public class InventoryWorkActivity extends BaseActivity<ActivityInventoryWorkBin
     String id;
     String code;
 
+
+    @Override
+    protected boolean isSupportScan() {
+        return true;
+    }
+
+    @Override
+    protected void startScan() {
+        super.startScan();
+        mDataBinding.etFo.requestFocus();
+    }
+
+    @Override
+    protected void scanResult(String result) {
+        super.scanResult(result);
+        if (CodeParseUtils.isGoodsCode(result)) {
+            changeData(CodeParseUtils.getGoodSkuCode(result), 1);
+        }
+    }
+
     @Override
     protected void handleIntent(Intent intent) {
         super.handleIntent(intent);
         id = intent.getStringExtra("ID");
         code = intent.getStringExtra("C_CODE");
     }
-
-    ActivityResultLauncher<Intent> intentActivityResultLauncher =
-            registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
-                if (result.getData() != null && result.getResultCode() == Activity.RESULT_OK) {
-                    String id = result.getData().getStringExtra("ID");
-                    int num = result.getData().getIntExtra("NUM", 1);
-                    changeData(id, num);
-                }
-            });
-
 
     @Override
     protected int getLayoutResId() {
@@ -67,23 +71,6 @@ public class InventoryWorkActivity extends BaseActivity<ActivityInventoryWorkBin
     @Override
     protected void bindViewModel() {
 
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-
-        if (item.getItemId() == R.id.scan) {
-            Intent intent = new Intent(this, SortManualActivity.class);
-            intentActivityResultLauncher.launch(intent);
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
     }
 
 

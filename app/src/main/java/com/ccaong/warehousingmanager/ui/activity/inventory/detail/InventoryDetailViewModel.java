@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @author eyecool
+ * @author caocong
  * @date 2022/9/23
  */
 public class InventoryDetailViewModel extends BaseViewModel {
@@ -47,8 +47,6 @@ public class InventoryDetailViewModel extends BaseViewModel {
                     public void success(InventoryDetailResponse bean) {
                         if (bean.getCode() == 200) {
                             data.postValue(bean.getData());
-                        } else {
-                            Log.e("盘点详情加载出错", bean.getMsg());
                         }
                     }
                 });

@@ -1,7 +1,7 @@
 package com.ccaong.warehousingmanager.bean;
 
 /**
- * @author eyecool
+ * @author caocong
  * @date 2022/9/20
  */
 public class UserInfoResponse {

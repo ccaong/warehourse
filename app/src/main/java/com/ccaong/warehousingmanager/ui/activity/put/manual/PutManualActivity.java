@@ -10,10 +10,17 @@ import android.widget.Toast;
 import com.ccaong.warehousingmanager.R;
 import com.ccaong.warehousingmanager.base.BaseActivity;
 import com.ccaong.warehousingmanager.base.viewmodel.BaseViewModel;
+import com.ccaong.warehousingmanager.bean.EmptyResponse;
+import com.ccaong.warehousingmanager.bean.ValidLocationResponse;
 import com.ccaong.warehousingmanager.databinding.ActivityPutManualBinding;
+import com.ccaong.warehousingmanager.http.HttpDisposable;
+import com.ccaong.warehousingmanager.http.HttpFactory;
+import com.ccaong.warehousingmanager.http.HttpRequest;
+import com.ccaong.warehousingmanager.ui.activity.put.detail.PutDetailActivity;
+import com.ccaong.warehousingmanager.util.CodeParseUtils;
 
 /**
- * @author eyecool
+ * @author caocong
  * @date 2022/9/21
  */
 public class PutManualActivity extends BaseActivity<ActivityPutManualBinding, BaseViewModel> {
@@ -22,6 +29,11 @@ public class PutManualActivity extends BaseActivity<ActivityPutManualBinding, Ba
 
     @Override
     protected boolean isSupportScan() {
+        return true;
+    }
+
+    @Override
+    protected boolean isSupportRfid() {
         return true;
     }
 
@@ -56,12 +68,52 @@ public class PutManualActivity extends BaseActivity<ActivityPutManualBinding, Ba
     protected void startScan() {
         super.startScan();
         mDataBinding.etWz.setText("");
-        mDataBinding.etWz.requestFocus();
+        mDataBinding.etWz.clearFocus();
+        mDataBinding.etZj.clearFocus();
     }
 
     @Override
     protected void scanResult(String result) {
         Log.e(TAG1, "位置码：" + result);
+        if (CodeParseUtils.isLocalCode(result)) {
+            getValidLocation(result);
+        }
+    }
+
+    @Override
+    protected void rfidResult(String result) {
+        super.rfidResult(result);
+        if (CodeParseUtils.rfidIsLocalCode(result)) {
+            String code = CodeParseUtils.getRfidLocalCode(result);
+            getValidLocation(code);
+        }
+    }
+
+
+    private void getValidLocation(String id) {
+        HttpRequest.getInstance()
+                .getValidLocation(id)
+                .compose(HttpFactory.schedulers())
+                .subscribe(new HttpDisposable<ValidLocationResponse>() {
+                    @Override
+                    public void success(ValidLocationResponse bean) {
+                        if (bean.getCode() == 200) {
+                            if (bean.getData()) {
+                                mDataBinding.etWz.setText(id);
+                            } else {
+                                Toast.makeText(PutManualActivity.this, "扫描的位置不可用！", Toast.LENGTH_SHORT).show();
+                            }
+                        } else {
+                            Toast.makeText(PutManualActivity.this, "扫描的位置不可用！", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        super.onError(e);
+                        Toast.makeText(PutManualActivity.this, "扫描的位置不可用！", Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 
     @Override
@@ -75,13 +127,6 @@ public class PutManualActivity extends BaseActivity<ActivityPutManualBinding, Ba
 
         mDataBinding.ivScanWz.setOnClickListener(view -> scanCode());
 
-//        mDataBinding.ivScanZj.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                // TODO: 2022/10/11 扫码载具码
-//                Toast.makeText(PutManualActivity.this, "扫描载具编码", Toast.LENGTH_SHORT).show();
-//            }
-//        });
     }
 
 

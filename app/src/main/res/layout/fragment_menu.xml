@@ -242,8 +242,9 @@
                 android:gravity="center"
                 android:orientation="vertical"
                 android:padding="12dp"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toLeftOf="@+id/ll_2"
+                android:visibility="gone"
+                app:layout_constraintLeft_toRightOf="@+id/ll_2"
+                app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/ll_4">
 
                 <ImageView
@@ -270,8 +271,8 @@
                 android:gravity="center"
                 android:orientation="vertical"
                 android:padding="12dp"
-                app:layout_constraintLeft_toRightOf="@+id/ll_1"
-                app:layout_constraintRight_toLeftOf="@+id/ll_3"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@+id/ll_2"
                 app:layout_constraintTop_toBottomOf="@+id/ll_4">
 
                 <ImageView
@@ -297,8 +298,8 @@
                 android:gravity="center"
                 android:orientation="vertical"
                 android:padding="12dp"
-                app:layout_constraintLeft_toRightOf="@+id/ll_2"
-                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintLeft_toRightOf="@+id/ll_1"
+                app:layout_constraintRight_toLeftOf="@+id/ll_3"
                 app:layout_constraintTop_toBottomOf="@+id/ll_4">
 
                 <ImageView
@@ -315,6 +316,35 @@
                     android:textSize="16sp" />
 
             </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/ll_10"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="12dp"
+                app:layout_constraintLeft_toLeftOf="@+id/ll_6"
+                app:layout_constraintRight_toRightOf="@+id/ll_6"
+                app:layout_constraintTop_toBottomOf="@+id/ll_6">
+
+                <ImageView
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:background="@drawable/menu_item_bg7"
+                    android:src="@mipmap/ic_menu_merge" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:text="物资查询"
+                    android:textSize="16sp" />
+
+            </LinearLayout>
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

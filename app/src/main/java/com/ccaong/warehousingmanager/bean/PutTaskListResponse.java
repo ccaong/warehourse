@@ -1,13 +1,13 @@
 package com.ccaong.warehousingmanager.bean;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
- * @author eyecool
+ * @author caocong
  * @date 2022/9/28
  */
 public class PutTaskListResponse {
-
 
     private Integer total;
     private List<RowsDTO> rows;
@@ -46,57 +46,10 @@ public class PutTaskListResponse {
         this.msg = msg;
     }
 
-    public static class RowsDTO {
-        private String createTime;
-        private ParamsDTO params;
-        private String id;
-        private String source;
-        private String orderId;
+    public static class RowsDTO implements Serializable {
+
         private String orderNumber;
-        private String status;
-        private String delFlag;
-        private String storehouseId;
-        private String putType;
-
-        public String getCreateTime() {
-            return createTime;
-        }
-
-        public void setCreateTime(String createTime) {
-            this.createTime = createTime;
-        }
-
-        public ParamsDTO getParams() {
-            return params;
-        }
-
-        public void setParams(ParamsDTO params) {
-            this.params = params;
-        }
-
-        public String getId() {
-            return id;
-        }
-
-        public void setId(String id) {
-            this.id = id;
-        }
-
-        public String getSource() {
-            return source;
-        }
-
-        public void setSource(String source) {
-            this.source = source;
-        }
-
-        public String getOrderId() {
-            return orderId;
-        }
-
-        public void setOrderId(String orderId) {
-            this.orderId = orderId;
-        }
+        private List<PutTaskListResponse.RowsDTO.ListDTO> list;
 
         public String getOrderNumber() {
             return orderNumber;
@@ -106,39 +59,97 @@ public class PutTaskListResponse {
             this.orderNumber = orderNumber;
         }
 
-        public String getStatus() {
-            return status;
+        public List<PutTaskListResponse.RowsDTO.ListDTO> getList() {
+            return list;
         }
 
-        public void setStatus(String status) {
-            this.status = status;
+        public void setList(List<PutTaskListResponse.RowsDTO.ListDTO> list) {
+            this.list = list;
         }
 
-        public String getDelFlag() {
-            return delFlag;
-        }
+        public static class ListDTO implements Serializable {
+            private String createTime;
+            private String id;
+            private String source;
+            private String orderId;
+            private String orderNumber;
+            private String status;
+            private String delFlag;
+            private String storehouseId;
+            private String putType;
 
-        public void setDelFlag(String delFlag) {
-            this.delFlag = delFlag;
-        }
+            public String getCreateTime() {
+                return createTime;
+            }
 
-        public String getStorehouseId() {
-            return storehouseId;
-        }
+            public void setCreateTime(String createTime) {
+                this.createTime = createTime;
+            }
 
-        public void setStorehouseId(String storehouseId) {
-            this.storehouseId = storehouseId;
-        }
+            public String getId() {
+                return id;
+            }
 
-        public String getPutType() {
-            return putType;
-        }
+            public void setId(String id) {
+                this.id = id;
+            }
 
-        public void setPutType(String putType) {
-            this.putType = putType;
-        }
+            public String getSource() {
+                return source;
+            }
 
-        public static class ParamsDTO {
+            public void setSource(String source) {
+                this.source = source;
+            }
+
+            public String getOrderId() {
+                return orderId;
+            }
+
+            public void setOrderId(String orderId) {
+                this.orderId = orderId;
+            }
+
+            public String getOrderNumber() {
+                return orderNumber;
+            }
+
+            public void setOrderNumber(String orderNumber) {
+                this.orderNumber = orderNumber;
+            }
+
+            public String getStatus() {
+                return status;
+            }
+
+            public void setStatus(String status) {
+                this.status = status;
+            }
+
+            public String getDelFlag() {
+                return delFlag;
+            }
+
+            public void setDelFlag(String delFlag) {
+                this.delFlag = delFlag;
+            }
+
+            public String getStorehouseId() {
+                return storehouseId;
+            }
+
+            public void setStorehouseId(String storehouseId) {
+                this.storehouseId = storehouseId;
+            }
+
+            public String getPutType() {
+                return putType;
+            }
+
+            public void setPutType(String putType) {
+                this.putType = putType;
+            }
+
         }
     }
 }

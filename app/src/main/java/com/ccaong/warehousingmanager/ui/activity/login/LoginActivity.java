@@ -69,10 +69,21 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding, LoginViewM
         Log.e(TAG, "设备sn" + sn);
     }
 
+    boolean logining = false;
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        logining = false;
+    }
+
     /**
      * 登录
      */
     private void login() {
+        if (logining) {
+            return;
+        }
 
         if (Objects.requireNonNull(mViewModel.userName.getValue()).isEmpty()) {
             Toast.makeText(this, "请输入用户名", Toast.LENGTH_SHORT).show();
@@ -94,14 +105,18 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding, LoginViewM
         Map request = new HashMap<String, String>();
         request.put("username", mViewModel.userName.getValue());
         request.put("password", password);
+
+        logining = true;
+
         HttpRequest.getInstance()
                 .login(request)
                 .compose(HttpFactory.schedulers())
                 .subscribe(new HttpDisposable<LoginResponseBean>() {
                     @Override
                     public void success(LoginResponseBean bean) {
+                        logining = false;
 
-                        Log.e(TAG, bean.getMsg());
+                        Log.e(TAG, "" + bean.getMsg());
                         if (bean.getCode() == 200) {
                             Hawk.put(Constant.USER_NAME, mViewModel.userName.getValue());
                             Hawk.put(Constant.TOKEN, bean.getToken());
@@ -110,20 +125,20 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding, LoginViewM
                                 Hawk.put(Constant.LOGIN_PWD, mViewModel.userPwd.getValue());
                                 Hawk.put(Constant.REMEMBER_PWD, true);
                             } else {
-                                Hawk.delete(Constant.LOGIN_NAME);
+
                                 Hawk.delete(Constant.LOGIN_PWD);
                                 Hawk.put(Constant.REMEMBER_PWD, false);
                             }
                             getWarehouse();
                         } else {
-                            Toast.makeText(LoginActivity.this, bean.getMsg(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(LoginActivity.this, "" + bean.getMsg(), Toast.LENGTH_SHORT).show();
                         }
                     }
 
                     @Override
                     public void onError(Throwable e) {
                         super.onError(e);
-                        Log.e(TAG, e.toString());
+                        logining = false;
                     }
                 });
     }
@@ -134,16 +149,24 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding, LoginViewM
     private void getWarehouse() {
 
         HttpRequest.getInstance()
-                .getStorehouse()
+                .getStorehouse(mViewModel.userName.getValue())
                 .compose(HttpFactory.schedulers())
                 .subscribe(new HttpDisposable<WareHouseResponseBean>() {
                     @Override
                     public void success(WareHouseResponseBean bean) {
                         Log.e(TAG, "仓库列表" + bean.getCode() + bean.getMsg());
                         if (bean.getCode() == 200) {
-                            showSingleChoiceDialog(bean.getData());
+                            if (bean.getData().size() == 1) {
+                                Hawk.put(Constant.STOREHOUSE_ID, bean.getData().get(0).getId());
+                                Hawk.put(Constant.STOREHOUSE_NAME, bean.getData().get(0).getName());
+                                Hawk.put(Constant.STOREHOUSE_TYPE, bean.getData().get(0).getType());
+                                startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                                finish();
+                            } else {
+                                showSingleChoiceDialog(bean.getData());
+                            }
                         } else {
-                            Toast.makeText(LoginActivity.this, bean.getMsg(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(LoginActivity.this, "" + bean.getMsg(), Toast.LENGTH_SHORT).show();
                         }
                     }
 
@@ -177,9 +200,9 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding, LoginViewM
         singleChoiceDialog.setPositiveButton("确定",
                 (dialog, which) -> {
                     if (yourChoice != -1) {
-                        Toast.makeText(LoginActivity.this,
-                                "你选择了" + items[yourChoice],
-                                Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(LoginActivity.this,
+//                                "你选择了" + items[yourChoice],
+//                                Toast.LENGTH_SHORT).show();
                         Hawk.put(Constant.STOREHOUSE_ID, list.get(yourChoice).getId());
                         Hawk.put(Constant.STOREHOUSE_NAME, list.get(yourChoice).getName());
                         Hawk.put(Constant.STOREHOUSE_TYPE, list.get(yourChoice).getType());

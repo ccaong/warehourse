@@ -3,7 +3,7 @@ package com.ccaong.warehousingmanager.bean;
 import java.util.List;
 
 /**
- * @author eyecool
+ * @author caocong
  * @date 2022/9/29
  */
 public class GoodsTypeListResponse {
@@ -58,11 +58,13 @@ public class GoodsTypeListResponse {
         private String specificationDesc;
         private String volume;
         private Integer shelfLife;
-        private Double weight;
+        private String weight;
         private String auxiliaryUnitJson;
         private String hasSKU;
         private List<?> children;
         private String ancestors;
+        private String supportInformation;
+        private Integer quantity;
 
         public String getCreateBy() {
             return createBy;
@@ -224,11 +226,11 @@ public class GoodsTypeListResponse {
             this.shelfLife = shelfLife;
         }
 
-        public Double getWeight() {
+        public String getWeight() {
             return weight;
         }
 
-        public void setWeight(Double weight) {
+        public void setWeight(String weight) {
             this.weight = weight;
         }
 
@@ -265,6 +267,30 @@ public class GoodsTypeListResponse {
         }
 
         public static class ParamsDTO {
+        }
+
+        public String getSupportInformation() {
+            return supportInformation;
+        }
+
+        public void setSupportInformation(String supportInformation) {
+            this.supportInformation = supportInformation;
+        }
+
+        public Boolean getCombination() {
+            return isCombination;
+        }
+
+        public void setCombination(Boolean combination) {
+            isCombination = combination;
+        }
+
+        public Integer getQuantity() {
+            return quantity;
+        }
+
+        public void setQuantity(Integer quantity) {
+            this.quantity = quantity;
         }
     }
 }

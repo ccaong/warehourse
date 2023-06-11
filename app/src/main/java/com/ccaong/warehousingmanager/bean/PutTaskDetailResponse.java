@@ -3,10 +3,11 @@ package com.ccaong.warehousingmanager.bean;
 import java.util.List;
 
 /**
- * @author eyecool
+ * @author caocong
  * @date 2022/9/28
  */
 public class PutTaskDetailResponse {
+
 
     private String msg;
     private Integer code;
@@ -39,7 +40,7 @@ public class PutTaskDetailResponse {
     public static class DataDTO {
         private String orderNumber;
         private String createTime;
-        private List<ContainerCodesDTO> containerCodes;
+        private List<ResultDTO> result;
         private String source;
         private String status;
 
@@ -59,12 +60,12 @@ public class PutTaskDetailResponse {
             this.createTime = createTime;
         }
 
-        public List<ContainerCodesDTO> getContainerCodes() {
-            return containerCodes;
+        public List<ResultDTO> getResult() {
+            return result;
         }
 
-        public void setContainerCodes(List<ContainerCodesDTO> containerCodes) {
-            this.containerCodes = containerCodes;
+        public void setResult(List<ResultDTO> result) {
+            this.result = result;
         }
 
         public String getSource() {
@@ -83,19 +84,10 @@ public class PutTaskDetailResponse {
             this.status = status;
         }
 
-        public static class ContainerCodesDTO {
-            private String id;
+        public static class ResultDTO {
             private String containerCode;
             private String location;
-
-
-            public String getId() {
-                return id;
-            }
-
-            public void setId(String id) {
-                this.id = id;
-            }
+            private List<ListDTO> list;
 
             public String getContainerCode() {
                 return containerCode;
@@ -111,6 +103,47 @@ public class PutTaskDetailResponse {
 
             public void setLocation(String location) {
                 this.location = location;
+            }
+
+            public List<ListDTO> getList() {
+                return list;
+            }
+
+            public void setList(List<ListDTO> list) {
+                this.list = list;
+            }
+
+            public static class ListDTO {
+                private ParamsDTO params;
+                private String id;
+                private String containerCode;
+
+                public ParamsDTO getParams() {
+                    return params;
+                }
+
+                public void setParams(ParamsDTO params) {
+                    this.params = params;
+                }
+
+                public String getId() {
+                    return id;
+                }
+
+                public void setId(String id) {
+                    this.id = id;
+                }
+
+                public String getContainerCode() {
+                    return containerCode;
+                }
+
+                public void setContainerCode(String containerCode) {
+                    this.containerCode = containerCode;
+                }
+
+                public static class ParamsDTO {
+                }
             }
         }
     }

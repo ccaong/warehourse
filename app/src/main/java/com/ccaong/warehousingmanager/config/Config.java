@@ -1,7 +1,7 @@
 package com.ccaong.warehousingmanager.config;
 
 /**
- * @author eyecool
+ * @author caocong
  * @date 2022/9/17
  */
 public class Config {

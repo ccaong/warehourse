@@ -17,7 +17,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * @author eyecool
+ * @author caocong
  * @date 2022/9/21
  */
 public class PutDetailViewModel extends BaseViewModel {

@@ -2,20 +2,11 @@ package com.ccaong.warehousingmanager.ui.activity.save.group;
 
 import static com.ccaong.warehousingmanager.App.getContext;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.util.ArrayMap;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
@@ -23,41 +14,41 @@ import com.ccaong.warehousingmanager.BR;
 import com.ccaong.warehousingmanager.R;
 import com.ccaong.warehousingmanager.base.BaseActivity;
 import com.ccaong.warehousingmanager.base.adapter.CommonAdapter;
-import com.ccaong.warehousingmanager.bean.AreaTypeResponse;
-import com.ccaong.warehousingmanager.bean.CommonResponse;
-import com.ccaong.warehousingmanager.bean.ContainerStatusResponse;
-import com.ccaong.warehousingmanager.bean.EmptyResponse;
+import com.ccaong.warehousingmanager.bean.ChildGoodBean;
 import com.ccaong.warehousingmanager.bean.GroupGoodBean;
 import com.ccaong.warehousingmanager.bean.InboundDetailResponse;
-import com.ccaong.warehousingmanager.bean.SpinnerTestBean;
-import com.ccaong.warehousingmanager.config.Constant;
 import com.ccaong.warehousingmanager.databinding.ActivityGroupProductBinding;
-import com.ccaong.warehousingmanager.http.HttpDisposable;
-import com.ccaong.warehousingmanager.http.HttpFactory;
-import com.ccaong.warehousingmanager.http.HttpRequest;
-import com.ccaong.warehousingmanager.ui.activity.quick.QuickWarehousingActivity;
+import com.ccaong.warehousingmanager.util.ChildGoodsUtils;
 import com.ccaong.warehousingmanager.util.CodeParseUtils;
+import com.ccaong.warehousingmanager.util.StringUtils;
 import com.orhanobut.hawk.Hawk;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
 /**
- * @author eyecool
+ * @author caocong
  * @date 2022/9/19
  */
 public class GroupProductActivity extends BaseActivity<ActivityGroupProductBinding, GroupProductViewMode> {
-
-
     String id;
+    String container;
+
     CommonAdapter<GroupGoodBean> commonAdapter;
 
+    // 点收组盘完成的数据
     List<GroupGoodBean> list = new ArrayList<>();
 
-    String putType;
+    // 扫码选中的物品
+    private InboundDetailResponse.DataDTO.GoodsTypeDetailDTO selectGoods;
+
+    // 多箱一套还未成套的物品列表
+    List<ChildGoodBean> tempChildList = new ArrayList<>();
+
+    // 所有点收的多箱一套的子物品列表
+    List<ChildGoodBean> tempShowChildList = new ArrayList<>();
 
     @Override
     protected boolean isSupportScan() {
@@ -65,16 +56,17 @@ public class GroupProductActivity extends BaseActivity<ActivityGroupProductBindi
     }
 
     @Override
-    protected boolean isSupportRfid() {
-        return true;
-    }
-
-
-    @Override
     protected void handleIntent(Intent intent) {
         super.handleIntent(intent);
         id = intent.getStringExtra("ID");
+        container = intent.getStringExtra("CONTAINER");
 
+        List<GroupGoodBean> tempList = Hawk.get("TEMP");
+        Hawk.delete("TEMP");
+
+        if (tempList != null) {
+            list.addAll(tempList);
+        }
     }
 
     @Override
@@ -92,199 +84,183 @@ public class GroupProductActivity extends BaseActivity<ActivityGroupProductBindi
         mDataBinding.setViewModel(mViewModel);
     }
 
-
     @Override
     protected void init() {
 
         actionBar.setTitle("点收组盘");
 
+        mDataBinding.etVehicle.setText(container);
+
         mViewModel.loadData(id);
 
-        mViewModel.getData().observe(this, dataDTO -> setGoodList(dataDTO.getGoodsTypeDetail()));
+        mViewModel.getData().observe(this, dataDTO -> setGoodList2Spinner(dataDTO.getGoodsTypeDetail()));
 
         initRecyclerView();
 
-        initSp();
-
         mDataBinding.btnConfirm.setOnClickListener(view -> confirm());
-        mDataBinding.tvSubmit.setOnClickListener(view -> judgeNum());
 
-        // 监听载具输入完成事件
-        mDataBinding.etVehicle.setOnEditorActionListener((textView, i, keyEvent) -> {
-            if (i == EditorInfo.IME_ACTION_DONE) {
-                checkContainerInTask(mDataBinding.etVehicle.getText().toString());
-            }
-            return false;
-        });
-
+        mDataBinding.tvSubmit.setOnClickListener(view -> submit());
     }
-
-    private void initSp() {
-        List<SpinnerTestBean> list = new ArrayList<>();
-        list.add(new SpinnerTestBean("0", "自动上架"));
-        list.add(new SpinnerTestBean("1", "手动上架"));
-
-        ArrayAdapter<SpinnerTestBean> productAdapter = new ArrayAdapter<>(this, R.
-                layout.item_spinner, list);
-        productAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        mDataBinding.spPutType.setAdapter(productAdapter);
-        mDataBinding.spPutType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                SpinnerTestBean data = list.get(i);
-                putType = data.getCode();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-            }
-        });
-
-        // 判断上架类型 如果有类型，就直接选择，然后禁止手动选择
-        putType = Hawk.get(Constant.STOREHOUSE_TYPE);
-        switch (putType) {
-            case "-1":
-            case "2":
-                // 需要手动选择
-                mDataBinding.spPutType.setEnabled(true);
-                break;
-            case "0":
-                // 自动
-                mDataBinding.spPutType.setSelection(0);
-                mDataBinding.spPutType.setEnabled(false);
-                break;
-            case "1":
-                // 手动
-                mDataBinding.spPutType.setSelection(1);
-                mDataBinding.spPutType.setEnabled(false);
-                break;
-        }
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-
-        if (item.getItemId() == R.id.scan) {
-            scanCode();
-            return true;
-
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    protected void startScan() {
-        super.startScan();
-        mDataBinding.etFo.requestFocus();
-    }
-
-    @Override
-    protected void scanResult(String result) {
-        super.scanResult(result);
-        // 判断结果是否为物品码
-        if (CodeParseUtils.isGoodsCode(result)) {
-            selectedGood(CodeParseUtils.getGoodSkuCode(result));
-        } else if (CodeParseUtils.isCodeContainer(result)) {
-            checkContainerInTask(result);
-        }
-    }
-
-    @Override
-    protected void rfidResult(String result) {
-        checkContainerInTask(result);
-    }
-
-    /**
-     * 根据扫码结果，选中某个物品
-     *
-     * @param id 物品id
-     */
-    private void selectedGood(String id) {
-        List<InboundDetailResponse.DataDTO.GoodsTypeDetailDTO> list = new ArrayList();
-        list = Objects.requireNonNull(mViewModel.getData().getValue()).getGoodsTypeDetail();
-        for (int i = 0; i < list.size(); i++) {
-            if (id.equals(list.get(i).getMaterialCode())) {
-                mDataBinding.spProductInfo.setSelection(i, true);
-                setGoodsData(list.get(i));
-                autoAdd();
-                return;
-            }
-        }
-        Toast.makeText(this, "扫描的物品不在本入库单中！", Toast.LENGTH_SHORT).show();
-    }
-
-    private InboundDetailResponse.DataDTO.GoodsTypeDetailDTO selectGoods;
-
-    /**
-     * 设置选中的物品
-     *
-     * @param goods 选中的物品
-     */
-    private void setGoodsData(InboundDetailResponse.DataDTO.GoodsTypeDetailDTO goods) {
-        selectGoods = goods;
-        mDataBinding.tvUnit.setText(goods.getUnit());
-        mDataBinding.tvSNum.setText(String.valueOf(goods.getAmount()));
-        mDataBinding.etANum.setText("1");
-    }
-
-
-    private void setGoodList(List<InboundDetailResponse.DataDTO.GoodsTypeDetailDTO> list) {
-
-        ArrayAdapter<InboundDetailResponse.DataDTO.GoodsTypeDetailDTO> productAdapter = new ArrayAdapter<>(this, R.
-                layout.item_spinner, list);
-        productAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        mDataBinding.spProductInfo.setAdapter(productAdapter);
-        mDataBinding.spProductInfo.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                InboundDetailResponse.DataDTO.GoodsTypeDetailDTO data = list.get(i);
-                Log.e(TAG1, "选择了" + data.getMetarialName());
-                setGoodsData(data);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-        });
-    }
-
 
     private void initRecyclerView() {
-        commonAdapter = new CommonAdapter<GroupGoodBean>(R.layout.item_group_product, BR.groupProduct) {
+        commonAdapter = new CommonAdapter<GroupGoodBean>(list, R.layout.item_group_product, BR.groupProduct) {
             @Override
             public void addListener(View root, GroupGoodBean itemData, int position) {
                 super.addListener(root, itemData, position);
+
+                root.findViewById(R.id.item).setOnClickListener(view -> {
+                    if ("1".equals(itemData.getSupportInformation()) && itemData.getQuantity() > 1) {
+                        Hawk.put("TEMP", tempShowChildList);
+                        // 显示详情
+                        Intent intent = new Intent(GroupProductActivity.this, ChildGoodsListActivity.class);
+                        intent.putExtra("CODE", itemData.getMaterialCode());
+                        intent.putExtra("NAME", itemData.getSkuName());
+                        intent.putExtra("NUM", itemData.getReceivedAmount());
+                        intent.putExtra("QUANTITY", itemData.getQuantity());
+                        intent.putExtra("SUPPORT_INFO", itemData.getSupportInformation());
+                        startActivity(intent);
+                    }
+                });
             }
         };
         mDataBinding.rvList.setAdapter(commonAdapter);
         mDataBinding.rvList.setLayoutManager(new LinearLayoutManager(getContext()));
     }
 
-    private void autoAdd() {
-        String zj = mDataBinding.etVehicle.getText().toString();
-        if ("".equals(zj)) {
-            return;
-        }
-        if ("".equals(putType) || "-1".equals(putType)) {
-            return;
-        }
+    /**
+     * 初始化物品的Spinner
+     *
+     * @param list
+     */
+    private void setGoodList2Spinner(List<InboundDetailResponse.DataDTO.GoodsTypeDetailDTO> list) {
 
-        confirm();
+        ArrayAdapter<InboundDetailResponse.DataDTO.GoodsTypeDetailDTO> productAdapter = new ArrayAdapter<>(this, R.
+                layout.item_spinner, list);
+        productAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        mDataBinding.spProductInfo.setAdapter(productAdapter);
     }
 
+    // 扫描物品的序列号
+    private String tempSerialNo = "XXXX";
 
-    private Map<String, List<GroupGoodBean>> dataMap = new ArrayMap();
+    @Override
+    protected void scanResult(String result) {
+        super.scanResult(result);
+        // 判断结果是否为物品码
+        if (CodeParseUtils.isGoodsCode(result)) {
+            String str = mDataBinding.etVehicle.getText().toString();
+            if (StringUtils.isEmpty(str)) {
+                Toast.makeText(this, "请先扫描载具码", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            tempSerialNo = CodeParseUtils.getSno(result);
+            selectedGood(result);
+        }
+    }
 
     /**
-     * 添加一个组盘的数据
+     * 根据扫码结果，选中某个物品
+     *
+     * @param result 物品码
+     */
+    private void selectedGood(String result) {
+        String sku = CodeParseUtils.getGoodSkuCode(result);
+        String childCode = CodeParseUtils.getGoodChildCode(result);
+        String sNo = CodeParseUtils.getSno(result);
+        String taskNumber = CodeParseUtils.getTaskNumber(result);
+
+        List<InboundDetailResponse.DataDTO.GoodsTypeDetailDTO> list = new ArrayList();
+        list = Objects.requireNonNull(mViewModel.getData().getValue()).getGoodsTypeDetail();
+
+        String ykId = mViewModel.getData().getValue().getId();
+        String inboundType = mViewModel.getData().getValue().getInboundType();
+
+        for (int i = 0; i < list.size(); i++) {
+            if (sku.equals(list.get(i).getMaterialCode())) {
+                // 判断单号是否一致 [移库上架组盘时需要判断]
+                // 先在接口中获取类型，判断是否为物资移库操作
+                // 如果有移库单号，就需要判断
+                if (inboundType.equals("4")) {
+                    if (!taskNumber.equals(ykId)) {
+                        // 单号不一致，不处理
+                        continue;
+                    }
+                }
+
+                // 判断序列号是否对应
+                if ("1".equals(list.get(i).getSupportInformation())) {
+                    // 多箱一套的数据，需要判断序列号
+                    String[] sNoList = list.get(i).getSerialNumber().split(",");
+                    for (String str : sNoList) {
+                        if (sNo.equals(str)) {
+                            mDataBinding.spProductInfo.setSelection(i, true);
+                            setGoodsData(list.get(i), sku, childCode, sNo);
+                            return;
+                        }
+                    }
+                } else {
+                    mDataBinding.spProductInfo.setSelection(i, true);
+                    setGoodsData(list.get(i), sku, childCode, sNo);
+                    return;
+                }
+            }
+        }
+        Toast.makeText(this, "扫描的物品不在本入库单中！", Toast.LENGTH_SHORT).show();
+    }
+
+    /**
+     * 设置选中的物品
+     *
+     * @param goods 选中的物品
+     */
+    private void setGoodsData(InboundDetailResponse.DataDTO.GoodsTypeDetailDTO goods, String sku, String code, String sNo) {
+        //  判断当前物品是否由多个子物品构成
+        if ("1".equals(goods.getSupportInformation()) && goods.getQuantity() != null && goods.getQuantity() > 1) {
+            //相同序列号相同子项的物品，不能重复添加
+            for (ChildGoodBean childGoodBean : tempShowChildList) {
+                if (sku.equals(childGoodBean.getSku()) &&
+                        code.equals(childGoodBean.getCode()) &&
+                        sNo.equals(childGoodBean.getSerialNo())) {
+                    // 相同序列号相同子项的物品，不能重复添加，当作无效操作。
+                    return;
+                }
+            }
+
+            //  当前物品由多个子获取构成，需要组合,
+            //  把当前扫码的物品添加到待组合的列表中
+            tempChildList.add(new ChildGoodBean(sku, code, sNo));
+            tempShowChildList.add(new ChildGoodBean(sku, code, sNo));
+
+            Map<String, Object> result;
+            // 判断所有待组合的子物品是否能组合成一套完整物品
+            result = ChildGoodsUtils.getList(tempChildList, sku, sNo, goods.getQuantity());
+            Boolean a = (Boolean) result.get("result");
+            if (a) {
+                // 如果待组合的子物品组合成一套物品，就继续后续添加操作
+
+                // 更新未组合成套的子物品列表
+                tempChildList = (List<ChildGoodBean>) result.get("list");
+
+                selectGoods = goods;
+                mDataBinding.tvUnit.setText(goods.getUnit());
+                mDataBinding.tvSNum.setText(String.valueOf(goods.getAmount()));
+                mDataBinding.etANum.setText("1");
+                confirm();
+            } else {
+                // 判断结果，如果为false，说明还未组合成一套，提示用户继续扫码
+                Toast.makeText(this, "请继续扫码", Toast.LENGTH_SHORT).show();
+            }
+        } else {
+            selectGoods = goods;
+            mDataBinding.tvUnit.setText(goods.getUnit());
+            mDataBinding.tvSNum.setText(String.valueOf(goods.getAmount()));
+            mDataBinding.etANum.setText("1");
+            confirm();
+        }
+    }
+
+    /**
+     * 判断当前的已收数量是否大于等于应收数量
      */
     private void confirm() {
 
@@ -295,84 +271,59 @@ public class GroupProductActivity extends BaseActivity<ActivityGroupProductBindi
             return;
         }
 
-        if ("".equals(putType) || "-1".equals(putType)) {
-            Toast.makeText(this, "请选择上架类型", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        String zj = mDataBinding.etVehicle.getText().toString();
-        if ("".equals(zj)) {
-            Toast.makeText(this, "请扫载具码或输入载具编码", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-
-        int num;
-        num = Integer.parseInt(mDataBinding.etANum.getText().toString());
         for (GroupGoodBean groupGoodBean : list) {
             // 物品已经点收过，只需要更新数量
             if (selectGoods.getMaterialCode().equals(groupGoodBean.getMaterialCode())) {
-                // TODO: 2022/11/21  先判断一下当前的已收数量和应收数量
+                // 先判断一下当前的已收数量和应收数量
                 if (groupGoodBean.getReceivedAmount() >= groupGoodBean.getNeedAmount()) {
-                    showDialog("提示", "是否继续点收?", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            groupGoodBean.setReceivedAmount(groupGoodBean.getReceivedAmount() + num);
-                            updateGoodList();
-                        }
+                    showInfoDialog("提示", "是否继续点收?", (dialogInterface, i) -> {
+                        updateGoodList();
                     });
                 } else {
-                    groupGoodBean.setReceivedAmount(groupGoodBean.getReceivedAmount() + num);
                     updateGoodList();
                 }
-
                 return;
             }
         }
-
-        list.add(new GroupGoodBean(selectGoods.getMaterialCode(), selectGoods.getAmount(), num));
-
         updateGoodList();
     }
 
+    /**
+     * 更新已经点收的物品
+     */
     private void updateGoodList() {
 
-        int num;
-        num = Integer.parseInt(mDataBinding.etANum.getText().toString());
+        int num = Integer.parseInt(mDataBinding.etANum.getText().toString());
 
-        for (Map.Entry<String, List<GroupGoodBean>> entry : dataMap.entrySet()) {
-            // 判断当前载具下有没有数据
-            if (mDataBinding.etVehicle.getText().toString().equals(entry.getKey())) {
-                Log.e(TAG1, "当前载具下已有数据");
-                // 当前载具下，已有数据，需要在原有数据上添加
-                List<GroupGoodBean> list = entry.getValue();
-                for (GroupGoodBean bean : list) {
-                    // 判断物料是否已经添加，如已经添加，数量+1否则，添加一个数据
-                    if (bean.getMaterialCode().equals(selectGoods.getMaterialCode())) {
-                        bean.setReceivedAmount(bean.getReceivedAmount() + num);
-                        updateList();
-                        return;
+        for (GroupGoodBean bean : list) {
+            // 判断物料是否已经添加，如已经添加，就更新数量，否则，添加一个新的数据到list中
+            if (bean.getMaterialCode().equals(selectGoods.getMaterialCode())) {
+                // 更新数量
+                bean.setReceivedAmount(bean.getReceivedAmount() + num);
+                if (!"XXXX".equals(tempSerialNo)) {
+                    String serialNo = bean.getSerialNumber();
+                    if (StringUtils.isEmpty(serialNo)) {
+                        bean.setSerialNumber(tempSerialNo);
+                    } else {
+                        bean.setSerialNumber(serialNo + "," + tempSerialNo);
                     }
                 }
-                Log.e(TAG1, "在已有载具上（" + entry.getKey() + "）添加一个物品信息");
-                list.add(getInputBean());
-                updateList();
+                commonAdapter.onItemDatasChanged(list);
                 return;
             }
         }
 
-
-        Log.e(TAG1, "在新的载具上（" + mDataBinding.etVehicle.getText().toString() + "）添加一个物品信息");
-        // 添加数据
-        List<GroupGoodBean> list = new ArrayList();
+        // 当前载具上还没有点收过该物品，添加一个该物品到点收列表中
         list.add(getInputBean());
-        dataMap.put(mDataBinding.etVehicle.getText().toString(), list);
-        updateList();
-
-        mDataBinding.spPutType.setEnabled(false);
+        commonAdapter.onItemDatasChanged(list);
     }
 
 
+    /**
+     * 获取当前点收的物品的详细信息
+     *
+     * @return
+     */
     private GroupGoodBean getInputBean() {
         GroupGoodBean groupGoodBean = new GroupGoodBean();
         groupGoodBean.setZjId(mDataBinding.etVehicle.getText().toString());
@@ -386,185 +337,34 @@ public class GroupProductActivity extends BaseActivity<ActivityGroupProductBindi
         groupGoodBean.setWeight(selectGoods.getWeight());
         groupGoodBean.setNeedAmount(selectGoods.getAmount());
         groupGoodBean.setReceivedAmount(Integer.parseInt(mDataBinding.etANum.getText().toString()));
-        return groupGoodBean;
-    }
 
-    /**
-     * 更新下方的已入库的物品列表
-     */
-    private void updateList() {
-        List<GroupGoodBean> showList = new ArrayList<>();
-        for (Map.Entry<String, List<GroupGoodBean>> entry : dataMap.entrySet()) {
-            showList.addAll(entry.getValue());
+        groupGoodBean.setQuantity(selectGoods.getQuantity());
+        groupGoodBean.setSupportInformation(selectGoods.getSupportInformation());
+
+        if (!"XXXX".equals(tempSerialNo)) {
+            groupGoodBean.setSerialNumber(tempSerialNo);
         }
-        commonAdapter.onItemDatasChanged(showList);
-    }
-
-    /**
-     * 判断容器是否存在
-     *
-     * @param id
-     */
-    public void checkContainerInTask(String id) {
-
-        HttpRequest.getInstance()
-                .checkContainerCode(id)
-                .compose(HttpFactory.schedulers())
-                .subscribe(new HttpDisposable<ContainerStatusResponse>() {
-                    @Override
-                    public void success(ContainerStatusResponse bean) {
-                        Log.e(TAG1, "容器是否存在：" + bean.getMsg() + bean.getCode());
-                        if (bean.getCode() == 200) {
-                            if (bean.getData().getExist().equals("0")) {
-//                                showWarningDialog(id);
-                                String msg = "扫描的容器:" + id + "在系统中不存在，是否将该容器添加到系统中？";
-                                showDialog("警告！", msg, (dialogInterface, i) -> addContainer(id));
-
-                            } else if (bean.getData().getUsed().equals("1")) {
-                                Toast.makeText(GroupProductActivity.this, "该容器已被占用！", Toast.LENGTH_SHORT).show();
-                            } else {
-                                mDataBinding.etVehicle.setText(id);
-                            }
-                        }
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        super.onError(e);
-                        Log.e(TAG1, "容器是否存在" + e.toString());
-                    }
-                });
-    }
-
-    /**
-     * 添加容器弹窗
-     */
-    private void showWarningDialog(String id) {
-        final AlertDialog.Builder normalDialog =
-                new AlertDialog.Builder(GroupProductActivity.this);
-        normalDialog.setTitle("警告！");
-        normalDialog.setMessage("扫描的容器:" + id + "在系统中不存在，是否将该容器添加到系统中？");
-        normalDialog.setPositiveButton("确定",
-                (dialog, which) -> addContainer(id));
-
-        normalDialog.setNegativeButton("取消", (dialogInterface, i) -> {
-
-        });
-        // 显示
-        normalDialog.show();
-    }
-
-    /**
-     * 弹窗提示
-     *
-     * @param title    title
-     * @param message  提示信息
-     * @param listener 确定按钮点击事件
-     */
-    private void showDialog(String title, String message, DialogInterface.OnClickListener listener) {
-        final AlertDialog.Builder normalDialog =
-                new AlertDialog.Builder(GroupProductActivity.this);
-        normalDialog.setTitle(title);
-        normalDialog.setMessage(message);
-        normalDialog.setPositiveButton("确定", listener);
-        normalDialog.setNegativeButton("取消", (dialogInterface, i) -> {
-        });
-        normalDialog.show();
-    }
-
-    /**
-     * 新增容器
-     *
-     * @param barCode 容器id
-     */
-    public void addContainer(String barCode) {
-
-        String typeId = "0";
-
-        Map<String, String> map = new HashMap();
-        map.put("barCode", barCode);
-        map.put("typeId", typeId);
-
-        HttpRequest.getInstance()
-                .addContainer(map)
-                .compose(HttpFactory.schedulers())
-                .subscribe(new HttpDisposable<EmptyResponse>() {
-                    @Override
-                    public void success(EmptyResponse bean) {
-                        Log.e(TAG1, "容器添加" + bean.getMsg() + bean.getCode());
-                        if (bean.getCode() == 200) {
-                            mDataBinding.etVehicle.setText(barCode);
-                            Toast.makeText(GroupProductActivity.this, "添加成功", Toast.LENGTH_SHORT).show();
-                        } else {
-                            if (bean.getMsg() != null) {
-                                Toast.makeText(GroupProductActivity.this, "添加失败：" + bean.getMsg(), Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    }
-                });
+        return groupGoodBean;
     }
 
     /**
      * 先判断已收和应收数量再提交
      */
-    private void judgeNum() {
-        boolean showDialog = false;
-        for (GroupGoodBean groupGoodBean : list) {
-            // 如果实际点收数量<入库单数量
-            if (groupGoodBean.getReceivedAmount() < groupGoodBean.getNeedAmount()) {
-                showDialog = true;
-            }
-        }
-
-        if (showDialog) {
-            showDialog("", "你是否确认按照目前仓库实际收货数里为准进行入库?", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-                    submit();
-                }
-            });
-        } else {
-            submit();
-        }
-    }
-
-
-    /**
-     * 提交数据
-     */
     private void submit() {
 
+        Intent intent = new Intent();
+        intent.putExtra("CONTAINER", container);
+        Hawk.put("TEMP", list);
+        setResult(RESULT_OK, intent);
+        finish();
+    }
 
-        Map<String, Object> map = new HashMap();
-        //仓库id
-        map.put("storehouseId", Hawk.get(Constant.STOREHOUSE_ID));
-        // 入库单id
-        map.put("orderId", mViewModel.data.getValue().getId());
-        // 入库单单号
-        map.put("orderNumber", mViewModel.data.getValue().getOrderNumber());
-        //上架类型
-        map.put("putType", putType);
-        // 详细数据
-        map.put("putTaskGoodsDetails", dataMap);
-
-        // 类型，废弃
-        map.put("groupDiskType", "");
-        // flag，废弃
-        map.put("groupDiskFlag", "");
-
-
-        HttpRequest.getInstance()
-                .submitGroupDisk(map)
-                .compose(HttpFactory.schedulers())
-                .subscribe(new HttpDisposable<CommonResponse>() {
-                    @Override
-                    public void success(CommonResponse resultResponse) {
-                        Log.e(TAG1, "组盘入库提交：" + resultResponse.getMsg() + resultResponse.getCode());
-                        Toast.makeText(GroupProductActivity.this, resultResponse.getMsg(), Toast.LENGTH_SHORT).show();
-                        if (resultResponse.getCode().equals(200)) {
-                            finish();
-                        }
-                    }
-                });
+    @Override
+    public void onBackPressed() {
+        if (list == null || list.isEmpty()) {
+            finish();
+        } else {
+            showInfoDialog("提示", "正在组盘中，是否退出？", (dialogInterface, i) -> finish());
+        }
     }
 }

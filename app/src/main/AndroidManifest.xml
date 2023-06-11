@@ -61,6 +61,7 @@
         <activity android:name=".ui.activity.inventory.InventoryActivity" />
         <activity android:name=".ui.activity.inventory.detail.InventoryDetailActivity" />
         <activity android:name=".ui.activity.inventory.work.InventoryWorkActivity" />
+        <!--废弃-->
         <activity
             android:name=".ui.activity.inventory.manual.SortManualActivity"
             android:theme="@style/TranslucentTheme" />
@@ -88,9 +89,28 @@
         <activity
             android:name=".ui.activity.server.ServerSettingActivity"
             android:theme="@style/TranslucentTheme" />
+
         <activity android:name=".ui.activity.quick.select.SelectDeptActivity" />
+
         <activity android:name=".ui.activity.setting.SettingActivity" />
         <activity android:name=".ui.activity.setting.rules.ConfigureRulesActivity" />
+
+        <activity android:name=".ui.activity.move.MoveActivity" />
+        <activity android:name=".ui.activity.move.detail.done.MoveDoneActivity" />
+        <activity android:name=".ui.activity.move.detail.done.collect.MoveCollectActivity" />
+        <activity android:name=".ui.activity.move.detail.done.list.MoveVehicleListActivity" />
+        <activity
+            android:name=".ui.activity.move.detail.done.vehicle.MoveVehicleDetailActivity"
+            android:theme="@style/TranslucentTheme" />
+        <activity android:name=".ui.activity.move.detail.outbound.OutboundDetailActivity" />
+        <activity android:name=".ui.activity.quick.select.SelectFactureActivity" />
+        <activity android:name=".ui.activity.lower.manual.LowerManualActivity" />
+        <activity android:name=".ui.activity.sort.SortWareHouseOrderListActivity" />
+        <activity android:name=".ui.activity.lower.LowerShelvesOrderListActivity" />
+        <activity android:name=".ui.activity.put.PutShelvesOrderListActivity" />
+        <activity android:name=".ui.activity.save.group.ChildGoodsListActivity" />
+        <activity android:name=".ui.activity.goods.GoodsQueryActivity" />
+        <activity android:name=".ui.activity.save.group.GroupListActivity" />
 
     </application>
 

@@ -3,7 +3,6 @@ package com.ccaong.warehousingmanager.ui.activity.save;
 import static com.ccaong.warehousingmanager.App.getContext;
 
 import android.content.Intent;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -14,7 +13,7 @@ import com.ccaong.warehousingmanager.R;
 import com.ccaong.warehousingmanager.base.BaseActivity;
 import com.ccaong.warehousingmanager.base.adapter.CommonAdapter;
 import com.ccaong.warehousingmanager.bean.InboundListResponse;
-import com.ccaong.warehousingmanager.databinding.ActivitySaveWaerBinding;
+import com.ccaong.warehousingmanager.databinding.ActivityListBinding;
 import com.ccaong.warehousingmanager.http.HttpDisposable;
 import com.ccaong.warehousingmanager.http.HttpFactory;
 import com.ccaong.warehousingmanager.http.HttpRequest;
@@ -26,10 +25,10 @@ import java.util.List;
 /**
  * 入库列表
  *
- * @author eyecool
+ * @author caocong
  * @date 2022/9/18
  */
-public class SaveWareHouseActivity extends BaseActivity<ActivitySaveWaerBinding, SaveWareHouseViewModel> {
+public class SaveWareHouseActivity extends BaseActivity<ActivityListBinding, SaveWareHouseViewModel> {
 
     private static final String TAG = SaveWareHouseActivity.class.getSimpleName();
     private int page = 1;
@@ -38,7 +37,7 @@ public class SaveWareHouseActivity extends BaseActivity<ActivitySaveWaerBinding,
 
     @Override
     protected int getLayoutResId() {
-        return R.layout.activity_save_waer;
+        return R.layout.activity_list;
     }
 
     @Override
@@ -54,7 +53,7 @@ public class SaveWareHouseActivity extends BaseActivity<ActivitySaveWaerBinding,
     @Override
     protected void init() {
 
-        actionBar.setTitle("入库单列表");
+        actionBar.setTitle("组盘列表");
         initRecyclerView();
 
         //刷新列表
@@ -102,21 +101,21 @@ public class SaveWareHouseActivity extends BaseActivity<ActivitySaveWaerBinding,
                 .subscribe(new HttpDisposable<InboundListResponse>() {
                     @Override
                     public void success(InboundListResponse bean) {
-                        Log.e(TAG, bean.getMsg());
+                        mDataBinding.refreshLayout.finishRefresh();
+                        mDataBinding.refreshLayout.finishLoadMore();
+
                         if (bean.getCode() == 200) {
-
-                            if (page == 1) {
-                                list = bean.getRows();
-                            } else {
-                                list.addAll(bean.getRows());
-                            }
-                            mDataBinding.refreshLayout.finishRefresh();
-                            mDataBinding.refreshLayout.finishLoadMore();
-                            mDataBinding.refreshLayout.setNoMoreData(list.size() >= bean.getTotal());
-
+                            list = bean.getRows();
                             commonAdapter.onItemDatasChanged(list);
+                            mDataBinding.refreshLayout.setNoMoreData(true);
                         } else {
                             Toast.makeText(SaveWareHouseActivity.this, bean.getMsg(), Toast.LENGTH_SHORT).show();
+                        }
+
+                        if (list.size() == 0) {
+                            mDataBinding.llNoData.setVisibility(View.VISIBLE);
+                        } else {
+                            mDataBinding.llNoData.setVisibility(View.GONE);
                         }
                     }
                 });

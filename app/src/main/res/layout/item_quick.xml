@@ -175,6 +175,7 @@
                     tools:text="qwerty " />
 
 
+                <!--     生产厂商，日期，货物类型，品级，单价，序列号           -->
                 <Button
                     android:id="@+id/btn_del"
                     android:layout_width="@dimen/dimen_64"

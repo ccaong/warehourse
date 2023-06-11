@@ -13,7 +13,7 @@ import com.ccaong.warehousingmanager.http.HttpRequest;
 /**
  * 下架
  *
- * @author eyecool
+ * @author caocong
  * @date 2022/9/21
  */
 public class LowerDetailViewModel extends BaseViewModel {

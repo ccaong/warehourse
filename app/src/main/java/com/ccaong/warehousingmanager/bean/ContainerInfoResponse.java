@@ -3,7 +3,7 @@ package com.ccaong.warehousingmanager.bean;
 import java.util.List;
 
 /**
- * @author eyecool
+ * @author caocong
  * @date 2022/9/27
  */
 public class ContainerInfoResponse {
@@ -41,6 +41,7 @@ public class ContainerInfoResponse {
         private String orderTime;
         private String goodsTypeId;
         private String locationId;
+        private String locationCode;
         private String specificationDesc;
         private String materialCode;
         private String goodsUnit;
@@ -76,6 +77,14 @@ public class ContainerInfoResponse {
 
         public void setLocationId(String locationId) {
             this.locationId = locationId;
+        }
+
+        public String getLocationCode() {
+            return locationCode;
+        }
+
+        public void setLocationCode(String locationCode) {
+            this.locationCode = locationCode;
         }
 
         public String getSpecificationDesc() {

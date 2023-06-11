@@ -9,8 +9,8 @@ android {
         applicationId "com.ccaong.warehousingmanager"
         minSdk 21
         targetSdk 31
-        versionCode 9
-        versionName "1.2.9"
+        versionCode 40
+        versionName "2.1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 

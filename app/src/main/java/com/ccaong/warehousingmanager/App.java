@@ -97,7 +97,7 @@ public class App extends Application {
             optime = 1000;
             opro = "GEN2";
             checkant = 1;
-            crpow = 2000;
+            crpow = 1000;
             rpow = new int[]{crpow, crpow, crpow, crpow, crpow, crpow, crpow,
                     crpow, crpow, crpow, crpow, crpow, crpow, crpow, crpow,
                     crpow};

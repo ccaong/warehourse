@@ -14,7 +14,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-
         <EditText
             android:id="@+id/et_fo"
             android:layout_width="wrap_content"
@@ -24,254 +23,551 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent" />
 
-        <TextView
-            android:id="@+id/tv_1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/dimen_8"
-            android:text="入库单号"
-            app:layout_constraintBottom_toBottomOf="@+id/ll_1"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/ll_1" />
-
-        <LinearLayout
-            android:id="@+id/ll_1"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/dimen_8"
-            android:layout_marginTop="@dimen/dimen_8"
-            android:layout_marginRight="@dimen/dimen_8"
-            android:background="@drawable/et_background"
-            android:padding="@dimen/dimen_4"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintLeft_toRightOf="@+id/tv_1"
-            app:layout_constraintStart_toEndOf="@+id/tv_1"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <EditText
-                android:id="@+id/et_1"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/dimen_8"
-                android:layout_weight="1"
-                android:background="@null"
-                android:text="@{viewModel.orderNumber}"
-                android:textSize="15sp"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/tv_generate"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="规则生成"
-                android:textSize="14sp"
-                app:layout_constraintBottom_toBottomOf="@+id/et_1"
-                app:layout_constraintLeft_toRightOf="@+id/et_1"
-                app:layout_constraintTop_toTopOf="@+id/et_1" />
-
-        </LinearLayout>
-
-        <TextView
-            android:id="@+id/tv_2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/dimen_8"
-            android:text="入库类型"
-            app:layout_constraintBottom_toBottomOf="@+id/sp_type"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/sp_type" />
-
-        <Spinner
-            android:id="@+id/sp_type"
-            android:layout_width="0dp"
-            android:layout_height="24dp"
-            android:layout_marginStart="@dimen/dimen_8"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="4dp"
-            android:background="@drawable/spinner_background"
-            app:layout_constraintLeft_toRightOf="@+id/tv_2"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/ll_1" />
-
-
-        <LinearLayout
-            android:id="@+id/ll_3"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/dimen_8"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/sp_type">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="入库仓库" />
-
-            <TextView
-                android:id="@+id/tv_ck"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/dimen_8"
-                android:layout_weight="1"
-                android:background="@drawable/et_background"
-                android:padding="@dimen/dimen_4" />
-        </LinearLayout>
-
-
-        <TextView
-            android:id="@+id/tv_zj"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/dimen_8"
-            android:text="载具编码"
-            app:layout_constraintBottom_toBottomOf="@+id/iv_zj"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/iv_zj" />
-
-        <View
-            android:id="@+id/view1"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="@dimen/dimen_8"
-            android:background="@color/background"
-            app:layout_constraintTop_toBottomOf="@+id/ll_3" />
-
-
-        <EditText
-            android:id="@+id/et_zj"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/dimen_8"
-            android:background="@drawable/et_background"
-            android:padding="@dimen/dimen_4"
-            android:textSize="@dimen/text_15"
-            android:inputType="text"
-            android:imeOptions="actionDone"
-            app:layout_constraintBottom_toBottomOf="@+id/iv_zj"
-            app:layout_constraintLeft_toRightOf="@+id/tv_zj"
-            app:layout_constraintRight_toLeftOf="@+id/iv_zj"
-            app:layout_constraintTop_toTopOf="@+id/iv_zj" />
-
-        <ImageView
-            android:id="@+id/iv_zj"
-            android:layout_width="@dimen/dimen_32"
-            android:layout_height="@dimen/dimen_32"
-            android:layout_marginTop="@dimen/dimen_8"
-            android:padding="@dimen/dimen_4"
-            android:src="@mipmap/ic_scan"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/view1" />
-
-
-        <TextView
-            android:id="@+id/tv_wz"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/dimen_8"
-            android:text="位置编码"
-            app:layout_constraintBottom_toBottomOf="@+id/iv_wz"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/iv_wz" />
-
-        <EditText
-            android:id="@+id/et_wz"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/dimen_8"
-            android:background="@drawable/et_background"
-            android:padding="@dimen/dimen_4"
-            android:textSize="@dimen/text_15"
-            app:layout_constraintBottom_toBottomOf="@+id/iv_wz"
-            app:layout_constraintLeft_toRightOf="@+id/tv_wz"
-            app:layout_constraintRight_toLeftOf="@+id/iv_wz"
-            app:layout_constraintTop_toTopOf="@+id/iv_wz" />
-
-        <ImageView
-            android:id="@+id/iv_wz"
-            android:layout_width="@dimen/dimen_32"
-            android:layout_height="@dimen/dimen_32"
-            android:layout_marginTop="@dimen/dimen_8"
-            android:padding="@dimen/dimen_4"
-            android:src="@mipmap/ic_scan"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/iv_zj" />
-
-
-        <TextView
-            android:id="@+id/tv_wl"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/dimen_8"
-            android:text="物料编码"
-            app:layout_constraintBottom_toBottomOf="@+id/iv_wl"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/iv_wl" />
-
-        <EditText
-            android:id="@+id/et_wl"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/dimen_8"
-            android:background="@drawable/et_background"
-            android:padding="@dimen/dimen_4"
-            android:textSize="@dimen/text_15"
-            app:layout_constraintBottom_toBottomOf="@+id/iv_wl"
-            app:layout_constraintLeft_toRightOf="@+id/tv_wl"
-            app:layout_constraintRight_toLeftOf="@+id/iv_wl"
-            app:layout_constraintTop_toTopOf="@+id/iv_wl" />
-
-        <ImageView
-            android:id="@+id/iv_wl"
-            android:layout_width="@dimen/dimen_32"
-            android:layout_height="@dimen/dimen_32"
-            android:layout_marginTop="@dimen/dimen_8"
-            android:padding="@dimen/dimen_4"
-            android:src="@mipmap/ic_scan"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/iv_wz" />
-
-        <TextView
-            android:id="@+id/tv_num"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/dimen_8"
-            android:text="数量"
-            app:layout_constraintBottom_toBottomOf="@+id/btn_add"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/btn_add" />
-
-        <EditText
-            android:id="@+id/et_num"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/dimen_8"
-            android:layout_marginRight="@dimen/margin"
-            android:background="@drawable/et_background"
-            android:inputType="numberSigned"
-            android:padding="@dimen/dimen_4"
-            android:textSize="@dimen/text_15"
-            app:layout_constraintBottom_toBottomOf="@+id/btn_add"
-            app:layout_constraintLeft_toRightOf="@+id/tv_wl"
-            app:layout_constraintRight_toLeftOf="@+id/btn_add"
-            app:layout_constraintTop_toTopOf="@+id/btn_add" />
-
-        <Button
-            android:id="@+id/btn_add"
-            android:layout_width="@dimen/dimen_64"
-            android:layout_height="@dimen/dimen_40"
-            android:layout_marginEnd="@dimen/dimen_8"
-            android:text="添加"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/iv_wl" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_list"
+        <ScrollView
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            app:layout_constraintBottom_toTopOf="@+id/tv_submit"
-            app:layout_constraintTop_toBottomOf="@+id/et_num" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/tv_submit">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+
+                <TextView
+                    android:id="@+id/tv_1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dimen_8"
+                    android:text="入库单号"
+                    app:layout_constraintBottom_toBottomOf="@+id/ll_1"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/ll_1" />
+
+                <LinearLayout
+                    android:id="@+id/ll_1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dimen_8"
+                    android:layout_marginTop="@dimen/dimen_8"
+                    android:layout_marginRight="@dimen/dimen_8"
+                    android:background="@drawable/et_background"
+                    android:paddingHorizontal="@dimen/dimen_4"
+                    android:paddingVertical="3dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintLeft_toRightOf="@+id/tv_1"
+                    app:layout_constraintStart_toEndOf="@+id/tv_1"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <EditText
+                        android:id="@+id/et_1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/dimen_8"
+                        android:layout_weight="1"
+                        android:background="@null"
+                        android:text="@{viewModel.orderNumber}"
+                        android:textSize="15sp"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/tv_generate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="规则生成"
+                        android:textSize="14sp"
+                        app:layout_constraintBottom_toBottomOf="@+id/et_1"
+                        app:layout_constraintLeft_toRightOf="@+id/et_1"
+                        app:layout_constraintTop_toTopOf="@+id/et_1" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll_0"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dimen_8"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginRight="@dimen/dimen_8"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/ll_1">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="凭  证  号" />
+
+                    <EditText
+                        android:id="@+id/et_voucher_no"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/dimen_8"
+                        android:layout_weight="1"
+                        android:background="@drawable/et_background"
+                        android:hint="请输入凭证号"
+                        android:paddingHorizontal="@dimen/dimen_4"
+                        android:paddingVertical="3dp"
+                        android:textSize="@dimen/text_15" />
+                </LinearLayout>
+
+
+                <TextView
+                    android:id="@+id/tv_3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dimen_8"
+                    android:text="收料类型"
+                    app:layout_constraintBottom_toBottomOf="@+id/sp_sl_type"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/sp_sl_type" />
+
+                <Spinner
+                    android:id="@+id/sp_sl_type"
+                    android:layout_width="0dp"
+                    android:layout_height="24dp"
+                    android:layout_marginStart="@dimen/dimen_8"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginEnd="6dp"
+                    android:background="@drawable/spinner_background"
+                    app:layout_constraintLeft_toRightOf="@+id/tv_3"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/ll_0" />
+
+
+                <LinearLayout
+                    android:id="@+id/ll_3"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dimen_8"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginRight="@dimen/dimen_8"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/sp_sl_type">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="入库仓库" />
+
+                    <TextView
+                        android:id="@+id/tv_ck"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/dimen_8"
+                        android:layout_weight="1"
+                        android:background="@drawable/et_background"
+                        android:paddingHorizontal="@dimen/dimen_4"
+                        android:paddingVertical="2dp" />
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:id="@+id/ll_4"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dimen_8"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginRight="@dimen/dimen_8"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/ll_3">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="权属单位" />
+
+                    <TextView
+                        android:id="@+id/tv_dept"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/dimen_8"
+                        android:layout_weight="1"
+                        android:background="@drawable/et_background"
+                        android:hint="请选择权属单位"
+                        android:paddingHorizontal="@dimen/dimen_4"
+                        android:paddingVertical="2dp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll_5"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dimen_8"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginRight="@dimen/dimen_8"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/ll_4">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="送  货  人" />
+
+                    <EditText
+                        android:id="@+id/et_person"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/dimen_8"
+                        android:layout_weight="1"
+                        android:background="@drawable/et_background"
+                        android:paddingHorizontal="@dimen/dimen_4"
+                        android:paddingVertical="2dp"
+                        android:textSize="@dimen/text_15" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll_6"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dimen_8"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginRight="@dimen/dimen_8"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/ll_5">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="联系方式" />
+
+                    <EditText
+                        android:id="@+id/et_tel"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/dimen_8"
+                        android:layout_weight="1"
+                        android:background="@drawable/et_background"
+                        android:paddingHorizontal="@dimen/dimen_4"
+                        android:paddingVertical="2dp"
+                        android:textSize="@dimen/text_15" />
+                </LinearLayout>
+
+                <View
+                    android:id="@+id/view1"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="@dimen/dimen_8"
+                    android:background="@color/background"
+                    app:layout_constraintTop_toBottomOf="@+id/ll_6" />
+
+                <TextView
+                    android:id="@+id/tv_zj"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dimen_8"
+                    android:text="载具编码"
+                    app:layout_constraintBottom_toBottomOf="@+id/iv_zj"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/iv_zj" />
+
+
+                <EditText
+                    android:id="@+id/et_zj"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dimen_8"
+                    android:layout_marginRight="@dimen/dimen_4"
+                    android:background="@drawable/et_background"
+                    android:imeOptions="actionDone"
+                    android:inputType="text"
+                    android:paddingHorizontal="@dimen/dimen_4"
+                    android:paddingVertical="2dp"
+                    android:textSize="@dimen/text_15"
+                    app:layout_constraintBottom_toBottomOf="@+id/iv_zj"
+                    app:layout_constraintLeft_toRightOf="@+id/tv_zj"
+                    app:layout_constraintRight_toLeftOf="@+id/iv_zj"
+                    app:layout_constraintTop_toTopOf="@+id/iv_zj" />
+
+                <ImageView
+                    android:id="@+id/iv_zj"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginRight="@dimen/dimen_4"
+                    android:src="@mipmap/ic_scan"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/view1" />
+
+
+                <TextView
+                    android:id="@+id/tv_wz"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dimen_8"
+                    android:text="位置编码"
+                    app:layout_constraintBottom_toBottomOf="@+id/iv_wz"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/iv_wz" />
+
+                <EditText
+                    android:id="@+id/et_wz"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dimen_8"
+                    android:layout_marginRight="@dimen/dimen_4"
+                    android:background="@drawable/et_background"
+                    android:paddingHorizontal="@dimen/dimen_4"
+                    android:paddingVertical="2dp"
+                    android:textSize="@dimen/text_15"
+                    app:layout_constraintBottom_toBottomOf="@+id/iv_wz"
+                    app:layout_constraintLeft_toRightOf="@+id/tv_wz"
+                    app:layout_constraintRight_toLeftOf="@+id/iv_wz"
+                    app:layout_constraintTop_toTopOf="@+id/iv_wz" />
+
+                <ImageView
+                    android:id="@+id/iv_wz"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginRight="@dimen/dimen_4"
+                    android:src="@mipmap/ic_scan"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/iv_zj" />
+
+
+                <TextView
+                    android:id="@+id/tv_wl"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dimen_8"
+                    android:text="物料编码"
+                    app:layout_constraintBottom_toBottomOf="@+id/iv_wl"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/iv_wl" />
+
+                <EditText
+                    android:id="@+id/et_wl"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dimen_8"
+                    android:layout_marginRight="@dimen/dimen_4"
+                    android:background="@drawable/et_background"
+                    android:paddingHorizontal="@dimen/dimen_4"
+                    android:paddingVertical="2dp"
+                    android:textSize="@dimen/text_15"
+                    app:layout_constraintBottom_toBottomOf="@+id/iv_wl"
+                    app:layout_constraintLeft_toRightOf="@+id/tv_wl"
+                    app:layout_constraintRight_toLeftOf="@+id/iv_wl"
+                    app:layout_constraintTop_toTopOf="@+id/iv_wl" />
+
+                <ImageView
+                    android:id="@+id/iv_wl"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginRight="@dimen/dimen_4"
+                    android:src="@mipmap/ic_scan"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/iv_wz" />
+
+
+                <TextView
+                    android:id="@+id/tv_sn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dimen_8"
+                    android:text="序  列  号"
+                    app:layout_constraintBottom_toBottomOf="@+id/et_sn"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/et_sn" />
+
+                <EditText
+                    android:id="@+id/et_sn"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dimen_8"
+                    android:layout_marginTop="@dimen/dimen_4"
+                    android:layout_marginEnd="8dp"
+                    android:background="@drawable/et_background"
+                    android:hint="请输入序列号"
+                    android:paddingHorizontal="@dimen/dimen_4"
+                    android:paddingVertical="2dp"
+                    android:textSize="@dimen/text_15"
+                    app:layout_constraintLeft_toRightOf="@+id/tv_sn"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/iv_wl" />
+
+
+                <TextView
+                    android:id="@+id/tv_5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dimen_8"
+                    android:text="品级"
+                    app:layout_constraintBottom_toBottomOf="@+id/sp_grade"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/sp_grade" />
+
+                <Spinner
+                    android:id="@+id/sp_grade"
+                    android:layout_width="0dp"
+                    android:layout_height="24dp"
+                    android:layout_marginStart="@dimen/dimen_8"
+                    android:layout_marginTop="@dimen/dimen_4"
+                    android:layout_marginEnd="8dp"
+                    android:background="@drawable/spinner_background"
+                    app:layout_constraintLeft_toRightOf="@+id/tv_3"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/et_sn" />
+
+                <TextView
+                    android:id="@+id/tv_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dimen_8"
+                    android:text="单价"
+                    app:layout_constraintBottom_toBottomOf="@+id/et_price"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/et_price" />
+
+                <EditText
+                    android:id="@+id/et_price"
+                    android:layout_width="0dp"
+                    android:layout_height="26dp"
+                    android:layout_marginStart="@dimen/dimen_8"
+                    android:layout_marginTop="@dimen/dimen_4"
+                    android:layout_marginEnd="8dp"
+                    android:background="@drawable/et_background"
+                    android:hint="请输入单价"
+                    android:inputType="numberDecimal"
+                    android:paddingHorizontal="@dimen/dimen_4"
+                    android:paddingVertical="2dp"
+                    android:textSize="@dimen/text_15"
+                    app:layout_constraintLeft_toRightOf="@+id/tv_3"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/sp_grade" />
+
+
+                <TextView
+                    android:id="@+id/tv_6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dimen_8"
+                    android:text="生产厂家"
+                    app:layout_constraintBottom_toBottomOf="@+id/tv_facture"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/tv_facture" />
+
+                <TextView
+                    android:id="@+id/tv_facture"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dimen_8"
+                    android:layout_marginTop="@dimen/dimen_4"
+                    android:layout_marginEnd="8dp"
+                    android:background="@drawable/et_background"
+                    android:hint="请点击选择生产厂家"
+                    android:paddingHorizontal="@dimen/dimen_4"
+                    android:paddingVertical="2dp"
+                    app:layout_constraintLeft_toRightOf="@+id/tv_3"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/et_price" />
+
+
+                <TextView
+                    android:id="@+id/tv_7"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dimen_8"
+                    android:text="生产日期"
+                    app:layout_constraintBottom_toBottomOf="@+id/tv_facture_date"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/tv_facture_date" />
+
+                <TextView
+                    android:id="@+id/tv_facture_date"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dimen_8"
+                    android:layout_marginTop="@dimen/dimen_4"
+                    android:layout_marginEnd="8dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/et_background"
+                    android:paddingHorizontal="@dimen/dimen_4"
+                    android:paddingVertical="2dp"
+                    app:layout_constraintLeft_toRightOf="@+id/tv_3"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_facture" />
+
+
+                <TextView
+                    android:id="@+id/tv_8"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dimen_8"
+                    android:text="配套信息"
+                    app:layout_constraintBottom_toBottomOf="@+id/tv_other"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/tv_other" />
+
+                <TextView
+                    android:id="@+id/tv_other"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dimen_8"
+                    android:layout_marginTop="@dimen/dimen_4"
+                    android:layout_marginEnd="8dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/et_background"
+                    android:paddingHorizontal="@dimen/dimen_4"
+                    android:paddingVertical="2dp"
+                    app:layout_constraintLeft_toRightOf="@+id/tv_3"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_facture_date" />
+
+
+                <TextView
+                    android:id="@+id/tv_num"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dimen_8"
+                    android:text="数量"
+                    app:layout_constraintBottom_toBottomOf="@+id/btn_add"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/btn_add" />
+
+                <EditText
+                    android:id="@+id/et_num"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dimen_8"
+                    android:layout_marginRight="@dimen/margin"
+                    android:background="@drawable/et_background"
+                    android:inputType="numberSigned"
+                    android:paddingHorizontal="@dimen/dimen_4"
+                    android:paddingVertical="2dp"
+                    android:textSize="@dimen/text_15"
+                    app:layout_constraintBottom_toBottomOf="@+id/btn_add"
+                    app:layout_constraintLeft_toRightOf="@+id/tv_wl"
+                    app:layout_constraintRight_toLeftOf="@+id/btn_add"
+                    app:layout_constraintTop_toTopOf="@+id/btn_add" />
+
+                <Button
+                    android:id="@+id/btn_add"
+                    android:layout_width="@dimen/dimen_64"
+                    android:layout_height="@dimen/dimen_40"
+                    android:layout_marginEnd="@dimen/dimen_8"
+                    android:text="添加"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_other" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="900dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/et_num" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </ScrollView>
 
         <TextView
             android:id="@+id/tv_submit"
@@ -286,4 +582,5 @@
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </layout>

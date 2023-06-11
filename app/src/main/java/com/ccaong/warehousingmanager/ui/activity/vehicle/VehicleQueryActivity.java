@@ -26,7 +26,7 @@ import com.ccaong.warehousingmanager.util.CodeParseUtils;
 /**
  * 载具查询
  *
- * @author eyecool
+ * @author caocong
  * @date 2022/9/19
  */
 public class VehicleQueryActivity extends BaseActivity<ActivityVehicleQueryBinding, VehicleQueryViewModel> {
@@ -96,14 +96,20 @@ public class VehicleQueryActivity extends BaseActivity<ActivityVehicleQueryBindi
 
     @Override
     protected void scanResult(String result) {
-        if (CodeParseUtils.isCodeContainer(result)){
+        if (CodeParseUtils.isCodeContainer(result)) {
             query(result);
+        } else {
+            Toast.makeText(this, "请扫描载具码！", Toast.LENGTH_SHORT).show();
         }
     }
 
     @Override
     protected void rfidResult(String result) {
-        query(result);
+        if (!CodeParseUtils.rfidIsLocalCode(result)) {
+            query(result);
+        } else {
+            Toast.makeText(this, "请扫描载具码！", Toast.LENGTH_SHORT).show();
+        }
     }
 
 
@@ -122,7 +128,7 @@ public class VehicleQueryActivity extends BaseActivity<ActivityVehicleQueryBindi
                 .subscribe(new HttpDisposable<ContainerInfoResponse>() {
                     @Override
                     public void success(ContainerInfoResponse bean) {
-                        Log.e(TAG, bean.getMsg());
+
                         if (bean.getCode() == 200) {
                             commonAdapter.onItemDatasChanged(bean.getData());
                         } else {

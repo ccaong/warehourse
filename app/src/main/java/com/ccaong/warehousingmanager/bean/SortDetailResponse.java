@@ -3,7 +3,7 @@ package com.ccaong.warehousingmanager.bean;
 import java.util.List;
 
 /**
- * @author eyecool
+ * @author caocong
  * @date 2022/10/14
  */
 public class SortDetailResponse {
@@ -40,6 +40,7 @@ public class SortDetailResponse {
     public static class DataDTO {
         private String createBy;
         private String createTime;
+        private String updateTime;
         private ParamsDTO params;
         private String id;
         private String orderOutboundId;
@@ -52,7 +53,13 @@ public class SortDetailResponse {
         private OrderOutboundDTO orderOutbound;
         private String pickStatus;
         private StorageLocationDTO storageLocation;
+        private String ownershipUnitId;
+        private OwnerDTO owner;
+        private String goodsGrade;
+        private Double unitPrice;
+        private String source;
         private String relNumber;
+        private String serialNumber;
 
         public String getCreateBy() {
             return createBy;
@@ -68,6 +75,14 @@ public class SortDetailResponse {
 
         public void setCreateTime(String createTime) {
             this.createTime = createTime;
+        }
+
+        public String getUpdateTime() {
+            return updateTime;
+        }
+
+        public void setUpdateTime(String updateTime) {
+            this.updateTime = updateTime;
         }
 
         public ParamsDTO getParams() {
@@ -166,12 +181,61 @@ public class SortDetailResponse {
             this.storageLocation = storageLocation;
         }
 
+        public String getOwnershipUnitId() {
+            return ownershipUnitId;
+        }
+
+        public void setOwnershipUnitId(String ownershipUnitId) {
+            this.ownershipUnitId = ownershipUnitId;
+        }
+
+        public OwnerDTO getOwner() {
+            return owner;
+        }
+
+        public void setOwner(OwnerDTO owner) {
+            this.owner = owner;
+        }
+
+        public String getGoodsGrade() {
+            return goodsGrade;
+        }
+
+        public void setGoodsGrade(String goodsGrade) {
+            this.goodsGrade = goodsGrade;
+        }
+
+        public Double getUnitPrice() {
+            return unitPrice;
+        }
+
+        public void setUnitPrice(Double unitPrice) {
+            this.unitPrice = unitPrice;
+        }
+
+        public String getSource() {
+            return source;
+        }
+
+        public void setSource(String source) {
+            this.source = source;
+        }
+
         public String getRelNumber() {
             return relNumber;
         }
 
         public void setRelNumber(String relNumber) {
             this.relNumber = relNumber;
+        }
+
+
+        public String getSerialNumber() {
+            return serialNumber;
+        }
+
+        public void setSerialNumber(String serialNumber) {
+            this.serialNumber = serialNumber;
         }
 
         public static class ParamsDTO {
@@ -188,6 +252,8 @@ public class SortDetailResponse {
             private String storageLocationId;
             private Integer realAmount;
             private String containerSerialNum;
+            private String manufacturerId;
+            private String serialNumbers;
             private GoodsTypeDTO goodsType;
 
             public ParamsDTO getParams() {
@@ -270,6 +336,22 @@ public class SortDetailResponse {
                 this.containerSerialNum = containerSerialNum;
             }
 
+            public String getManufacturerId() {
+                return manufacturerId;
+            }
+
+            public void setManufacturerId(String manufacturerId) {
+                this.manufacturerId = manufacturerId;
+            }
+
+            public String getSerialNumbers() {
+                return serialNumbers;
+            }
+
+            public void setSerialNumbers(String serialNumbers) {
+                this.serialNumbers = serialNumbers;
+            }
+
             public GoodsTypeDTO getGoodsType() {
                 return goodsType;
             }
@@ -285,11 +367,14 @@ public class SortDetailResponse {
                 private ParamsDTO params;
                 private String id;
                 private String parentId;
+                private String ancestors;
                 private String name;
                 private String goodsUnit;
                 private String skuCode;
                 private String specificationDesc;
                 private String volume;
+                private String weight;
+                private String supportInformation;
                 private List<?> children;
                 private String parentName;
 
@@ -315,6 +400,14 @@ public class SortDetailResponse {
 
                 public void setParentId(String parentId) {
                     this.parentId = parentId;
+                }
+
+                public String getAncestors() {
+                    return ancestors;
+                }
+
+                public void setAncestors(String ancestors) {
+                    this.ancestors = ancestors;
                 }
 
                 public String getName() {
@@ -357,6 +450,22 @@ public class SortDetailResponse {
                     this.volume = volume;
                 }
 
+                public String getWeight() {
+                    return weight;
+                }
+
+                public void setWeight(String weight) {
+                    this.weight = weight;
+                }
+
+                public String getSupportInformation() {
+                    return supportInformation;
+                }
+
+                public void setSupportInformation(String supportInformation) {
+                    this.supportInformation = supportInformation;
+                }
+
                 public List<?> getChildren() {
                     return children;
                 }
@@ -385,6 +494,8 @@ public class SortDetailResponse {
             private String badFlag;
             private Boolean isDone;
             private String outboundType;
+            private String voucherNo;
+            private String shipper;
 
             public ParamsDTO getParams() {
                 return params;
@@ -432,6 +543,22 @@ public class SortDetailResponse {
 
             public void setOutboundType(String outboundType) {
                 this.outboundType = outboundType;
+            }
+
+            public String getVoucherNo() {
+                return voucherNo;
+            }
+
+            public void setVoucherNo(String voucherNo) {
+                this.voucherNo = voucherNo;
+            }
+
+            public String getShipper() {
+                return shipper;
+            }
+
+            public void setShipper(String shipper) {
+                this.shipper = shipper;
             }
 
             public static class ParamsDTO {
@@ -1017,6 +1144,39 @@ public class SortDetailResponse {
 
                 public static class ParamsDTO {
                 }
+            }
+        }
+
+        public static class OwnerDTO {
+            private ParamsDTO params;
+            private String id;
+            private String ownerName;
+
+            public ParamsDTO getParams() {
+                return params;
+            }
+
+            public void setParams(ParamsDTO params) {
+                this.params = params;
+            }
+
+            public String getId() {
+                return id;
+            }
+
+            public void setId(String id) {
+                this.id = id;
+            }
+
+            public String getOwnerName() {
+                return ownerName;
+            }
+
+            public void setOwnerName(String ownerName) {
+                this.ownerName = ownerName;
+            }
+
+            public static class ParamsDTO {
             }
         }
     }

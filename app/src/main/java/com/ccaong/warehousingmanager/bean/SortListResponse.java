@@ -1,9 +1,10 @@
 package com.ccaong.warehousingmanager.bean;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
- * @author eyecool
+ * @author caocong
  * @date 2022/10/14
  */
 public class SortListResponse {
@@ -46,10 +47,9 @@ public class SortListResponse {
         this.msg = msg;
     }
 
-    public static class RowsDTO {
+    public static class RowsDTO implements Serializable {
         private String orderNumber;
-        private String relNumber;
-        private List<RelsDTO> rels;
+        private List<ListDTO> list;
 
         public String getOrderNumber() {
             return orderNumber;
@@ -59,140 +59,27 @@ public class SortListResponse {
             this.orderNumber = orderNumber;
         }
 
-        public String getRelNumber() {
-            return relNumber;
+        public List<ListDTO> getList() {
+            return list;
         }
 
-        public void setRelNumber(String relNumber) {
-            this.relNumber = relNumber;
+        public void setList(List<ListDTO> list) {
+            this.list = list;
         }
 
-        public List<RelsDTO> getRels() {
-            return rels;
-        }
-
-        public void setRels(List<RelsDTO> rels) {
-            this.rels = rels;
-        }
-
-        public static class RelsDTO {
-            private String createBy;
-            private String createTime;
-            private ParamsDTO params;
-            private String id;
-            private String orderOutboundId;
-            private String goodsInfoId;
-            private Integer goodsCount;
-            private String storageLocationId;
-            private Integer goodsRestCount;
-            private String goodsTypeId;
-            private GoodsInfoDTO goodsInfo;
-            private OrderOutboundDTO orderOutbound;
-            private String pickStatus;
+        public static class ListDTO  implements Serializable {
+            private String orderNumber;
             private String relNumber;
+            // outbound：出库拣货，typeHou：物资移库；locHou：载具移库； locCont：载具移位
+            private String relSource;
+            private List<RelListDTO> relList;
 
-            public String getCreateBy() {
-                return createBy;
+            public String getOrderNumber() {
+                return orderNumber;
             }
 
-            public void setCreateBy(String createBy) {
-                this.createBy = createBy;
-            }
-
-            public String getCreateTime() {
-                return createTime;
-            }
-
-            public void setCreateTime(String createTime) {
-                this.createTime = createTime;
-            }
-
-            public ParamsDTO getParams() {
-                return params;
-            }
-
-            public void setParams(ParamsDTO params) {
-                this.params = params;
-            }
-
-            public String getId() {
-                return id;
-            }
-
-            public void setId(String id) {
-                this.id = id;
-            }
-
-            public String getOrderOutboundId() {
-                return orderOutboundId;
-            }
-
-            public void setOrderOutboundId(String orderOutboundId) {
-                this.orderOutboundId = orderOutboundId;
-            }
-
-            public String getGoodsInfoId() {
-                return goodsInfoId;
-            }
-
-            public void setGoodsInfoId(String goodsInfoId) {
-                this.goodsInfoId = goodsInfoId;
-            }
-
-            public Integer getGoodsCount() {
-                return goodsCount;
-            }
-
-            public void setGoodsCount(Integer goodsCount) {
-                this.goodsCount = goodsCount;
-            }
-
-            public String getStorageLocationId() {
-                return storageLocationId;
-            }
-
-            public void setStorageLocationId(String storageLocationId) {
-                this.storageLocationId = storageLocationId;
-            }
-
-            public Integer getGoodsRestCount() {
-                return goodsRestCount;
-            }
-
-            public void setGoodsRestCount(Integer goodsRestCount) {
-                this.goodsRestCount = goodsRestCount;
-            }
-
-            public String getGoodsTypeId() {
-                return goodsTypeId;
-            }
-
-            public void setGoodsTypeId(String goodsTypeId) {
-                this.goodsTypeId = goodsTypeId;
-            }
-
-            public GoodsInfoDTO getGoodsInfo() {
-                return goodsInfo;
-            }
-
-            public void setGoodsInfo(GoodsInfoDTO goodsInfo) {
-                this.goodsInfo = goodsInfo;
-            }
-
-            public OrderOutboundDTO getOrderOutbound() {
-                return orderOutbound;
-            }
-
-            public void setOrderOutbound(OrderOutboundDTO orderOutbound) {
-                this.orderOutbound = orderOutbound;
-            }
-
-            public String getPickStatus() {
-                return pickStatus;
-            }
-
-            public void setPickStatus(String pickStatus) {
-                this.pickStatus = pickStatus;
+            public void setOrderNumber(String orderNumber) {
+                this.orderNumber = orderNumber;
             }
 
             public String getRelNumber() {
@@ -203,36 +90,52 @@ public class SortListResponse {
                 this.relNumber = relNumber;
             }
 
-            public static class ParamsDTO {
+            public String getRelSource() {
+                return relSource;
             }
 
-            public static class GoodsInfoDTO {
-                private ParamsDTO params;
-                private String id;
-                private Integer goodsAmount;
-                private String materialCode;
+            public void setRelSource(String relSource) {
+                this.relSource = relSource;
+            }
+
+            public List<RelListDTO> getRelList() {
+                return relList;
+            }
+
+            public void setRelList(List<RelListDTO> relList) {
+                this.relList = relList;
+            }
+
+            public static class RelListDTO  implements Serializable {
                 private String locationCode;
-                private String goodsTypeId;
-                private String typeId;
-                private String storageLocationId;
-                private Integer realAmount;
-                private String containerSerialNum;
-                private GoodsTypeDTO goodsType;
+                private String containerSerialNumber;
+                private String realCount;
+                private Integer goodsAmount;
+                private String relId;
+                private List<String> serialNumbers;
 
-                public ParamsDTO getParams() {
-                    return params;
+                public String getLocationCode() {
+                    return locationCode;
                 }
 
-                public void setParams(ParamsDTO params) {
-                    this.params = params;
+                public void setLocationCode(String locationCode) {
+                    this.locationCode = locationCode;
                 }
 
-                public String getId() {
-                    return id;
+                public String getContainerSerialNumber() {
+                    return containerSerialNumber;
                 }
 
-                public void setId(String id) {
-                    this.id = id;
+                public void setContainerSerialNumber(String containerSerialNumber) {
+                    this.containerSerialNumber = containerSerialNumber;
+                }
+
+                public String getRealCount() {
+                    return realCount;
+                }
+
+                public void setRealCount(String realCount) {
+                    this.realCount = realCount;
                 }
 
                 public Integer getGoodsAmount() {
@@ -243,218 +146,20 @@ public class SortListResponse {
                     this.goodsAmount = goodsAmount;
                 }
 
-                public String getMaterialCode() {
-                    return materialCode;
+                public String getRelId() {
+                    return relId;
                 }
 
-                public void setMaterialCode(String materialCode) {
-                    this.materialCode = materialCode;
+                public void setRelId(String relId) {
+                    this.relId = relId;
                 }
 
-                public String getLocationCode() {
-                    return locationCode;
+                public List<String> getSerialNumbers() {
+                    return serialNumbers;
                 }
 
-                public void setLocationCode(String locationCode) {
-                    this.locationCode = locationCode;
-                }
-
-                public String getGoodsTypeId() {
-                    return goodsTypeId;
-                }
-
-                public void setGoodsTypeId(String goodsTypeId) {
-                    this.goodsTypeId = goodsTypeId;
-                }
-
-                public String getTypeId() {
-                    return typeId;
-                }
-
-                public void setTypeId(String typeId) {
-                    this.typeId = typeId;
-                }
-
-                public String getStorageLocationId() {
-                    return storageLocationId;
-                }
-
-                public void setStorageLocationId(String storageLocationId) {
-                    this.storageLocationId = storageLocationId;
-                }
-
-                public Integer getRealAmount() {
-                    return realAmount;
-                }
-
-                public void setRealAmount(Integer realAmount) {
-                    this.realAmount = realAmount;
-                }
-
-                public String getContainerSerialNum() {
-                    return containerSerialNum;
-                }
-
-                public void setContainerSerialNum(String containerSerialNum) {
-                    this.containerSerialNum = containerSerialNum;
-                }
-
-                public GoodsTypeDTO getGoodsType() {
-                    return goodsType;
-                }
-
-                public void setGoodsType(GoodsTypeDTO goodsType) {
-                    this.goodsType = goodsType;
-                }
-
-                public static class ParamsDTO {
-                }
-
-                public static class GoodsTypeDTO {
-                    private ParamsDTO params;
-                    private String id;
-                    private String parentId;
-                    private String name;
-                    private String goodsUnit;
-                    private String skuCode;
-                    private String specificationDesc;
-                    private String volume;
-                    private List<?> children;
-
-                    public ParamsDTO getParams() {
-                        return params;
-                    }
-
-                    public void setParams(ParamsDTO params) {
-                        this.params = params;
-                    }
-
-                    public String getId() {
-                        return id;
-                    }
-
-                    public void setId(String id) {
-                        this.id = id;
-                    }
-
-                    public String getParentId() {
-                        return parentId;
-                    }
-
-                    public void setParentId(String parentId) {
-                        this.parentId = parentId;
-                    }
-
-                    public String getName() {
-                        return name;
-                    }
-
-                    public void setName(String name) {
-                        this.name = name;
-                    }
-
-                    public String getGoodsUnit() {
-                        return goodsUnit;
-                    }
-
-                    public void setGoodsUnit(String goodsUnit) {
-                        this.goodsUnit = goodsUnit;
-                    }
-
-                    public String getSkuCode() {
-                        return skuCode;
-                    }
-
-                    public void setSkuCode(String skuCode) {
-                        this.skuCode = skuCode;
-                    }
-
-                    public String getSpecificationDesc() {
-                        return specificationDesc;
-                    }
-
-                    public void setSpecificationDesc(String specificationDesc) {
-                        this.specificationDesc = specificationDesc;
-                    }
-
-                    public String getVolume() {
-                        return volume;
-                    }
-
-                    public void setVolume(String volume) {
-                        this.volume = volume;
-                    }
-
-                    public List<?> getChildren() {
-                        return children;
-                    }
-
-                    public void setChildren(List<?> children) {
-                        this.children = children;
-                    }
-
-                    public static class ParamsDTO {
-                    }
-                }
-            }
-
-            public static class OrderOutboundDTO {
-                private ParamsDTO params;
-                private String id;
-                private String orderNumber;
-                private String badFlag;
-                private Boolean isDone;
-                private String outboundType;
-
-                public ParamsDTO getParams() {
-                    return params;
-                }
-
-                public void setParams(ParamsDTO params) {
-                    this.params = params;
-                }
-
-                public String getId() {
-                    return id;
-                }
-
-                public void setId(String id) {
-                    this.id = id;
-                }
-
-                public String getOrderNumber() {
-                    return orderNumber;
-                }
-
-                public void setOrderNumber(String orderNumber) {
-                    this.orderNumber = orderNumber;
-                }
-
-                public String getBadFlag() {
-                    return badFlag;
-                }
-
-                public void setBadFlag(String badFlag) {
-                    this.badFlag = badFlag;
-                }
-
-                public Boolean getIsDone() {
-                    return isDone;
-                }
-
-                public void setIsDone(Boolean isDone) {
-                    this.isDone = isDone;
-                }
-
-                public String getOutboundType() {
-                    return outboundType;
-                }
-
-                public void setOutboundType(String outboundType) {
-                    this.outboundType = outboundType;
-                }
-
-                public static class ParamsDTO {
+                public void setSerialNumbers(List<String> serialNumbers) {
+                    this.serialNumbers = serialNumbers;
                 }
             }
         }

@@ -3,7 +3,7 @@ package com.ccaong.warehousingmanager.bean;
 import java.util.List;
 
 /**
- * @author eyecool
+ * @author caocong
  * @date 2022/9/20
  */
 public class InboundListResponse {
@@ -53,6 +53,8 @@ public class InboundListResponse {
         private String createTime;
         private String orderStatus;
 
+        private String transNumber;
+
         public String getMaterialName() {
             return materialName;
         }
@@ -91,6 +93,14 @@ public class InboundListResponse {
 
         public void setOrderStatus(String orderStatus) {
             this.orderStatus = orderStatus;
+        }
+
+        public String getTransNumber() {
+            return transNumber;
+        }
+
+        public void setTransNumber(String transNumber) {
+            this.transNumber = transNumber;
         }
     }
 }

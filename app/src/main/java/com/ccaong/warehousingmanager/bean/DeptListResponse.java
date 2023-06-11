@@ -3,7 +3,7 @@ package com.ccaong.warehousingmanager.bean;
 import java.util.List;
 
 /**
- * @author eyecool
+ * @author caocong
  * @date 2022/10/17
  */
 public class DeptListResponse {

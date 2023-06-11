@@ -13,7 +13,7 @@ import androidx.fragment.app.DialogFragment;
 import com.ccaong.warehousingmanager.R;
 
 /**
- * @author eyecool
+ * @author caocong
  * @date 2022/9/21
  */
 public class InvertoryProductDialog extends DialogFragment {

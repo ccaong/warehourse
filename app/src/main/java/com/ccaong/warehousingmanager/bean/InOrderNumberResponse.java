@@ -1,7 +1,7 @@
 package com.ccaong.warehousingmanager.bean;
 
 /**
- * @author eyecool
+ * @author caocong
  * @date 2022/10/10
  */
 public class InOrderNumberResponse {

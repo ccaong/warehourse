@@ -4,6 +4,7 @@ import static com.ccaong.warehousingmanager.App.getContext;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.util.ArrayMap;
 import android.util.Log;
@@ -12,6 +13,7 @@ import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -37,10 +39,16 @@ import com.ccaong.warehousingmanager.http.HttpDisposable;
 import com.ccaong.warehousingmanager.http.HttpFactory;
 import com.ccaong.warehousingmanager.http.HttpRequest;
 import com.ccaong.warehousingmanager.ui.activity.quick.select.SelectDeptActivity;
+import com.ccaong.warehousingmanager.ui.activity.quick.select.SelectFactureActivity;
 import com.ccaong.warehousingmanager.util.CodeParseUtils;
+import com.ccaong.warehousingmanager.util.StringUtils;
 import com.orhanobut.hawk.Hawk;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -48,18 +56,31 @@ import java.util.Map;
 /**
  * 快速入库
  *
- * @author eyecool
+ * @author caocong
  * @date 2022/9/19
  */
 public class QuickWarehousingActivity extends BaseActivity<ActivityQuickWarehousingBinding, QuickWarehousingViewModel> {
 
     //入库类型
-    private String type = "";
+//    private String type = "0";
+    private String receiveType = "0";
 
     private String goodsTypeId = "";
     private String goodsName = "";
     private String unit = "";
     private String sku = "";
+    private String goodsGrade = "";
+    private String supportInformation = "";
+
+    private String customerName = "";
+    private String customerId = "";
+
+
+    private String manufacturerId = "";
+    private String manufacturerName = "";
+
+    private Date factureDate;
+
 
     CommonAdapter<QuickGoodBean> commonAdapter;
 
@@ -89,16 +110,14 @@ public class QuickWarehousingActivity extends BaseActivity<ActivityQuickWarehous
         mDataBinding.setViewModel(mViewModel);
     }
 
-    @Override
-    protected void startScan() {
-        super.startScan();
-        mDataBinding.etFo.requestFocus();
-    }
-
 
     @Override
     protected void rfidResult(String result) {
-        checkContainerInTask(result);
+        if (CodeParseUtils.rfidIsLocalCode(result)) {
+            mDataBinding.etWz.setText(CodeParseUtils.getRfidLocalCode(result));
+        } else {
+            checkContainerInTask(result);
+        }
     }
 
     @Override
@@ -119,13 +138,27 @@ public class QuickWarehousingActivity extends BaseActivity<ActivityQuickWarehous
 
     }
 
-//    ActivityResultLauncher<Intent> intentActivityResultLauncher =
-//            registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
-//                if (result.getData() != null && result.getResultCode() == Activity.RESULT_OK) {
-//                    deptName = result.getData().getStringExtra("NAME");
-//                    deptId = result.getData().getStringExtra("ID");
-//                }
-//            });
+    ActivityResultLauncher<Intent> deptResultLauncher =
+            registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+                if (result.getData() != null && result.getResultCode() == Activity.RESULT_OK) {
+                    customerName = result.getData().getStringExtra("NAME");
+                    customerId = result.getData().getStringExtra("ID");
+
+                    mDataBinding.tvDept.setText(customerName);
+                }
+            });
+
+    ActivityResultLauncher<Intent> factureResultLauncher =
+            registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+                if (result.getData() != null && result.getResultCode() == Activity.RESULT_OK) {
+                    manufacturerId = result.getData().getStringExtra("ID");
+                    manufacturerName = result.getData().getStringExtra("NAME");
+
+                    mDataBinding.tvFacture.setText(manufacturerName);
+
+                }
+            });
+
 
     @Override
     protected void init() {
@@ -142,6 +175,14 @@ public class QuickWarehousingActivity extends BaseActivity<ActivityQuickWarehous
 
         // 生成入库单id
         mDataBinding.tvGenerate.setOnClickListener(view -> mViewModel.getOrderNumber());
+
+        //选择权属单位
+        mDataBinding.tvDept.setOnClickListener(view -> deptResultLauncher.launch(new Intent(QuickWarehousingActivity.this, SelectDeptActivity.class)));
+
+        mDataBinding.tvFacture.setOnClickListener(view -> factureResultLauncher.launch(new Intent(QuickWarehousingActivity.this, SelectFactureActivity.class)));
+
+        mDataBinding.tvFactureDate.setOnClickListener(view -> selectDate());
+
         // 添加一条数据
         mDataBinding.btnAdd.setOnClickListener(view -> add());
         // 提交数据
@@ -178,21 +219,23 @@ public class QuickWarehousingActivity extends BaseActivity<ActivityQuickWarehous
     }
 
     private void initSp() {
-        List<SpinnerTestBean> list = new ArrayList<>();
-        list.add(new SpinnerTestBean("0", "生产入库"));
-        list.add(new SpinnerTestBean("1", "采购入库"));
-        list.add(new SpinnerTestBean("2", "退货入库"));
-        list.add(new SpinnerTestBean("3", "快速入库"));
 
-        ArrayAdapter<SpinnerTestBean> productAdapter = new ArrayAdapter<>(this, R.
-                layout.item_spinner, list);
-        productAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        mDataBinding.spType.setAdapter(productAdapter);
-        mDataBinding.spType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        List<SpinnerTestBean> listSl = new ArrayList<>();
+        listSl.add(new SpinnerTestBean("0", "合同收料"));
+        listSl.add(new SpinnerTestBean("1", "上级来料"));
+        listSl.add(new SpinnerTestBean("2", "上交收料"));
+        listSl.add(new SpinnerTestBean("3", "转库收料"));
+        listSl.add(new SpinnerTestBean("4", "其他收料"));
+
+        ArrayAdapter<SpinnerTestBean> slTypeAdapter = new ArrayAdapter<>(this, R.
+                layout.item_spinner, listSl);
+        slTypeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        mDataBinding.spSlType.setAdapter(slTypeAdapter);
+        mDataBinding.spSlType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                SpinnerTestBean data = list.get(i);
-                type = data.getCode();
+                SpinnerTestBean data = listSl.get(i);
+                receiveType = data.getCode();
             }
 
             @Override
@@ -200,6 +243,67 @@ public class QuickWarehousingActivity extends BaseActivity<ActivityQuickWarehous
 
             }
         });
+
+
+        List<SpinnerTestBean> listGrade = new ArrayList<>();
+        listGrade.add(new SpinnerTestBean("0", "新品"));
+        listGrade.add(new SpinnerTestBean("1", "堪用品"));
+        listGrade.add(new SpinnerTestBean("2", "待修品"));
+        listGrade.add(new SpinnerTestBean("3", "报废品"));
+
+        ArrayAdapter<SpinnerTestBean> gradeAdapter = new ArrayAdapter<>(this, R.
+                layout.item_spinner, listGrade);
+        gradeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        mDataBinding.spGrade.setAdapter(gradeAdapter);
+        mDataBinding.spGrade.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                SpinnerTestBean data = listGrade.get(i);
+                goodsGrade = data.getCode();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+    }
+
+    private void selectDate() {
+
+        Calendar ca = Calendar.getInstance();
+        int mYear = ca.get(Calendar.YEAR);
+        int mMonth = ca.get(Calendar.MONTH);
+        int mDay = ca.get(Calendar.DAY_OF_MONTH);
+        DatePickerDialog datePickerDialog = new DatePickerDialog(QuickWarehousingActivity.this, (view, year, month, dayOfMonth) -> {
+            String day = "";
+            if (dayOfMonth < 10) {
+                day = "0" + dayOfMonth;
+            } else {
+                day = String.valueOf(dayOfMonth);
+            }
+
+            String strMonth = "";
+            month = month + 1;
+            if (month < 10) {
+                strMonth = "0" + month;
+            } else {
+                strMonth = String.valueOf(month);
+            }
+
+
+            final String data = year + "-" + strMonth + "-" + day;
+            mDataBinding.tvFactureDate.setText(data);
+            SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd");
+            try {
+                factureDate = ft.parse(data);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+        }, mYear, mMonth, mDay);
+        datePickerDialog.show();
     }
 
 
@@ -214,10 +318,23 @@ public class QuickWarehousingActivity extends BaseActivity<ActivityQuickWarehous
             if (skuCode.equals(good.getMaterialCode())) {
                 mDataBinding.etWl.setText(skuCode);
                 //非必填项，先填空
-                goodsTypeId = "";
+                goodsTypeId = good.getId();
                 goodsName = good.getName();
                 unit = good.getGoodsUnit();
                 sku = good.getSkuCode();
+
+                supportInformation = good.getSupportInformation();
+                switch (supportInformation) {
+                    case "0":
+                        mDataBinding.tvOther.setText("一箱多套");
+                        break;
+                    case "1":
+                        mDataBinding.tvOther.setText("多箱一套");
+                        break;
+                    case "2":
+                        mDataBinding.tvOther.setText("一箱一套");
+                        break;
+                }
                 mDataBinding.etNum.setText("1");
                 autoAdd();
                 return;
@@ -274,7 +391,18 @@ public class QuickWarehousingActivity extends BaseActivity<ActivityQuickWarehous
             Toast.makeText(this, "请生成或输入入库单号！", Toast.LENGTH_SHORT).show();
             return;
         }
-
+        if ("".equals(mDataBinding.tvFactureDate.getText().toString())) {
+            Toast.makeText(this, "请选择生产日期！", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (StringUtils.isEmpty(manufacturerId)) {
+            Toast.makeText(this, "请选择生产厂商！", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (StringUtils.isEmpty(goodsGrade)) {
+            Toast.makeText(this, "请选择品级！", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
         for (Map.Entry<String, List<QuickGoodBean>> entry : dataMap.entrySet()) {
             // 判断当前载具下有没有数据
@@ -294,8 +422,11 @@ public class QuickWarehousingActivity extends BaseActivity<ActivityQuickWarehous
                     }
                 }
                 Log.e(TAG1, "在已有载具上（" + entry.getKey() + "）添加一个物品信息");
-                list.add(getInputBean());
-                updateList();
+                QuickGoodBean quickGoodBean = getInputBean();
+                if (quickGoodBean != null) {
+                    list.add(quickGoodBean);
+                    updateList();
+                }
                 return;
             }
         }
@@ -304,14 +435,16 @@ public class QuickWarehousingActivity extends BaseActivity<ActivityQuickWarehous
         Log.e(TAG1, "在新的载具上（" + mDataBinding.etZj.getText().toString() + "）添加一个物品信息");
         // 添加数据
         List<QuickGoodBean> list = new ArrayList();
-        list.add(getInputBean());
-        dataMap.put(mDataBinding.etZj.getText().toString(), list);
-        updateList();
 
-        // 添加之后禁止再次更新
-        mDataBinding.tvGenerate.setEnabled(false);
-        mDataBinding.et1.setEnabled(false);
-        mDataBinding.spType.setEnabled(false);
+        QuickGoodBean quickGoodBean = getInputBean();
+        if (quickGoodBean != null) {
+            list.add(quickGoodBean);
+            dataMap.put(mDataBinding.etZj.getText().toString(), list);
+            updateList();
+            // 添加之后禁止再次更新
+            mDataBinding.tvGenerate.setEnabled(false);
+            mDataBinding.et1.setEnabled(false);
+        }
     }
 
     /**
@@ -323,15 +456,41 @@ public class QuickWarehousingActivity extends BaseActivity<ActivityQuickWarehous
         QuickGoodBean bean = new QuickGoodBean();
         bean.setGoodsTypeCode(mDataBinding.etWl.getText().toString());
         bean.setGoodsTypeId(goodsTypeId);
-        bean.setGoodsName(goodsName);
-        bean.setSku(sku);
         bean.setGoodsUnit(unit);
-
-        bean.setReceivedAmount(1);
-
         bean.setLocationCode(mDataBinding.etWz.getText().toString());
         bean.setLocationId("");
+        bean.setReceivedAmount(1);
 
+
+        bean.setManufacturerDate(mDataBinding.tvFactureDate.getText().toString());
+        bean.setManufacturerId(manufacturerId);
+        bean.setManufacturerName(manufacturerName);
+
+        bean.setGoodsGrade(goodsGrade);
+
+        if (!StringUtils.isEmpty(mDataBinding.etPrice.getText().toString())) {
+            bean.setUnitPrice(Double.parseDouble(mDataBinding.etPrice.getText().toString()));
+        }
+        bean.setSerialNumber(mDataBinding.etSn.getText().toString());
+        switch (supportInformation) {
+            case "0":
+                bean.setSupportInformation("一箱多套");
+                break;
+            case "1":
+                bean.setSupportInformation("多箱一套");
+
+                if (StringUtils.isEmpty(mDataBinding.etSn.getText().toString())) {
+                    Toast.makeText(this, "请输入序列号！", Toast.LENGTH_SHORT).show();
+                    return null;
+                }
+                break;
+            case "2":
+                bean.setSupportInformation("一箱一套");
+                break;
+        }
+
+        bean.setGoodsName(goodsName);
+        bean.setSku(sku);
         bean.setZj(mDataBinding.etZj.getText().toString());
         bean.setWz(mDataBinding.etWz.getText().toString());
 
@@ -353,15 +512,43 @@ public class QuickWarehousingActivity extends BaseActivity<ActivityQuickWarehous
      * 提交
      */
     private void submit() {
+        if (StringUtils.isEmpty(mDataBinding.etVoucherNo.getText().toString())) {
+            Toast.makeText(this, "请输入凭证号", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (StringUtils.isEmpty(mDataBinding.etPerson.getText().toString())) {
+            Toast.makeText(this, "请输入送货人", Toast.LENGTH_SHORT).show();
+
+            return;
+        }
+        if (StringUtils.isEmpty(mDataBinding.etTel.getText().toString())) {
+            Toast.makeText(this, "请输入联系方式", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (StringUtils.isEmpty(customerId)) {
+            Toast.makeText(this, "请选择权属单位", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         Map<String, Object> map = new HashMap();
         //入库仓库id
         map.put("storehouseId", Hawk.get(Constant.STOREHOUSE_ID));
         map.put("orderNumber", mDataBinding.et1.getText().toString());
-        //入库类型
-        map.put("inboundType", type);
+        //入库类型 用不到了
+//        map.put("inboundType", type);
         //权属单位
-        map.put("customerId", "");
-        map.put("customerName", "");
+        map.put("ownershipUnitId", customerId);
+//        map.put("customerName", customerName);
+        // 收料类型
+        map.put("receiveType", receiveType);
+        // 联系人
+        map.put("shipper", mDataBinding.etPerson.getText().toString());
+        // 联系方式
+        map.put("contactInformation", mDataBinding.etTel.getText().toString());
+        // 凭证号
+        map.put("voucherNo", mDataBinding.etVoucherNo.getText().toString());
+
         //具体物料信息
         map.put("putTaskGoodsDetails", dataMap);
 
@@ -371,7 +558,7 @@ public class QuickWarehousingActivity extends BaseActivity<ActivityQuickWarehous
                 .subscribe(new HttpDisposable<EmptyResponse>() {
                     @Override
                     public void success(EmptyResponse resultResponse) {
-                        Log.e(TAG1, resultResponse.getMsg());
+
                         if (resultResponse.getCode().equals(200)) {
                             Toast.makeText(QuickWarehousingActivity.this, "入库成功", Toast.LENGTH_SHORT).show();
                             finish();

@@ -10,7 +10,7 @@ import com.ccaong.warehousingmanager.databinding.ActivitySortManualBinding;
 import com.ccaong.warehousingmanager.util.CodeParseUtils;
 
 /**
- * @author eyecool
+ * @author caocong
  * @date 2022/9/22
  */
 public class SortManualActivity extends BaseActivity<ActivitySortManualBinding, BaseViewModel> {

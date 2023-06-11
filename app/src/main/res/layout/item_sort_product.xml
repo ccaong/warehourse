@@ -93,7 +93,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/dimen_8"
-                    android:text="@{sortProduct.goodsInfo.goodsType.parentName}"
+                    android:text="@{sortProduct.goodsInfo.goodsType.name}"
                     android:textColor="@color/black"
                     app:layout_constraintLeft_toRightOf="@+id/tv_name_title"
                     app:layout_constraintTop_toBottomOf="@+id/tv_1"
@@ -121,6 +121,29 @@
                     app:layout_constraintTop_toBottomOf="@+id/tv_name_title"
                     tools:text="qwerty " />
 
+
+                <TextView
+                    android:id="@+id/tv_4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dimen_8"
+                    android:text="权属单位:"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_batch" />
+
+                <TextView
+                    android:id="@+id/tv_owner"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dimen_8"
+                    android:layout_marginTop="@dimen/dimen_8"
+                    android:text="@{sortProduct.owner.ownerName}"
+                    android:textColor="@color/black"
+                    app:layout_constraintLeft_toRightOf="@+id/tv_3"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_batch"
+                    tools:text="qwerty " />
+
+
                 <TextView
                     android:id="@+id/tv_5"
                     android:layout_width="wrap_content"
@@ -128,7 +151,7 @@
                     android:layout_marginTop="@dimen/dimen_8"
                     android:text="库存数量:"
                     app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_3" />
+                    app:layout_constraintTop_toBottomOf="@+id/tv_owner" />
 
                 <TextView
                     android:id="@+id/tv_specification"
@@ -139,7 +162,7 @@
                     android:textColor="@color/black"
                     app:int2String="@{sortProduct.goodsInfo.realAmount}"
                     app:layout_constraintLeft_toRightOf="@+id/tv_5"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_3"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_owner"
                     tools:text="qwerty " />
 
 
@@ -151,7 +174,7 @@
                     android:layout_marginEnd="@dimen/dimen_8"
                     android:text="拣货数量："
                     app:layout_constraintRight_toLeftOf="@+id/tv_num"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_3" />
+                    app:layout_constraintTop_toBottomOf="@+id/tv_owner" />
 
                 <TextView
                     android:id="@+id/tv_num"
@@ -161,7 +184,7 @@
                     android:textColor="@color/black"
                     app:int2String="@{sortProduct.goodsCount}"
                     app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_3"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_owner"
                     tools:text="qwerty " />
 
 

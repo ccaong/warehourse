@@ -72,7 +72,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/dimen_8"
-                    android:text="@{inventorWorkData.metarialName}"
+                    android:text="@{inventorWorkData.skuName}"
                     app:layout_constraintLeft_toRightOf="@+id/tv_2"
                     app:layout_constraintTop_toBottomOf="@+id/tv_1"
                     tools:text="hahaha" />

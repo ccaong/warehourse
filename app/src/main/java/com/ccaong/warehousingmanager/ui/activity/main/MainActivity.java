@@ -21,6 +21,7 @@ import com.ccaong.warehousingmanager.ui.activity.main.mine.MineFragment;
 import com.ccaong.warehousingmanager.util.AndroidWakeLock;
 import com.ccaong.warehousingmanager.util.SPconfig;
 import com.google.android.material.tabs.TabLayout;
+import com.orhanobut.hawk.Hawk;
 import com.pow.api.cls.RfidPower;
 import com.uhf.api.cls.Reader;
 
@@ -29,7 +30,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author eyecool
+ * @author caocong
  * @date 2022/9/18
  */
 public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewModel> {
@@ -103,6 +104,15 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
         connectRfid();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // 配置更改， 判断是否需要重新连接RFID
+        boolean a = Hawk.get("RE_CONNECT_RFID", false);
+        if (a) {
+            connectRfid();
+        }
+    }
 
     private FragmentTransaction getFragmentTransaction() {
         // 具体代码
@@ -129,6 +139,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
     }
 
     public void connectRfid() {
+        Hawk.put("RE_CONNECT_RFID", false);
 
         new Thread(() -> {
             mViewModel.setRfidStatus("0");

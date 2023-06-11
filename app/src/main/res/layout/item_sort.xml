@@ -7,7 +7,7 @@
 
         <variable
             name="sortData"
-            type="com.ccaong.warehousingmanager.bean.SortListResponse.RowsDTO" />
+            type="com.ccaong.warehousingmanager.bean.SortListResponse.RowsDTO.ListDTO" />
 
     </data>
 

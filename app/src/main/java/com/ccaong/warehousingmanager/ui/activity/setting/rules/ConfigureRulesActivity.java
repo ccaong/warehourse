@@ -17,7 +17,7 @@ import com.orhanobut.hawk.Hawk;
 import java.util.List;
 
 /**
- * @author eyecool
+ * @author caocong
  * @date 2022/10/21
  */
 public class ConfigureRulesActivity extends BaseActivity<ActivityConfigRulesBinding, ConfigureRulesViewModel> {

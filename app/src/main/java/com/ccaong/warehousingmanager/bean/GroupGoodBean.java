@@ -1,7 +1,7 @@
 package com.ccaong.warehousingmanager.bean;
 
 /**
- * @author eyecool
+ * @author caocong
  * @date 2022/9/28
  */
 public class GroupGoodBean {
@@ -13,7 +13,7 @@ public class GroupGoodBean {
     private String specificationDesc;
     private String unit;
     private String volume;
-    private Double weight;
+    private String weight;
     private Integer needAmount;
 
     private Integer receivedAmount;
@@ -24,6 +24,13 @@ public class GroupGoodBean {
     private String goodsUnit;
 
 
+    private Integer quantity;
+    private String supportInformation;
+
+    // 序列号
+    private String serialNumber;
+
+
     public GroupGoodBean() {
     }
 
@@ -31,6 +38,13 @@ public class GroupGoodBean {
         this.materialCode = materialCode;
         this.needAmount = needAmount;
         this.receivedAmount = receivedAmount;
+    }
+
+    public GroupGoodBean(String materialCode, Integer needAmount, Integer receivedAmount, Integer quantity) {
+        this.materialCode = materialCode;
+        this.needAmount = needAmount;
+        this.receivedAmount = receivedAmount;
+        this.quantity = quantity;
     }
 
 
@@ -93,11 +107,11 @@ public class GroupGoodBean {
         this.volume = volume;
     }
 
-    public Double getWeight() {
+    public String getWeight() {
         return weight;
     }
 
-    public void setWeight(Double weight) {
+    public void setWeight(String weight) {
         this.weight = weight;
     }
 
@@ -139,5 +153,29 @@ public class GroupGoodBean {
 
     public void setGoodsUnit(String goodsUnit) {
         this.goodsUnit = goodsUnit;
+    }
+
+    public String getSupportInformation() {
+        return supportInformation;
+    }
+
+    public void setSupportInformation(String supportInformation) {
+        this.supportInformation = supportInformation;
+    }
+
+    public Integer getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
+    }
+
+    public String getSerialNumber() {
+        return serialNumber;
+    }
+
+    public void setSerialNumber(String serialNumber) {
+        this.serialNumber = serialNumber;
     }
 }

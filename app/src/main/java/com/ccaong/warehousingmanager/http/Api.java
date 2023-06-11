@@ -14,6 +14,10 @@ import com.ccaong.warehousingmanager.bean.InboundListResponse;
 import com.ccaong.warehousingmanager.bean.InventoryDetailResponse;
 import com.ccaong.warehousingmanager.bean.InventoryListResponse;
 import com.ccaong.warehousingmanager.bean.LoginResponseBean;
+import com.ccaong.warehousingmanager.bean.ManufacturerResponse;
+import com.ccaong.warehousingmanager.bean.MoveLibDetailResponse;
+import com.ccaong.warehousingmanager.bean.MoveListResponse;
+import com.ccaong.warehousingmanager.bean.MoveVehicleDetailResponse;
 import com.ccaong.warehousingmanager.bean.PullTaskDetailResponse;
 import com.ccaong.warehousingmanager.bean.PullTaskListResponse;
 import com.ccaong.warehousingmanager.bean.PutTaskDetailResponse;
@@ -23,6 +27,7 @@ import com.ccaong.warehousingmanager.bean.SortDetailResponse;
 import com.ccaong.warehousingmanager.bean.SortListResponse;
 import com.ccaong.warehousingmanager.bean.SortWorkResponse;
 import com.ccaong.warehousingmanager.bean.UserInfoResponse;
+import com.ccaong.warehousingmanager.bean.ValidLocationResponse;
 import com.ccaong.warehousingmanager.bean.WareHouseResponseBean;
 
 import java.util.Map;
@@ -76,7 +81,7 @@ public interface Api {
      * @return 仓库信息
      */
     @GET("getStorehouse")
-    Observable<WareHouseResponseBean> getStorehouse();
+    Observable<WareHouseResponseBean> getStorehouse(@Query("username") String username);
 
 
     /**
@@ -166,16 +171,16 @@ public interface Api {
      * @return
      */
     @GET("outboundRelInfo")
-    Observable<SortWorkResponse> outboundRelInfo(@Query("containerSerialNum") String id);
+    Observable<SortWorkResponse> outboundRelInfo(@Query("containerSerialNum") String id, @Query("relSource") String relSource);
 
     /**
      * 完成拣货
      *
-     * @param id
+     * @param map
      * @return
      */
-    @GET("finishPick")
-    Observable<EmptyResponse> finishPick(@Query("relId") String id);
+    @POST("finishPick")
+    Observable<EmptyResponse> finishPick(@Body Map<String, Object> map);
 
 
     /**
@@ -241,6 +246,16 @@ public interface Api {
 
 
     /**
+     * 获取位置是否可用
+     *
+     * @param locationName
+     * @return
+     */
+    @GET("validLocation")
+    Observable<ValidLocationResponse> getValidLocation(@Query("locationName") String locationName);
+
+
+    /**
      * 自动上架
      *
      * @param taskId
@@ -300,6 +315,17 @@ public interface Api {
     @GET("autoUndercarriage")
     Observable<EmptyResponse> autoUndercarriage(@Query("taskId") String taskId);
 
+
+    /**
+     * 手动下架
+     *
+     * @param taskId 下架任务id
+     * @return 结果
+     */
+    @GET("manualUndercarriage")
+    Observable<EmptyResponse> manualUndercarriage(@Query("taskId") String taskId);
+
+
     /**
      * 快速入库模块-快速入库
      *
@@ -319,6 +345,15 @@ public interface Api {
 
 
     /**
+     * 快速入库模块-获取生产厂家列表
+     *
+     * @return 生产厂家列表
+     */
+    @GET("getManufacturerList")
+    Observable<ManufacturerResponse> getManufacturerList();
+
+
+    /**
      * 快速入库模块-获取入库单号
      *
      * @return
@@ -327,7 +362,7 @@ public interface Api {
     Observable<InOrderNumberResponse> getInboundOrderNumber();
 
     /**
-     * 快速入库模块-获取单位列表
+     * 快速入库模块-获取权属单位列表
      *
      * @return
      */
@@ -343,6 +378,104 @@ public interface Api {
      */
     @GET("getGoodsByContainerCode")
     Observable<ContainerInfoResponse> getGoodsByContainerCode(@Query("containerCode") String containerCode);
+
+
+    /**
+     * 获取移库单列表
+     *
+     * @param pageNum
+     * @param pageSize
+     * @return
+     */
+    @GET("getTransferOrder")
+    Observable<MoveListResponse> getTransferOrder(@Query("pageNum") int pageNum, @Query("pageSize") int pageSize);
+
+
+    /**
+     * 获取载具移位详情
+     *
+     * @param orderId
+     * @return
+     */
+    @GET("getTranslocationDetail")
+    Observable<MoveVehicleDetailResponse> getTranslocationDetail(@Query("orderId") String orderId);
+
+
+    /**
+     * 开始载具移位
+     *
+     * @param orderId
+     * @return
+     */
+    @GET("startTranslocation")
+    Observable<CommonResponse> startTranslocation(@Query("orderId") String orderId);
+
+
+    /**
+     * 获取载具&物资移库详情
+     *
+     * @param orderId
+     * @return
+     */
+    @GET("getTranslocationDetail")
+    Observable<MoveLibDetailResponse> getTransLibraryDetail(@Query("orderId") String orderId);
+
+
+    /**
+     * 开始载具移库
+     *
+     * @param orderId
+     * @return
+     * @deprecated
+     */
+    @GET("trans/startLocHouOut")
+    Observable<CommonResponse> startLocHouOut(@Query("orderId") String orderId);
+
+
+    /**
+     * 开始物资移库
+     *
+     * @param orderId
+     * @return
+     * @deprecated
+     */
+    @GET("")
+    Observable<CommonResponse> startLocConOut(@Query("orderId") String orderId);
+
+
+    /**
+     * 拣货完成后，结束物资移库移出流程
+     *
+     * @param orderId
+     * @return
+     * @deprecated
+     */
+    @GET("trans/finishLocHouTransOut")
+    Observable<CommonResponse> finishLocHouTransOut(@Query("orderId") String orderId);
+
+
+    /**
+     * 获取载具移库移入的详情列表
+     */
+
+
+    /**
+     * 获取载具移库某载具详情列表
+     */
+
+    /**
+     * 提交载具移库（移入）
+     */
+
+
+    /**
+     * 获取物资移库移入的详情
+     */
+
+
+    /**
+     * 提交物资移库（移入）
+     */
 
 
 }

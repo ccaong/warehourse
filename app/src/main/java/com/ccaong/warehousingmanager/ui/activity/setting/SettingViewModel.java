@@ -9,7 +9,7 @@ import com.ccaong.warehousingmanager.config.Constant;
 import com.orhanobut.hawk.Hawk;
 
 /**
- * @author eyecool
+ * @author caocong
  * @date 2022/10/22
  */
 public class SettingViewModel extends BaseViewModel {

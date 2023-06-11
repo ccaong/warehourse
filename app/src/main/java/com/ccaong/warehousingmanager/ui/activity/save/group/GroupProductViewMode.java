@@ -10,7 +10,7 @@ import com.ccaong.warehousingmanager.http.HttpFactory;
 import com.ccaong.warehousingmanager.http.HttpRequest;
 
 /**
- * @author eyecool
+ * @author caocong
  * @date 2022/9/19
  */
 public class GroupProductViewMode extends BaseViewModel {

@@ -28,7 +28,7 @@ import java.util.Map;
 import retrofit2.Response;
 
 /**
- * @author eyecool
+ * @author caocong
  * @date 2022/9/18
  */
 public class MineFragment extends BaseFragment<FragmentMineBinding, BaseViewModel> {
@@ -54,7 +54,7 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, BaseViewMode
     protected void init() {
         mDataBinding.tvRemark.setText("当前仓库：" + Hawk.get(Constant.STOREHOUSE_NAME));
 
-        mDataBinding.tvVersion.setText("V_"+AppUtils.getVersionName(mActivity));
+        mDataBinding.tvVersion.setText("V_" + AppUtils.getVersionName(mActivity));
         mDataBinding.btnLogout.setOnClickListener(view -> logout());
         mDataBinding.btnChoose.setOnClickListener(view -> getWarehouse());
         mDataBinding.btnSetting.setOnClickListener(view -> startActivity(new Intent(mActivity, SettingActivity.class)));
@@ -69,7 +69,6 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, BaseViewMode
                 .subscribe(new HttpDisposable<UserInfoResponse>() {
                     @Override
                     public void success(UserInfoResponse bean) {
-                        Log.e(TAG, bean.getMsg());
                         mDataBinding.tvName.setText(bean.getData().getNickname());
                         mDataBinding.tvPhone.setText(bean.getData().getPhone());
                         mDataBinding.tvEmail.setText(bean.getData().getEmail());
@@ -78,7 +77,6 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, BaseViewMode
                     @Override
                     public void onError(Throwable e) {
                         super.onError(e);
-                        Log.e(TAG, e.toString());
                     }
                 });
     }
@@ -88,8 +86,11 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, BaseViewMode
      * 获取当前账户的仓库列表
      */
     private void getWarehouse() {
+        String userName = Hawk.get(Constant.LOGIN_NAME, "");
+
+
         HttpRequest.getInstance()
-                .getStorehouse()
+                .getStorehouse(userName)
                 .compose(HttpFactory.schedulers())
                 .subscribe(new HttpDisposable<WareHouseResponseBean>() {
                     @Override
@@ -97,7 +98,11 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, BaseViewMode
                         Log.e(TAG, bean.getMsg());
 
                         if (bean.getCode() == 200) {
-                            showSingleChoiceDialog(bean.getData());
+                            if (bean.getData().size() == 1) {
+                                Toast.makeText(mActivity, "不需要选择", Toast.LENGTH_SHORT).show();
+                            } else {
+                                showSingleChoiceDialog(bean.getData());
+                            }
                         } else {
                             Toast.makeText(mActivity, bean.getMsg(), Toast.LENGTH_SHORT).show();
                         }
@@ -134,7 +139,7 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, BaseViewMode
                 (dialog, which) -> {
                     if (yourChoice != -1) {
                         Toast.makeText(mActivity,
-                                "你选择了" + items[yourChoice],
+                                "您选择了" + items[yourChoice],
                                 Toast.LENGTH_SHORT).show();
                         Hawk.put(Constant.STOREHOUSE_ID, list.get(yourChoice).getId());
                         Hawk.put(Constant.STOREHOUSE_NAME, list.get(yourChoice).getName());

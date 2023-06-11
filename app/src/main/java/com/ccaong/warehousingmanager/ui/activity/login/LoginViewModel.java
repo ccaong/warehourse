@@ -7,7 +7,7 @@ import com.ccaong.warehousingmanager.config.Constant;
 import com.orhanobut.hawk.Hawk;
 
 /**
- * @author eyecool
+ * @author caocong
  * @date 2022/9/16
  */
 public class LoginViewModel extends BaseViewModel {

@@ -42,7 +42,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @author eyecool
+ * @author caocong
  * @date 2022/9/19
  */
 public class InventoryDetailActivity extends BaseActivity<ActivityInventoryDetailBinding, InventoryDetailViewModel> {
@@ -126,7 +126,9 @@ public class InventoryDetailActivity extends BaseActivity<ActivityInventoryDetai
 
     @Override
     protected void rfidResult(String result) {
-        scan(result);
+        if (!CodeParseUtils.rfidIsLocalCode(result)) {
+            scan(result);
+        }
     }
 
 

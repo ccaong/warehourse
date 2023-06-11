@@ -14,7 +14,7 @@ import com.ccaong.warehousingmanager.http.HttpRequest;
 import java.util.List;
 
 /**
- * @author eyecool
+ * @author caocong
  * @date 2022/9/19
  */
 public class SortWarehouseDetailViewMode extends BaseViewModel {

@@ -45,13 +45,32 @@
 
 
                 <TextView
+                    android:id="@+id/tv_7"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dimen_8"
+                    android:text="载具位置:"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/view" />
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dimen_8"
+                    android:text="@{vehicleData.locationCode}"
+                    android:textColor="@color/black"
+                    app:layout_constraintLeft_toRightOf="@id/tv_7"
+                    app:layout_constraintTop_toTopOf="@id/tv_7" />
+
+                <TextView
                     android:id="@+id/tv_1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/dimen_8"
                     android:text="物料码:"
                     app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/view" />
+                    app:layout_constraintTop_toBottomOf="@id/tv_7" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -60,53 +79,53 @@
                     android:layout_marginTop="@dimen/dimen_8"
                     android:text="@{vehicleData.materialCode}"
                     android:textColor="@color/black"
-                    app:layout_constraintLeft_toRightOf="@+id/tv_1"
-                    app:layout_constraintTop_toBottomOf="@+id/view"
+                    app:layout_constraintLeft_toRightOf="@id/tv_1"
+                    app:layout_constraintTop_toBottomOf="@id/tv_7"
                     tools:text="qwerty " />
 
 
-<!--                <TextView-->
-<!--                    android:id="@+id/tv_2"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_marginTop="@dimen/dimen_8"-->
-<!--                    android:layout_marginEnd="@dimen/dimen_8"-->
-<!--                    android:text="入库状态："-->
-<!--                    app:layout_constraintRight_toLeftOf="@+id/tv_status"-->
-<!--                    app:layout_constraintTop_toBottomOf="@+id/view" />-->
+                <!--                <TextView-->
+                <!--                    android:id="@+id/tv_2"-->
+                <!--                    android:layout_width="wrap_content"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:layout_marginTop="@dimen/dimen_8"-->
+                <!--                    android:layout_marginEnd="@dimen/dimen_8"-->
+                <!--                    android:text="入库状态："-->
+                <!--                    app:layout_constraintRight_toLeftOf="@+id/tv_status"-->
+                <!--                    app:layout_constraintTop_toBottomOf="@+id/view" />-->
 
-<!--                <TextView-->
-<!--                    android:id="@+id/tv_status"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_marginTop="@dimen/dimen_8"-->
-<!--                    android:text="空缺"-->
-<!--                    android:textColor="@color/black"-->
-<!--                    app:layout_constraintRight_toRightOf="parent"-->
-<!--                    app:layout_constraintTop_toBottomOf="@+id/view"-->
-<!--                    tools:text="空缺 " />-->
+                <!--                <TextView-->
+                <!--                    android:id="@+id/tv_status"-->
+                <!--                    android:layout_width="wrap_content"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:layout_marginTop="@dimen/dimen_8"-->
+                <!--                    android:text="空缺"-->
+                <!--                    android:textColor="@color/black"-->
+                <!--                    app:layout_constraintRight_toRightOf="parent"-->
+                <!--                    app:layout_constraintTop_toBottomOf="@+id/view"-->
+                <!--                    tools:text="空缺 " />-->
 
 
-<!--                <TextView-->
-<!--                    android:id="@+id/tv_3"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_marginTop="@dimen/dimen_8"-->
-<!--                    android:text="批次号:"-->
-<!--                    app:layout_constraintLeft_toLeftOf="parent"-->
-<!--                    app:layout_constraintTop_toBottomOf="@+id/tv_1" />-->
+                <!--                <TextView-->
+                <!--                    android:id="@+id/tv_3"-->
+                <!--                    android:layout_width="wrap_content"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:layout_marginTop="@dimen/dimen_8"-->
+                <!--                    android:text="批次号:"-->
+                <!--                    app:layout_constraintLeft_toLeftOf="parent"-->
+                <!--                    app:layout_constraintTop_toBottomOf="@+id/tv_1" />-->
 
-<!--                <TextView-->
-<!--                    android:id="@+id/tv_batch"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_marginStart="@dimen/dimen_8"-->
-<!--                    android:layout_marginTop="@dimen/dimen_8"-->
-<!--                    android:text="无"-->
-<!--                    android:textColor="@color/black"-->
-<!--                    app:layout_constraintLeft_toRightOf="@+id/tv_3"-->
-<!--                    app:layout_constraintTop_toBottomOf="@+id/tv_1"-->
-<!--                    tools:text="空缺 " />-->
+                <!--                <TextView-->
+                <!--                    android:id="@+id/tv_batch"-->
+                <!--                    android:layout_width="wrap_content"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:layout_marginStart="@dimen/dimen_8"-->
+                <!--                    android:layout_marginTop="@dimen/dimen_8"-->
+                <!--                    android:text="无"-->
+                <!--                    android:textColor="@color/black"-->
+                <!--                    app:layout_constraintLeft_toRightOf="@+id/tv_3"-->
+                <!--                    app:layout_constraintTop_toBottomOf="@+id/tv_1"-->
+                <!--                    tools:text="空缺 " />-->
 
 
                 <TextView
@@ -161,7 +180,7 @@
                     android:layout_marginEnd="@dimen/dimen_8"
                     android:text="数量："
                     app:layout_constraintRight_toLeftOf="@+id/tv_num"
-                    app:layout_constraintTop_toBottomOf="@+id/view" />
+                    app:layout_constraintTop_toBottomOf="@+id/tv_7" />
 
                 <TextView
                     android:id="@+id/tv_num"
@@ -171,7 +190,7 @@
                     android:textColor="@color/black"
                     app:int2String="@{vehicleData.realAmount}"
                     app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/view"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_7"
                     tools:text="qwerty " />
 
 

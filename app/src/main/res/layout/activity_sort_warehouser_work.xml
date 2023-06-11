@@ -15,15 +15,6 @@
         android:layout_height="match_parent"
         android:background="@color/background">
 
-        <EditText
-            android:id="@+id/et_fo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:maxLines="1"
-            android:textSize="@dimen/dimen_8"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent" />
-
 
         <!--    <LinearLayout-->
         <!--        android:layout_width="match_parent"-->
@@ -150,7 +141,7 @@
             android:background="@color/theme"
             android:gravity="center"
             android:padding="12dp"
-            android:text="完成"
+            android:text="@{viewModel.submitText}"
             android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="parent" />
 

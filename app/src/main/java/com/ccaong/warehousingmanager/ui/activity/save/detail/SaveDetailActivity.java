@@ -3,9 +3,7 @@ package com.ccaong.warehousingmanager.ui.activity.save.detail;
 import static com.ccaong.warehousingmanager.App.getContext;
 
 import android.content.Intent;
-import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
 
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -14,18 +12,12 @@ import com.ccaong.warehousingmanager.BR;
 import com.ccaong.warehousingmanager.R;
 import com.ccaong.warehousingmanager.base.BaseActivity;
 import com.ccaong.warehousingmanager.base.adapter.CommonAdapter;
-import com.ccaong.warehousingmanager.bean.EmptyResponse;
 import com.ccaong.warehousingmanager.bean.InboundDetailResponse;
 import com.ccaong.warehousingmanager.databinding.ActivitySaveDetailBinding;
-import com.ccaong.warehousingmanager.http.HttpDisposable;
-import com.ccaong.warehousingmanager.http.HttpFactory;
-import com.ccaong.warehousingmanager.http.HttpRequest;
-import com.ccaong.warehousingmanager.ui.activity.save.group.GroupProductActivity;
-
-import java.util.Objects;
+import com.ccaong.warehousingmanager.ui.activity.save.group.GroupListActivity;
 
 /**
- * @author eyecool
+ * @author caocong
  * @date 2022/9/19
  */
 public class SaveDetailActivity extends BaseActivity<ActivitySaveDetailBinding, SaveDetailViewModel> {
@@ -76,7 +68,7 @@ public class SaveDetailActivity extends BaseActivity<ActivitySaveDetailBinding, 
 
         mDataBinding.tvSubmit.setOnClickListener(view -> {
             if (mViewModel.getData().getValue() != null) {
-                Intent intent = new Intent(SaveDetailActivity.this, GroupProductActivity.class);
+                Intent intent = new Intent(SaveDetailActivity.this, GroupListActivity.class);
                 if (mViewModel.getData().getValue() != null) {
                     intent.putExtra("ID", id);
                 }

@@ -100,7 +100,7 @@
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_weight="1"     android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/dimen_8"
             android:layout_marginTop="2dp"
             android:layout_marginRight="@dimen/dimen_8">
@@ -113,10 +113,6 @@
 
         </androidx.cardview.widget.CardView>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1" />
 
         <TextView
             android:id="@+id/tv_submit"
@@ -125,6 +121,7 @@
             android:background="@color/theme"
             android:gravity="center"
             android:padding="12dp"
+            android:layout_marginTop="@dimen/dimen_12"
             android:text="盘点完成"
             android:textColor="@color/white" />
 

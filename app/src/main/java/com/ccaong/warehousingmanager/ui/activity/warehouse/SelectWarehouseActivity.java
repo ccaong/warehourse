@@ -8,7 +8,7 @@ import com.ccaong.warehousingmanager.databinding.ActivitySelectWarehouseBinding;
 /**
  * 选择仓库
  *
- * @author eyecool
+ * @author caocong
  * @date 2022/9/17
  */
 public class SelectWarehouseActivity extends BaseActivity<ActivitySelectWarehouseBinding, BaseViewModel> {

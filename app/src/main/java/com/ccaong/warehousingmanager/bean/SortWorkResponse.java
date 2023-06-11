@@ -3,7 +3,7 @@ package com.ccaong.warehousingmanager.bean;
 import java.util.List;
 
 /**
- * @author eyecool
+ * @author caocong
  * @date 2022/11/23
  */
 public class SortWorkResponse {
@@ -12,6 +12,8 @@ public class SortWorkResponse {
     private String msg;
     private Integer code;
     private List<DataDTO> data;
+
+    private Boolean isAllOut;
 
     public String getMsg() {
         return msg;
@@ -37,6 +39,14 @@ public class SortWorkResponse {
         this.data = data;
     }
 
+    public Boolean getAllOut() {
+        return isAllOut;
+    }
+
+    public void setAllOut(Boolean allOut) {
+        isAllOut = allOut;
+    }
+
     public static class DataDTO {
         private String createBy;
         private String createTime;
@@ -46,6 +56,7 @@ public class SortWorkResponse {
         private String orderOutboundId;
         private String goodsInfoId;
         private Integer goodsCount;
+        private String collectCount;
         private String storageLocationId;
         private Integer goodsRestCount;
         private String goodsTypeId;
@@ -53,7 +64,24 @@ public class SortWorkResponse {
         private OrderOutboundDTO orderOutbound;
         private String pickStatus;
         private StorageLocationDTO storageLocation;
+        private String ownershipUnitId;
+        private OwnerDTO owner;
+        private String goodsGrade;
+        private Double unitPrice;
+        private String source;
         private String relNumber;
+        // 需要拣货的序列号
+        private String serialNumber;
+        // 已经拣货的序列号
+        private List<String> serialList;
+
+        public String getCollectCount() {
+            return collectCount;
+        }
+
+        public void setCollectCount(String collectCount) {
+            this.collectCount = collectCount;
+        }
 
         public String getCreateBy() {
             return createBy;
@@ -175,6 +203,46 @@ public class SortWorkResponse {
             this.storageLocation = storageLocation;
         }
 
+        public String getOwnershipUnitId() {
+            return ownershipUnitId;
+        }
+
+        public void setOwnershipUnitId(String ownershipUnitId) {
+            this.ownershipUnitId = ownershipUnitId;
+        }
+
+        public OwnerDTO getOwner() {
+            return owner;
+        }
+
+        public void setOwner(OwnerDTO owner) {
+            this.owner = owner;
+        }
+
+        public String getGoodsGrade() {
+            return goodsGrade;
+        }
+
+        public void setGoodsGrade(String goodsGrade) {
+            this.goodsGrade = goodsGrade;
+        }
+
+        public Double getUnitPrice() {
+            return unitPrice;
+        }
+
+        public void setUnitPrice(Double unitPrice) {
+            this.unitPrice = unitPrice;
+        }
+
+        public String getSource() {
+            return source;
+        }
+
+        public void setSource(String source) {
+            this.source = source;
+        }
+
         public String getRelNumber() {
             return relNumber;
         }
@@ -183,13 +251,28 @@ public class SortWorkResponse {
             this.relNumber = relNumber;
         }
 
+        public String getSerialNumber() {
+            return serialNumber;
+        }
+
+        public void setSerialNumber(String serialNumber) {
+            this.serialNumber = serialNumber;
+        }
+
+        public List<String> getSerialList() {
+            return serialList;
+        }
+
+        public void setSerialList(List<String> serialList) {
+            this.serialList = serialList;
+        }
+
         public static class ParamsDTO {
         }
 
         public static class GoodsInfoDTO {
             private ParamsDTO params;
             private String id;
-            private String goodsTypeName;
             private Integer goodsAmount;
             private String materialCode;
             private String locationCode;
@@ -198,6 +281,9 @@ public class SortWorkResponse {
             private String storageLocationId;
             private Integer realAmount;
             private String containerSerialNum;
+            private String manufacturerId;
+            private String serialNumbers;
+
             private GoodsTypeDTO goodsType;
 
             public ParamsDTO getParams() {
@@ -214,14 +300,6 @@ public class SortWorkResponse {
 
             public void setId(String id) {
                 this.id = id;
-            }
-
-            public String getGoodsTypeName() {
-                return goodsTypeName;
-            }
-
-            public void setGoodsTypeName(String goodsTypeName) {
-                this.goodsTypeName = goodsTypeName;
             }
 
             public Integer getGoodsAmount() {
@@ -288,6 +366,22 @@ public class SortWorkResponse {
                 this.containerSerialNum = containerSerialNum;
             }
 
+            public String getManufacturerId() {
+                return manufacturerId;
+            }
+
+            public void setManufacturerId(String manufacturerId) {
+                this.manufacturerId = manufacturerId;
+            }
+
+            public String getSerialNumbers() {
+                return serialNumbers;
+            }
+
+            public void setSerialNumbers(String serialNumbers) {
+                this.serialNumbers = serialNumbers;
+            }
+
             public GoodsTypeDTO getGoodsType() {
                 return goodsType;
             }
@@ -303,9 +397,15 @@ public class SortWorkResponse {
                 private ParamsDTO params;
                 private String id;
                 private String parentId;
+                private String ancestors;
                 private String name;
                 private String goodsUnit;
                 private String skuCode;
+                private String specificationDesc;
+                private String volume;
+                private String weight;
+                private String supportInformation;
+                private Integer quantity;
                 private List<?> children;
                 private String parentName;
 
@@ -333,6 +433,14 @@ public class SortWorkResponse {
                     this.parentId = parentId;
                 }
 
+                public String getAncestors() {
+                    return ancestors;
+                }
+
+                public void setAncestors(String ancestors) {
+                    this.ancestors = ancestors;
+                }
+
                 public String getName() {
                     return name;
                 }
@@ -357,6 +465,38 @@ public class SortWorkResponse {
                     this.skuCode = skuCode;
                 }
 
+                public String getSpecificationDesc() {
+                    return specificationDesc;
+                }
+
+                public void setSpecificationDesc(String specificationDesc) {
+                    this.specificationDesc = specificationDesc;
+                }
+
+                public String getVolume() {
+                    return volume;
+                }
+
+                public void setVolume(String volume) {
+                    this.volume = volume;
+                }
+
+                public String getWeight() {
+                    return weight;
+                }
+
+                public void setWeight(String weight) {
+                    this.weight = weight;
+                }
+
+                public String getSupportInformation() {
+                    return supportInformation;
+                }
+
+                public void setSupportInformation(String supportInformation) {
+                    this.supportInformation = supportInformation;
+                }
+
                 public List<?> getChildren() {
                     return children;
                 }
@@ -373,6 +513,14 @@ public class SortWorkResponse {
                     this.parentName = parentName;
                 }
 
+                public Integer getQuantity() {
+                    return quantity;
+                }
+
+                public void setQuantity(Integer quantity) {
+                    this.quantity = quantity;
+                }
+
                 public static class ParamsDTO {
                 }
             }
@@ -385,6 +533,8 @@ public class SortWorkResponse {
             private String badFlag;
             private Boolean isDone;
             private String outboundType;
+            private String voucherNo;
+            private String shipper;
 
             public ParamsDTO getParams() {
                 return params;
@@ -432,6 +582,22 @@ public class SortWorkResponse {
 
             public void setOutboundType(String outboundType) {
                 this.outboundType = outboundType;
+            }
+
+            public String getVoucherNo() {
+                return voucherNo;
+            }
+
+            public void setVoucherNo(String voucherNo) {
+                this.voucherNo = voucherNo;
+            }
+
+            public String getShipper() {
+                return shipper;
+            }
+
+            public void setShipper(String shipper) {
+                this.shipper = shipper;
             }
 
             public static class ParamsDTO {
@@ -668,7 +834,10 @@ public class SortWorkResponse {
                 private String storehouseId;
                 private String name;
                 private String serialNum;
+                private String outboundRule;
                 private String cargoDistributeType;
+                private String skuType;
+                private String storageRule;
                 private String status;
                 private String delFlag;
 
@@ -736,12 +905,36 @@ public class SortWorkResponse {
                     this.serialNum = serialNum;
                 }
 
+                public String getOutboundRule() {
+                    return outboundRule;
+                }
+
+                public void setOutboundRule(String outboundRule) {
+                    this.outboundRule = outboundRule;
+                }
+
                 public String getCargoDistributeType() {
                     return cargoDistributeType;
                 }
 
                 public void setCargoDistributeType(String cargoDistributeType) {
                     this.cargoDistributeType = cargoDistributeType;
+                }
+
+                public String getSkuType() {
+                    return skuType;
+                }
+
+                public void setSkuType(String skuType) {
+                    this.skuType = skuType;
+                }
+
+                public String getStorageRule() {
+                    return storageRule;
+                }
+
+                public void setStorageRule(String storageRule) {
+                    this.storageRule = storageRule;
                 }
 
                 public String getStatus() {
@@ -992,5 +1185,49 @@ public class SortWorkResponse {
                 }
             }
         }
+
+        public static class OwnerDTO {
+            private ParamsDTO params;
+            private String id;
+            private String ownerName;
+            private String ownerCode;
+
+            public ParamsDTO getParams() {
+                return params;
+            }
+
+            public void setParams(ParamsDTO params) {
+                this.params = params;
+            }
+
+            public String getId() {
+                return id;
+            }
+
+            public void setId(String id) {
+                this.id = id;
+            }
+
+            public String getOwnerName() {
+                return ownerName;
+            }
+
+            public void setOwnerName(String ownerName) {
+                this.ownerName = ownerName;
+            }
+
+            public String getOwnerCode() {
+                return ownerCode;
+            }
+
+            public void setOwnerCode(String ownerCode) {
+                this.ownerCode = ownerCode;
+            }
+
+            public static class ParamsDTO {
+            }
+        }
     }
 }
+
+

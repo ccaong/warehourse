@@ -1,9 +1,11 @@
 package com.ccaong.warehousingmanager.base;
 
+import android.app.AlertDialog;
 import android.app.Application;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
@@ -28,15 +30,13 @@ import androidx.databinding.ViewDataBinding;
 import com.ccaong.warehousingmanager.App;
 import com.ccaong.warehousingmanager.R;
 import com.ccaong.warehousingmanager.base.viewmodel.BaseViewModel;
-import com.ccaong.warehousingmanager.bean.TestBean;
 import com.ccaong.warehousingmanager.config.Constant;
+import com.ccaong.warehousingmanager.ui.activity.save.group.GroupProductActivity;
+import com.ccaong.warehousingmanager.util.RsaUtils;
 import com.uhf.api.cls.Reader;
 
 import java.io.BufferedWriter;
-import java.io.DataOutputStream;
 import java.io.FileWriter;
-import java.util.ArrayList;
-import java.util.List;
 
 
 /**
@@ -82,19 +82,23 @@ public abstract class BaseActivity<DB extends ViewDataBinding, VM extends BaseVi
                     startScanRFID();
                 }
             } else if (intent.getAction().equals(Constant.SCAN_CODE_RESULT_ACTION)) {
+                stopRfid();
                 // 扫码结果
                 String value = intent.getExtras().getString("DATA");
                 Log.e(TAG1, "扫码结果" + value);
-                scanResult(value);
-                if (isSupportRfid()) {
-                    stopRfid();
+                try {
+                    value = RsaUtils.decryptByPrivateKey(value);
+                    Log.e(TAG1, "解密结果" + value);
+                    scanResult(value);
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
             }
         }
     }
 
     public void initScanReceiver() {
-        Log.e("BaseActivity", "注册");
+
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(Constant.SCAN_CODE_RESULT_ACTION);
         intentFilter.addAction(Constant.START_SCAN_CODE_ACTION);
@@ -117,7 +121,7 @@ public abstract class BaseActivity<DB extends ViewDataBinding, VM extends BaseVi
         startTime = System.currentTimeMillis();
         if (readRfidTask != null) {
             if (readRfidTask.isRead()) {
-                readRfidTask.stop();
+//                readRfidTask.stop();
             } else {
                 readRfidTask.isExit = false;
                 new Thread(readRfidTask).start();
@@ -320,6 +324,40 @@ public abstract class BaseActivity<DB extends ViewDataBinding, VM extends BaseVi
     }
 
     /**
+     * 弹窗提示
+     *
+     * @param title   title
+     * @param message 提示信息
+     */
+    public void showErrorDialog(String title, String message) {
+        final AlertDialog.Builder errorDialog =
+                new AlertDialog.Builder(BaseActivity.this);
+        errorDialog.setTitle(title);
+        errorDialog.setMessage(message);
+        errorDialog.setPositiveButton("确定", (dialogInterface, i) -> {
+        });
+        errorDialog.show();
+    }
+
+    /**
+     * 弹窗提示
+     *
+     * @param title    title
+     * @param message  提示信息
+     * @param listener 确定按钮点击事件
+     */
+    public void showInfoDialog(String title, String message, DialogInterface.OnClickListener listener) {
+        final AlertDialog.Builder normalDialog =
+                new AlertDialog.Builder(BaseActivity.this);
+        normalDialog.setTitle(title);
+        normalDialog.setMessage(message);
+        normalDialog.setPositiveButton("确定", listener);
+        normalDialog.setNegativeButton("取消", (dialogInterface, i) -> {
+        });
+        normalDialog.show();
+    }
+
+    /**
      * activity onStart 对扫描节点预处理
      */
     public void onStartPreparation() {
@@ -366,8 +404,10 @@ public abstract class BaseActivity<DB extends ViewDataBinding, VM extends BaseVi
     }
 
     public void stopRfid() {
+//        Log.e(TAG1, "准备停止RFID");
         if (readRfidTask != null) {
             readRfidTask.stop();
+            Log.e(TAG1, "停止RFID");
         }
     }
 
@@ -390,8 +430,8 @@ public abstract class BaseActivity<DB extends ViewDataBinding, VM extends BaseVi
         @Override
         public void run() {
             while (!isExit) {
+                isRead = true;
                 Log.e(TAG1, "循环读卡中");
-                Log.e(TAG1, "读卡线程" + android.os.Process.myTid());
                 if (System.currentTimeMillis() - startTime > 8000) {
                     Log.e(TAG1, "读卡超时");
                     stop();
@@ -403,10 +443,8 @@ public abstract class BaseActivity<DB extends ViewDataBinding, VM extends BaseVi
 
                 synchronized (this) {
                     Reader.READER_ERR er;
-                    er = myapp.Mreader.TagInventory_Raw(myapp.Rparams.uants,
-                            myapp.Rparams.uants.length,
-                            (short) myapp.Rparams.readtime, tagcnt);
-
+                    er = myapp.Mreader.TagInventory_Raw(myapp.Rparams.uants, myapp.Rparams.uants.length, (short) myapp.Rparams.readtime, tagcnt);
+                    Log.e(TAG1, "仍在读取中" + er);
                     if (er == Reader.READER_ERR.MT_OK_ERR) {
                         if (tagcnt[0] > 0) {
                             soundPool.play(1, 1, 1, 0, 0, 1);
@@ -416,6 +454,7 @@ public abstract class BaseActivity<DB extends ViewDataBinding, VM extends BaseVi
                                 er = myapp.Mreader.GetNextTag(tfs);
                                 if (er == Reader.READER_ERR.MT_HARDWARE_ALERT_ERR_BY_TOO_MANY_RESET) {
                                     runOnUiThread(() -> Toast.makeText(BaseActivity.this, "读取失败，请重试", Toast.LENGTH_SHORT).show());
+                                    Log.e(TAG1, "RFID单次读取结束1");
                                     stop();
                                     return;
                                 }
@@ -423,7 +462,10 @@ public abstract class BaseActivity<DB extends ViewDataBinding, VM extends BaseVi
                                 if (er == Reader.READER_ERR.MT_OK_ERR) {
                                     tag[i] = Reader.bytes_Hexstr(tfs.EpcId);
                                     String result = tag[i];
-                                    runOnUiThread(() -> rfidResult(result));
+                                    Log.e(TAG1, "RFID扫描成功" + result);
+                                    if (isRead) {
+                                        runOnUiThread(() -> rfidResult(result));
+                                    }
                                     stop();
                                     return;
                                 } else {
@@ -436,11 +478,13 @@ public abstract class BaseActivity<DB extends ViewDataBinding, VM extends BaseVi
                         myapp.Mreader.GetLastDetailError(myapp.ei);
                         if (er == Reader.READER_ERR.MT_HARDWARE_ALERT_ERR_BY_TOO_MANY_RESET) {
                             runOnUiThread(() -> Toast.makeText(BaseActivity.this, "读取失败，请重试", Toast.LENGTH_SHORT).show());
+                            Log.e(TAG1, "RFID单次读取结束2");
                             stop();
                             return;
                         }
                     }
                 }
+                Log.e(TAG1, "RFID单次读取结束");
 
                 try {
                     Thread.sleep(400);

@@ -3,7 +3,7 @@ package com.ccaong.warehousingmanager.bean;
 import java.util.List;
 
 /**
- * @author eyecool
+ * @author caocong
  * @date 2022/9/28
  */
 public class PullTaskDetailResponse {
@@ -39,7 +39,7 @@ public class PullTaskDetailResponse {
     public static class DataDTO {
         private String orderNumber;
         private String createTime;
-        private List<ContainerCodesDTO> containerCodes;
+        private List<ResultDTO> result;
         private String source;
         private String status;
 
@@ -59,12 +59,12 @@ public class PullTaskDetailResponse {
             this.createTime = createTime;
         }
 
-        public List<ContainerCodesDTO> getContainerCodes() {
-            return containerCodes;
+        public List<ResultDTO> getResult() {
+            return result;
         }
 
-        public void setContainerCodes(List<ContainerCodesDTO> containerCodes) {
-            this.containerCodes = containerCodes;
+        public void setResult(List<ResultDTO> result) {
+            this.result = result;
         }
 
         public String getSource() {
@@ -83,26 +83,9 @@ public class PullTaskDetailResponse {
             this.status = status;
         }
 
-        public static class ContainerCodesDTO {
-            private String id;
-            private String containerCode;
+        public static class ResultDTO {
             private String locationCode;
-
-            public String getId() {
-                return id;
-            }
-
-            public void setId(String id) {
-                this.id = id;
-            }
-
-            public String getContainerCode() {
-                return containerCode;
-            }
-
-            public void setContainerCode(String containerCode) {
-                this.containerCode = containerCode;
-            }
+            private List<ListDTO> list;
 
             public String getLocationCode() {
                 return locationCode;
@@ -110,6 +93,65 @@ public class PullTaskDetailResponse {
 
             public void setLocationCode(String locationCode) {
                 this.locationCode = locationCode;
+            }
+
+            public List<ListDTO> getList() {
+                return list;
+            }
+
+            public void setList(List<ListDTO> list) {
+                this.list = list;
+            }
+
+            public static class ListDTO {
+                private ParamsDTO params;
+                private String id;
+                private String containerCode;
+                private String status;
+                private String locationCode;
+
+                public ParamsDTO getParams() {
+                    return params;
+                }
+
+                public void setParams(ParamsDTO params) {
+                    this.params = params;
+                }
+
+                public String getId() {
+                    return id;
+                }
+
+                public void setId(String id) {
+                    this.id = id;
+                }
+
+                public String getContainerCode() {
+                    return containerCode;
+                }
+
+                public void setContainerCode(String containerCode) {
+                    this.containerCode = containerCode;
+                }
+
+                public String getStatus() {
+                    return status;
+                }
+
+                public void setStatus(String status) {
+                    this.status = status;
+                }
+
+                public String getLocationCode() {
+                    return locationCode;
+                }
+
+                public void setLocationCode(String locationCode) {
+                    this.locationCode = locationCode;
+                }
+
+                public static class ParamsDTO {
+                }
             }
         }
     }

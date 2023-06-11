@@ -7,6 +7,7 @@ import android.widget.TextView;
 import androidx.databinding.BindingAdapter;
 
 import com.ccaong.warehousingmanager.bean.ContainerInfoResponse;
+import com.ccaong.warehousingmanager.bean.PullTaskDetailResponse;
 import com.ccaong.warehousingmanager.bean.SortListResponse;
 
 /**
@@ -123,6 +124,9 @@ public class BindingAdapterUtil {
                 break;
             case "3":
                 str = "快速入库";
+                break;
+            case "4":
+                str = "移库入库";
                 break;
             default:
                 str = "未知";
@@ -297,6 +301,63 @@ public class BindingAdapterUtil {
     }
 
     /**
+     * 下架任务状态
+     *
+     * @param textView
+     * @param dto
+     */
+    @BindingAdapter("lower_status")
+    public static void lowerStatus(TextView textView, PullTaskDetailResponse.DataDTO.ResultDTO dto) {
+        if (dto == null || dto.getList() == null || dto.getList().size() == 0) {
+            textView.setText("");
+            return;
+        }
+        String str = "";
+        for (PullTaskDetailResponse.DataDTO.ResultDTO.ListDTO listDTO : dto.getList()) {
+            switch (listDTO.getStatus()) {
+                case "0":
+                    str = str + "未下架" + "\n";
+                    break;
+                case "1":
+                    str = str + "已下架" + "\n";
+                    break;
+                case "2":
+                    str = str + "下架完成" + "\n";
+                    break;
+                default:
+                    str = str + "其他" + "\n";
+            }
+        }
+        if (str.length() > 2) {
+            str = str.substring(0, str.length() - 1);
+        }
+        textView.setText(str);
+    }
+
+
+    /**
+     * 载具编码
+     *
+     * @param textView
+     * @param dto
+     */
+    @BindingAdapter("lower_container")
+    public static void lowerContainer(TextView textView, PullTaskDetailResponse.DataDTO.ResultDTO dto) {
+        if (dto == null || dto.getList() == null || dto.getList().size() == 0) {
+            textView.setText("");
+            return;
+        }
+        String str = "";
+        for (PullTaskDetailResponse.DataDTO.ResultDTO.ListDTO listDTO : dto.getList()) {
+            str = str + listDTO.getContainerCode() + "　\n";
+        }
+        if (str.length() > 2) {
+            str = str.substring(0, str.length() - 1);
+        }
+        textView.setText(str);
+    }
+
+    /**
      * 下架任务来源
      *
      * @param textView
@@ -329,19 +390,23 @@ public class BindingAdapterUtil {
     }
 
     @BindingAdapter("sort_id")
-    public static void sortId(TextView textView, SortListResponse.RowsDTO bean) {
+    public static void sortId(TextView textView, SortListResponse.RowsDTO.ListDTO bean) {
 
-        textView.setText(bean.getOrderNumber() + "\n" + bean.getRelNumber());
+        if (bean.getRelNumber() != null) {
+            textView.setText(bean.getOrderNumber() + "\n" + bean.getRelNumber());
+        } else {
+            textView.setText(bean.getOrderNumber());
+        }
     }
 
     @BindingAdapter("sort_location")
-    public static void sortLocation(TextView textView, SortListResponse.RowsDTO bean) {
-        if (bean.getRels() == null) {
+    public static void sortLocation(TextView textView, SortListResponse.RowsDTO.ListDTO bean) {
+        if (bean.getRelList() == null) {
             return;
         }
         String text = "";
-        for (SortListResponse.RowsDTO.RelsDTO relsDTO : bean.getRels()) {
-            text = text + relsDTO.getGoodsInfo().getLocationCode() + "  " + relsDTO.getGoodsInfo().getContainerSerialNum() + "\n";
+        for (SortListResponse.RowsDTO.ListDTO.RelListDTO relsDTO : bean.getRelList()) {
+            text = text + relsDTO.getLocationCode() + "  " + relsDTO.getContainerSerialNumber() + "\n";
         }
         if (text.length() > 2) {
             text = text.substring(0, text.length() - 1);
@@ -377,6 +442,84 @@ public class BindingAdapterUtil {
                 break;
             case "4":
                 str = "拣货完成";
+                break;
+            default:
+                str = "其他";
+        }
+        textView.setText(str);
+    }
+
+
+    /**
+     * 移库货单状态
+     *
+     * @param textView
+     * @param i
+     */
+    @BindingAdapter("move_status")
+    public static void moveStatus(TextView textView, String i) {
+        if (i == null) {
+            textView.setText("");
+            return;
+        }
+        String str;
+        switch (i) {
+            case "0":
+                str = "未提交";
+                break;
+            case "1":
+                str = "已提交";
+                break;
+            case "2":
+                str = "正在下架";
+                break;
+            case "3":
+                str = "出库完成";
+                break;
+            case "4":
+                str = "扫码组盘";
+                break;
+            case "5":
+                str = "正在上架";
+                break;
+            case "6":
+                str = "待审核";
+                break;
+            case "7":
+                str = "已审核";
+                break;
+
+            default:
+                str = "其他";
+        }
+        textView.setText(str);
+    }
+
+    /**
+     * 拣货单状态
+     *
+     * @param textView
+     * @param i
+     */
+    @BindingAdapter("move_type")
+    public static void moveType(TextView textView, String i) {
+        if (i == null) {
+            textView.setText("");
+            return;
+        }
+        String str;
+        switch (i) {
+            case "0":
+                str = "物资移库";
+                break;
+            case "1":
+                str = "载具移库";
+                break;
+            case "2":
+                str = "载具移位";
+                break;
+            case "3":
+                str = "物资移位";
                 break;
             default:
                 str = "其他";

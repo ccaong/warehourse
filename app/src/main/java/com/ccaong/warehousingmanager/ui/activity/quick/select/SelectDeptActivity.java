@@ -5,29 +5,27 @@ import static com.ccaong.warehousingmanager.App.getContext;
 import android.content.Intent;
 import android.view.View;
 
-import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.ccaong.warehousingmanager.BR;
 import com.ccaong.warehousingmanager.R;
 import com.ccaong.warehousingmanager.base.BaseActivity;
 import com.ccaong.warehousingmanager.base.adapter.CommonAdapter;
+import com.ccaong.warehousingmanager.base.viewmodel.BaseViewModel;
 import com.ccaong.warehousingmanager.bean.DeptListResponse;
 import com.ccaong.warehousingmanager.databinding.ActivityListBinding;
 import com.ccaong.warehousingmanager.http.HttpDisposable;
 import com.ccaong.warehousingmanager.http.HttpFactory;
 import com.ccaong.warehousingmanager.http.HttpRequest;
-import com.scwang.smart.refresh.layout.api.RefreshLayout;
-import com.scwang.smart.refresh.layout.listener.OnRefreshListener;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author eyecool
+ * @author caocong
  * @date 2022/10/17
  */
-public class SelectDeptActivity extends BaseActivity<ActivityListBinding, SelectDeptViewModel> {
+public class SelectDeptActivity extends BaseActivity<ActivityListBinding, BaseViewModel> {
 
     CommonAdapter<DeptListResponse.DataDTO> adapter;
     List<DeptListResponse.DataDTO> list;
@@ -77,7 +75,7 @@ public class SelectDeptActivity extends BaseActivity<ActivityListBinding, Select
 
 
     /**
-     * 获取物品类型
+     * 获取权属单位
      */
     public void getCustomerList() {
         HttpRequest.getInstance()

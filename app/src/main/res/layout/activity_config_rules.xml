@@ -15,6 +15,7 @@
             android:id="@+id/tv_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin"
             android:text="请配置规则"
             android:textSize="25sp"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -49,6 +50,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             app:layout_constraintTop_toBottomOf="@+id/tv_title">
@@ -74,6 +76,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             app:layout_constraintTop_toBottomOf="@+id/tv_title">
@@ -91,10 +94,10 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             app:layout_constraintTop_toBottomOf="@+id/tv_title">
-
 
             <Button
                 android:id="@+id/btn_del"
@@ -113,7 +116,7 @@
             android:layout_marginTop="100dp"
             android:layout_weight="1"
             android:gravity="center"
-            android:textSize="30sp" />
+            android:textSize="22sp" />
 
         <TextView
             android:id="@+id/tv_submit"

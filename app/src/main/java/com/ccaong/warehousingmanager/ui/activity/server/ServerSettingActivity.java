@@ -11,7 +11,7 @@ import com.ccaong.warehousingmanager.http.HttpRequest;
 import com.orhanobut.hawk.Hawk;
 
 /**
- * @author eyecool
+ * @author caocong
  * @date 2022/9/17
  */
 public class ServerSettingActivity extends BaseActivity<ActivityServerBinding, ServerSettingViewModel> {

@@ -30,7 +30,7 @@ import java.util.List;
 /**
  * 盘点
  *
- * @author eyecool
+ * @author caocong
  * @date 2022/9/19
  */
 public class InventoryActivity extends BaseActivity<ActivityListBinding, InventoryViewModel> {
@@ -85,9 +85,11 @@ public class InventoryActivity extends BaseActivity<ActivityListBinding, Invento
                 super.addListener(root, itemData, position);
 
                 root.setOnClickListener(view -> {
-                    Intent intent = new Intent(InventoryActivity.this, InventoryDetailActivity.class);
-                    intent.putExtra("ID", itemData.getTaskId());
-                    startActivity(intent);
+                    if (itemData.getTaskStatus().equals("3")) {
+                        Intent intent = new Intent(InventoryActivity.this, InventoryDetailActivity.class);
+                        intent.putExtra("ID", itemData.getTaskId());
+                        startActivity(intent);
+                    }
                 });
             }
         };
@@ -104,20 +106,24 @@ public class InventoryActivity extends BaseActivity<ActivityListBinding, Invento
                 .subscribe(new HttpDisposable<InventoryListResponse>() {
                     @Override
                     public void success(InventoryListResponse bean) {
+                        mDataBinding.refreshLayout.finishRefresh();
+                        mDataBinding.refreshLayout.finishLoadMore();
                         if (bean.getCode() == 200) {
-
                             if (page == 1) {
                                 list = bean.getRows();
                             } else {
                                 list.addAll(bean.getRows());
                             }
-                            mDataBinding.refreshLayout.finishRefresh();
-                            mDataBinding.refreshLayout.finishLoadMore();
                             mDataBinding.refreshLayout.setNoMoreData(list.size() >= bean.getTotal());
-
                             commonAdapter.onItemDatasChanged(list);
                         } else {
                             Toast.makeText(InventoryActivity.this, bean.getMsg(), Toast.LENGTH_SHORT).show();
+                        }
+
+                        if (list.size() == 0) {
+                            mDataBinding.llNoData.setVisibility(View.VISIBLE);
+                        } else {
+                            mDataBinding.llNoData.setVisibility(View.GONE);
                         }
                     }
                 });

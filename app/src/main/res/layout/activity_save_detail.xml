@@ -184,7 +184,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dimen_8"
                 android:textColor="@color/black"
-                app:inbound_type="@{viewModel.data.orderStatus}"
+                app:inbound_type="@{viewModel.data.inboundType}"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_5"
                 tools:text="2022-22-22" />

@@ -11,12 +11,40 @@ import java.util.List;
 /**
  * 扫码结果解析
  *
- * @author eyecool
+ * @author caocong
  * @date 2022/9/28
  */
 public class CodeParseUtils {
 
     private static final String TAG = CodeParseUtils.class.getSimpleName();
+
+
+    /**
+     * 判断扫描得到的RFID码是不是位置码
+     *
+     * @param rfidStr
+     * @return
+     */
+    public static boolean rfidIsLocalCode(String rfidStr) {
+
+        if (rfidStr != null && rfidStr.length() >= 14) {
+            if (rfidStr.startsWith("FF")) {
+                if ("FF".equals(rfidStr.substring(12, 14))) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+
+    public static String getRfidLocalCode(String rfidStr) {
+        String code = "";
+        if (rfidStr != null && rfidStr.length() >= 14) {
+            code = rfidStr.substring(2, 5) + "_" + rfidStr.substring(5, 8) + "_" + rfidStr.substring(8,10) + "_" + rfidStr.substring(10,12);
+        }
+        return code;
+    }
 
     /**
      * 根据扫码结果判断类型
@@ -45,6 +73,22 @@ public class CodeParseUtils {
 
 
     /**
+     * 解析物料码，获取权属单位编码
+     */
+    public static String getOwnerCode(String code) {
+        if (isGoodsCode(code)) {
+            String[] sArray = code.split("_");
+            if (sArray.length > 0) {
+                return sArray[0];
+            }
+        } else {
+            Log.e(TAG, "不是物料码");
+        }
+        return "";
+    }
+
+
+    /**
      * 解析物料码，获取SKU
      */
     public static String getGoodSkuCode(String code) {
@@ -59,6 +103,56 @@ public class CodeParseUtils {
         }
         return "";
     }
+
+
+    /**
+     * 解析物料码，获取子物品的code
+     */
+    public static String getGoodChildCode(String code) {
+        if (isGoodsCode(code)) {
+            String[] sArray = code.split("_");
+            int index = 2;
+            if (sArray.length > index) {
+                return sArray[index];
+            }
+        } else {
+            Log.e(TAG, "不是物料码");
+        }
+        return "";
+    }
+
+
+
+    /**
+     * 解析物料码，获取序列号
+     */
+    public static String getSno(String code) {
+        if (isGoodsCode(code)) {
+            String[] sArray = code.split("_");
+            if (sArray.length > 4) {
+                return sArray[4];
+            }
+        } else {
+            Log.e(TAG, "不是物料码");
+        }
+        return "";
+    }
+
+    /**
+     * 解析物料码，获取单号
+     */
+    public static String getTaskNumber(String code) {
+        if (isGoodsCode(code)) {
+            String[] sArray = code.split("_");
+            if (sArray.length > 5) {
+                return sArray[5];
+            }
+        } else {
+            Log.e(TAG, "不是物料码");
+        }
+        return "";
+    }
+
 
     /**
      * 判断是是否是物料码

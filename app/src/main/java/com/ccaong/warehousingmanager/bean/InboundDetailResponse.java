@@ -5,7 +5,7 @@ import java.util.List;
 /**
  * 入库单详情数据
  *
- * @author eyecool
+ * @author caocong
  * @date 2022/9/20
  */
 public class InboundDetailResponse {
@@ -205,8 +205,19 @@ public class InboundDetailResponse {
             private String specificationDesc;
             private String unit;
             private String volume;
-            private Double weight;
+            private String weight;
             private Integer amount;
+            private Integer quantity;
+            private String supportInformation;
+            private String serialNumber;
+
+            public Integer getQuantity() {
+                return quantity;
+            }
+
+            public void setQuantity(Integer quantity) {
+                this.quantity = quantity;
+            }
 
             @Override
             public String toString() {
@@ -269,11 +280,11 @@ public class InboundDetailResponse {
                 this.volume = volume;
             }
 
-            public Double getWeight() {
+            public String getWeight() {
                 return weight;
             }
 
-            public void setWeight(Double weight) {
+            public void setWeight(String weight) {
                 this.weight = weight;
             }
 
@@ -285,6 +296,22 @@ public class InboundDetailResponse {
                 this.amount = amount;
             }
 
+
+            public String getSupportInformation() {
+                return supportInformation;
+            }
+
+            public void setSupportInformation(String supportInformation) {
+                this.supportInformation = supportInformation;
+            }
+
+            public String getSerialNumber() {
+                return serialNumber;
+            }
+
+            public void setSerialNumber(String serialNumber) {
+                this.serialNumber = serialNumber;
+            }
         }
     }
 }

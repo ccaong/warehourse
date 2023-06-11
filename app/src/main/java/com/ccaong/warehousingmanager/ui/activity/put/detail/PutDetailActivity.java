@@ -40,7 +40,7 @@ import java.util.Map;
 /**
  * 上架任务详情
  *
- * @author eyecool
+ * @author caocong
  * @date 2022/9/21
  */
 public class PutDetailActivity extends BaseActivity<ActivityPutDetailBinding, PutDetailViewModel> {
@@ -48,7 +48,7 @@ public class PutDetailActivity extends BaseActivity<ActivityPutDetailBinding, Pu
     public static final String TAG = PutDetailActivity.class.getSimpleName();
     String id;
     String putType;
-    CommonAdapter<PutTaskDetailResponse.DataDTO.ContainerCodesDTO> commonAdapter;
+    CommonAdapter<PutTaskDetailResponse.DataDTO.ResultDTO> commonAdapter;
 
     boolean smartArea = true;
     Map<String, String> manualMap = new HashMap();
@@ -112,6 +112,9 @@ public class PutDetailActivity extends BaseActivity<ActivityPutDetailBinding, Pu
 
     @Override
     protected void scanResult(String result) {
+        if (smartArea) {
+            return;
+        }
         if (CodeParseUtils.isCodeContainer(result)) {
             queryContainerCode(result);
         }
@@ -119,7 +122,12 @@ public class PutDetailActivity extends BaseActivity<ActivityPutDetailBinding, Pu
 
     @Override
     protected void rfidResult(String result) {
-        queryContainerCode(result);
+        if (smartArea) {
+            return;
+        }
+        if (!CodeParseUtils.rfidIsLocalCode(result)) {
+            queryContainerCode(result);
+        }
     }
 
 
@@ -135,7 +143,7 @@ public class PutDetailActivity extends BaseActivity<ActivityPutDetailBinding, Pu
             smartArea = true;
             mDataBinding.tvSubmit.setEnabled(true);
         } else if ("1".equals(putType)) {
-            // 智能区域，自动上架
+            // 非智能区域，自动上架
             smartArea = false;
             mDataBinding.tvSubmit.setEnabled(true);
         } else {
@@ -144,8 +152,8 @@ public class PutDetailActivity extends BaseActivity<ActivityPutDetailBinding, Pu
         }
 
         mViewModel.getData().observe(this, dataDTO -> {
-                    if (dataDTO != null && dataDTO.getContainerCodes() != null) {
-                        commonAdapter.onItemDatasChanged(dataDTO.getContainerCodes());
+                    if (dataDTO != null && dataDTO.getResult() != null) {
+                        commonAdapter.onItemDatasChanged(dataDTO.getResult());
                     }
                 }
         );
@@ -154,10 +162,10 @@ public class PutDetailActivity extends BaseActivity<ActivityPutDetailBinding, Pu
 
 
     private void initRecyclerView() {
-        commonAdapter = new CommonAdapter<PutTaskDetailResponse.DataDTO.ContainerCodesDTO>
+        commonAdapter = new CommonAdapter<PutTaskDetailResponse.DataDTO.ResultDTO>
                 (R.layout.item_put_detail, BR.putDetail) {
             @Override
-            public void addListener(View root, PutTaskDetailResponse.DataDTO.ContainerCodesDTO itemData, int position) {
+            public void addListener(View root, PutTaskDetailResponse.DataDTO.ResultDTO itemData, int position) {
                 super.addListener(root, itemData, position);
                 root.setOnClickListener(view -> {
                     if (!smartArea) {
@@ -220,7 +228,7 @@ public class PutDetailActivity extends BaseActivity<ActivityPutDetailBinding, Pu
     private void bindLocation(String zjId, String wzId) {
         Log.e(TAG, "载具:" + zjId + "位置:" + wzId);
 
-        for (PutTaskDetailResponse.DataDTO.ContainerCodesDTO dto : mViewModel.getData().getValue().getContainerCodes()) {
+        for (PutTaskDetailResponse.DataDTO.ResultDTO dto : mViewModel.getData().getValue().getResult()) {
             if (dto.getContainerCode().equals(zjId)) {
                 dto.setLocation(wzId);
                 manualMap.put(zjId, wzId);
@@ -234,7 +242,7 @@ public class PutDetailActivity extends BaseActivity<ActivityPutDetailBinding, Pu
 
     public void manualWarehouse() {
 
-        if (manualMap.size() != mViewModel.data.getValue().getContainerCodes().size()) {
+        if (manualMap.size() != mViewModel.data.getValue().getResult().size()) {
             Toast.makeText(this, "还有载具码未绑定位置", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -278,7 +286,7 @@ public class PutDetailActivity extends BaseActivity<ActivityPutDetailBinding, Pu
         if (mViewModel.getData().getValue() == null) {
             return;
         }
-        for (PutTaskDetailResponse.DataDTO.ContainerCodesDTO data : mViewModel.getData().getValue().getContainerCodes()) {
+        for (PutTaskDetailResponse.DataDTO.ResultDTO data : mViewModel.getData().getValue().getResult()) {
             if (data.getContainerCode().equals(code)) {
                 Intent intent = new Intent(PutDetailActivity.this, PutManualActivity.class);
                 intent.putExtra("CONTAINER_CODE", code);

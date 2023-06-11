@@ -37,6 +37,103 @@ public class SPconfig {
         return true;
     }
 
+    public void SaveReaderParams(App.ReaderParams RP) {
+        SaveString("OPANT", String.valueOf(RP.opant));
+        if (RP.invpro != null) {
+            String[] pros = RP.invpro.toArray(new String[RP.invpro.size()]);
+            String strval = "";
+            for (int i = 0; i < pros.length; i++) {
+                strval += pros[i] + ",";
+            }
+            if (!strval.equals("")) {
+                strval = strval.substring(0, strval.length() - 1);
+                SaveString("INVPRO", strval);
+            }
+        }
+        if (RP.opro != null && !RP.opro.equals(""))
+            SaveString("OPRO", RP.opro);
+
+        if (RP.uants != null && RP.uants.length > 0) {
+            String strval = "";
+            for (int i = 0; i < RP.uants.length; i++) {
+                strval += RP.uants[i] + ",";
+            }
+            if (!strval.equals("")) {
+                strval = strval.substring(0, strval.length() - 1);
+                SaveString("UANTS", strval);
+            }
+        }
+        SaveString("READTIME", String.valueOf(RP.readtime));
+        SaveString("SLEEP", String.valueOf(RP.sleep));
+        SaveString("CHECKANT", String.valueOf(RP.checkant));
+        if (RP.rpow != null && RP.rpow.length > 0) {
+            String strval = "";
+            for (int i = 0; i < RP.rpow.length; i++) {
+                strval += RP.rpow[i] + ",";
+            }
+            if (!strval.equals("")) {
+                strval = strval.substring(0, strval.length() - 1);
+                SaveString("RPOW", strval);
+            }
+        }
+        if (RP.wpow != null && RP.wpow.length > 0) {
+            String strval = "";
+            for (int i = 0; i < RP.wpow.length; i++) {
+                strval += RP.wpow[i] + ",";
+            }
+            if (!strval.equals("")) {
+                strval = strval.substring(0, strval.length() - 1);
+                SaveString("WPOW", strval);
+            }
+        }
+
+        SaveString("REGION", String.valueOf(RP.region));
+        SaveString("FRELEN", String.valueOf(RP.frelen));
+        if (RP.frelen > 0) {
+            if (RP.frecys != null && RP.frecys.length > 0) {
+                String strval = "";
+                for (int i = 0; i < RP.frecys.length; i++) {
+                    strval += RP.frecys[i] + ",";
+                }
+                if (!strval.equals("")) {
+                    strval = strval.substring(0, strval.length() - 1);
+                    SaveString("FRECYS", strval);
+                }
+            }
+        }
+
+        SaveString("SESSION", String.valueOf(RP.session));
+        SaveString("QV", String.valueOf(RP.qv));
+        SaveString("WMODE", String.valueOf(RP.wmode));
+        SaveString("BLF", String.valueOf(RP.blf));
+        SaveString("MAXLEN", String.valueOf(RP.maxlen));
+        SaveString("TARGET", String.valueOf(RP.target));
+        SaveString("GEN2CODE", String.valueOf(RP.gen2code));
+        SaveString("GEN2TARI", String.valueOf(RP.gen2tari));
+
+        if (RP.fildata != null && !RP.fildata.equals(""))
+            SaveString("FILDATA", RP.fildata);
+
+        SaveString("FILADR", String.valueOf(RP.filadr));
+        SaveString("FILBANK", String.valueOf(RP.filbank));
+        SaveString("FILISINVER", String.valueOf(RP.filisinver));
+        SaveString("FILENABLE", String.valueOf(RP.filenable));
+
+        SaveString("EMDADR", String.valueOf(RP.emdadr));
+        SaveString("EMDBYTEC", String.valueOf(RP.emdbytec));
+        SaveString("EMDBANK", String.valueOf(RP.emdbank));
+        SaveString("EMDENABLE", String.valueOf(RP.emdenable));
+
+        SaveString("ADATAQ", String.valueOf(RP.adataq));
+        SaveString("RHSSI", String.valueOf(RP.rhssi));
+        SaveString("INVW", String.valueOf(RP.invw));
+        SaveString("ISO6BDEEP", String.valueOf(RP.iso6bdeep));
+        SaveString("ISO6BDEL", String.valueOf(RP.iso6bdel));
+        SaveString("ISO6BBLF", String.valueOf(RP.iso6bblf));
+
+    }
+
+
 
     public App.ReaderParams ReadReaderParams() {
         App.ReaderParams RP = new App().new ReaderParams();
