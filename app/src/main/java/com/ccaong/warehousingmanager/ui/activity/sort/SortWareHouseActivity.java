@@ -3,9 +3,7 @@ package com.ccaong.warehousingmanager.ui.activity.sort;
 import static com.ccaong.warehousingmanager.App.getContext;
 
 import android.content.Intent;
-import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 
@@ -13,21 +11,10 @@ import com.ccaong.warehousingmanager.BR;
 import com.ccaong.warehousingmanager.R;
 import com.ccaong.warehousingmanager.base.BaseActivity;
 import com.ccaong.warehousingmanager.base.adapter.CommonAdapter;
-import com.ccaong.warehousingmanager.bean.InboundListResponse;
-import com.ccaong.warehousingmanager.bean.PullTaskListResponse;
 import com.ccaong.warehousingmanager.bean.SortListResponse;
-import com.ccaong.warehousingmanager.bean.TestBean;
-import com.ccaong.warehousingmanager.config.Constant;
 import com.ccaong.warehousingmanager.databinding.ActivityListBinding;
-import com.ccaong.warehousingmanager.databinding.ActivitySortWaerBinding;
-import com.ccaong.warehousingmanager.http.HttpDisposable;
-import com.ccaong.warehousingmanager.http.HttpFactory;
-import com.ccaong.warehousingmanager.http.HttpRequest;
-import com.ccaong.warehousingmanager.ui.activity.save.SaveWareHouseActivity;
-import com.ccaong.warehousingmanager.ui.activity.sort.detail.SortWarehouseDetailActivity;
 import com.ccaong.warehousingmanager.ui.activity.sort.work.SortWarehouseWorkActivity;
 import com.ccaong.warehousingmanager.util.CodeParseUtils;
-import com.orhanobut.hawk.Hawk;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -104,15 +91,6 @@ public class SortWareHouseActivity extends BaseActivity<ActivityListBinding, Sor
             @Override
             public void addListener(View root, SortListResponse.RowsDTO.ListDTO itemData, int position) {
                 super.addListener(root, itemData, position);
-
-                root.setOnClickListener(view -> {
-                    Intent intent = new Intent(SortWareHouseActivity.this, SortWarehouseDetailActivity.class);
-                    intent.putExtra("REL_NUMBER", itemData.getRelNumber());
-                    intent.putExtra("ORDER_NUMBER", itemData.getOrderNumber());
-                    intent.putExtra("REL_SOURCE", itemData.getRelSource());
-                    startActivity(intent);
-                    finish();
-                });
             }
         };
         mDataBinding.rvList.setAdapter(commonAdapter);

@@ -17,7 +17,6 @@ import com.ccaong.warehousingmanager.databinding.ActivityListBinding;
 import com.ccaong.warehousingmanager.http.HttpDisposable;
 import com.ccaong.warehousingmanager.http.HttpFactory;
 import com.ccaong.warehousingmanager.http.HttpRequest;
-import com.ccaong.warehousingmanager.ui.activity.put.detail.PutDetailActivity;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -111,12 +110,8 @@ public class PutShelvesOrderListActivity extends BaseActivity<ActivityListBindin
                         mDataBinding.refreshLayout.finishRefresh();
                         mDataBinding.refreshLayout.finishLoadMore();
                         if (bean.getCode() == 200) {
-                            if (page == 1) {
-                                list = bean.getRows();
-                            } else {
-                                list.addAll(bean.getRows());
-                            }
-                            mDataBinding.refreshLayout.setNoMoreData(list.size() >= bean.getTotal());
+                            list = bean.getRows();
+                            mDataBinding.refreshLayout.setNoMoreData(true);
                             commonAdapter.onItemDatasChanged(list);
                         } else {
                             Toast.makeText(PutShelvesOrderListActivity.this, bean.getMsg(), Toast.LENGTH_SHORT).show();

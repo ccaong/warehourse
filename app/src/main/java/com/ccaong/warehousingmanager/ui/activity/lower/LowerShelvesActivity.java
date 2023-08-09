@@ -3,9 +3,7 @@ package com.ccaong.warehousingmanager.ui.activity.lower;
 import static com.ccaong.warehousingmanager.App.getContext;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.view.View;
-import android.widget.Toast;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 
@@ -15,9 +13,6 @@ import com.ccaong.warehousingmanager.base.BaseActivity;
 import com.ccaong.warehousingmanager.base.adapter.CommonAdapter;
 import com.ccaong.warehousingmanager.bean.PullTaskListResponse;
 import com.ccaong.warehousingmanager.databinding.ActivityListBinding;
-import com.ccaong.warehousingmanager.http.HttpDisposable;
-import com.ccaong.warehousingmanager.http.HttpFactory;
-import com.ccaong.warehousingmanager.http.HttpRequest;
 import com.ccaong.warehousingmanager.ui.activity.lower.detail.LowerDetailActivity;
 
 import java.util.ArrayList;

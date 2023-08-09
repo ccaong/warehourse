@@ -31,7 +31,6 @@ import com.ccaong.warehousingmanager.App;
 import com.ccaong.warehousingmanager.R;
 import com.ccaong.warehousingmanager.base.viewmodel.BaseViewModel;
 import com.ccaong.warehousingmanager.config.Constant;
-import com.ccaong.warehousingmanager.ui.activity.save.group.GroupProductActivity;
 import com.ccaong.warehousingmanager.util.RsaUtils;
 import com.uhf.api.cls.Reader;
 

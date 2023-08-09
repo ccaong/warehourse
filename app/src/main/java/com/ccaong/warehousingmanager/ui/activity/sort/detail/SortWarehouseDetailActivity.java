@@ -25,6 +25,7 @@ import com.ccaong.warehousingmanager.util.CodeParseUtils;
 /**
  * @author caocong
  * @date 2022/9/19
+ * @deprecated
  */
 public class SortWarehouseDetailActivity extends BaseActivity<ActivitySortWarehouseDetailBinding, SortWarehouseDetailViewMode> {
 

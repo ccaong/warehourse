@@ -172,7 +172,7 @@ public class GroupProductActivity extends BaseActivity<ActivityGroupProductBindi
         List<InboundDetailResponse.DataDTO.GoodsTypeDetailDTO> list = new ArrayList();
         list = Objects.requireNonNull(mViewModel.getData().getValue()).getGoodsTypeDetail();
 
-        String ykId = mViewModel.getData().getValue().getId();
+        String ykId = mViewModel.getData().getValue().getOrderNumber();
         String inboundType = mViewModel.getData().getValue().getInboundType();
 
         for (int i = 0; i < list.size(); i++) {

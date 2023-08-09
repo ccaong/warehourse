@@ -102,12 +102,8 @@ public class LowerShelvesOrderListActivity extends BaseActivity<ActivityListBind
                         mDataBinding.refreshLayout.finishRefresh();
                         mDataBinding.refreshLayout.finishLoadMore();
                         if (bean.getCode() == 200) {
-                            if (page == 1) {
-                                list = bean.getRows();
-                            } else {
-                                list.addAll(bean.getRows());
-                            }
-                            mDataBinding.refreshLayout.setNoMoreData(list.size() >= bean.getTotal());
+                            list = bean.getRows();
+                            mDataBinding.refreshLayout.setNoMoreData(true);
                             commonAdapter.onItemDatasChanged(list);
                         } else {
                             Toast.makeText(LowerShelvesOrderListActivity.this, bean.getMsg(), Toast.LENGTH_SHORT).show();

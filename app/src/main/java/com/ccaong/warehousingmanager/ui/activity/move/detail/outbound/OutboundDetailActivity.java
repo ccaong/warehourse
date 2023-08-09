@@ -3,6 +3,7 @@ package com.ccaong.warehousingmanager.ui.activity.move.detail.outbound;
 import static com.ccaong.warehousingmanager.App.getContext;
 
 import android.content.Intent;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.lifecycle.ViewModelProvider;
@@ -24,6 +25,8 @@ import com.ccaong.warehousingmanager.http.HttpRequest;
  * 移库详情
  */
 public class OutboundDetailActivity extends BaseActivity<ActivityMoveOutDetailBinding, OutboundViewMode> {
+
+    private static final String TAG = OutboundDetailActivity.class.getSimpleName();
 
     CommonAdapter<MoveLibDetailResponse.DataDTO.DatasDTO> goodsMoveLibAdapter;
     CommonAdapter<MoveLibDetailResponse.DataDTO.DatasDTO> vehicleMoveLibAdapter;
@@ -65,7 +68,6 @@ public class OutboundDetailActivity extends BaseActivity<ActivityMoveOutDetailBi
         initRecyclerView();
 
         mDataBinding.tv11.setText(no);
-
         switch (type) {
             case "0":
                 // 物资移库
@@ -92,7 +94,7 @@ public class OutboundDetailActivity extends BaseActivity<ActivityMoveOutDetailBi
                 break;
         }
 
-
+        mDataBinding.tvSubmit.setEnabled(true);
         //开始移库
         mDataBinding.tvSubmit.setOnClickListener(view -> {
             submit();
@@ -192,6 +194,7 @@ public class OutboundDetailActivity extends BaseActivity<ActivityMoveOutDetailBi
      * 提交
      */
     private void submit() {
+        mDataBinding.tvSubmit.setEnabled(false);
 
         HttpRequest.getInstance()
                 .startTranslocation(id)
@@ -199,10 +202,22 @@ public class OutboundDetailActivity extends BaseActivity<ActivityMoveOutDetailBi
                 .subscribe(new HttpDisposable<CommonResponse>() {
                     @Override
                     public void success(CommonResponse bean) {
+                        mDataBinding.tvSubmit.setEnabled(true);
                         if (bean.getCode() == 200) {
                             Toast.makeText(OutboundDetailActivity.this, "操作成功", Toast.LENGTH_SHORT).show();
                             finish();
                         }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        mDataBinding.tvSubmit.setEnabled(true);
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        super.onComplete();
+                        Log.e(TAG, "接口调用完成");
                     }
                 });
     }

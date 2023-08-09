@@ -156,15 +156,6 @@ public interface Api {
     Observable<SortListResponse> outboundRelNotStartList(@Query("storehouseInfoId") String id, @Query("pageNum") int pageNum, @Query("pageSize") int pageSize);
 
     /**
-     * 获取拣货单详情
-     *
-     * @param id
-     * @return
-     */
-    @GET("getOutboundRelInfo/{id}")
-    Observable<SortDetailResponse> getOutboundRelInfo(@Path("id") String id);
-
-    /**
      * 根据载具id获取详情
      *
      * @param id
@@ -182,6 +173,16 @@ public interface Api {
     @POST("finishPick")
     Observable<EmptyResponse> finishPick(@Body Map<String, Object> map);
 
+
+    /**
+     * 获取拣货单详情
+     *
+     * @param id
+     * @return
+     * @deprecated
+     */
+    @GET("getOutboundRelInfo/{id}")
+    Observable<SortDetailResponse> getOutboundRelInfo(@Path("id") String id);
 
     /**
      * 获取盘点单列表
